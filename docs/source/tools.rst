@@ -1,7 +1,7 @@
 Tools Reference
 ==============
 
-This section covers the utility tools provided by PyP6Xer for common operations when working with XER files.
+This section covers the utility tools provided by PyP6Xer-dev for common operations when working with XER files.
 
 XER Explorer
 -----------
@@ -23,7 +23,7 @@ When working with XER files, especially large ones, it can be difficult to quick
 Command-Line Usage
 ~~~~~~~~~~~~~~~~
 
-The XER Explorer can be used directly from the command line after installing PyP6Xer:
+The XER Explorer can be used directly from the command line after installing PyP6Xer-dev:
 
 .. code-block:: bash
 

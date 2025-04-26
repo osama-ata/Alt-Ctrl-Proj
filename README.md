@@ -32,11 +32,11 @@ for project in xer.projects:
 
 ## XER Explorer Tool
 
-PyP6Xer now includes an XER Explorer tool that helps you quickly analyze the contents of XER files. The tool generates a concise report with key information about the file, including projects, calendars, WBS elements, and more.
+PyP6Xer-dev now includes an XER Explorer tool that helps you quickly analyze the contents of XER files. The tool generates a concise report with key information about the file, including projects, calendars, WBS elements, and more.
 
 ### Command-line Usage
 
-After installing PyP6Xer, you can use the explorer directly from the command line:
+After installing PyP6Xer-dev, you can use the explorer directly from the command line:
 
 ```bash
 # Basic usage
@@ -60,4 +60,4 @@ from xerparser_dev.tools import explore_xer_file
 explore_xer_file("path/to/your/file.xer", "output_report.txt")
 ```
 
-For more advanced usage and examples, see the [documentation](https://pyp6xer.readthedocs.io/).
+For more advanced usage and examples, see the [documentation](https://PyP6Xer-dev.readthedocs.io/).

@@ -1,7 +1,7 @@
 Development
 ===========
 
-This section provides guidelines for those who want to contribute to the PyP6XER library.
+This section provides guidelines for those who want to contribute to the PyP6XER-dev library.
 
 Setting Up Development Environment
 ---------------------------------
@@ -10,8 +10,8 @@ Setting Up Development Environment
 
    .. code-block:: bash
 
-       git clone https://github.com/HassanEmam/PyP6Xer.git
-       cd PyP6Xer
+       git clone https://github.com/osama-ata/PyP6Xer-dev.git
+       cd PyP6Xer-dev
 
 2. Create and activate a virtual environment:
 

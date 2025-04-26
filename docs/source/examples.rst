@@ -1,7 +1,7 @@
 Examples
 ========
 
-This section provides practical examples of using PyP6XER for various tasks related to Primavera P6 project management.
+This section provides practical examples of using PyP6Xer-dev for various tasks related to Primavera P6 project management.
 
 Schedule Health Check
 --------------------
@@ -189,7 +189,7 @@ This example demonstrates how to use the XER Explorer tool to generate a summary
 Command-Line Usage
 ~~~~~~~~~~~~~~~~~
 
-The Explorer tool can be used directly from the command line after installing PyP6Xer:
+The Explorer tool can be used directly from the command line after installing PyP6Xer-dev:
 
 .. code-block:: bash
 
@@ -237,7 +237,7 @@ The Explorer generates a concise report with information about the XER file cont
 
 .. code-block:: text
 
-    PyP6Xer Exploration Results
+    PyP6Xer-dev Exploration Results
     Generated on: 2025-04-14 15:45:30
     XER File: sample2.xer
     ================================================================================

@@ -1,7 +1,7 @@
-Welcome to PyP6XER's documentation!
+Welcome to PyP6Xer-dev's documentation!
 ===================================
 
-PyP6XER is a Python library for parsing and manipulating Primavera P6 XER files.
+PyP6Xer-dev is a Python library for parsing and manipulating Primavera P6 XER files.
 It provides a comprehensive API for working with all aspects of Primavera P6 project data.
 
 .. toctree::

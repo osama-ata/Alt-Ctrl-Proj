@@ -1,12 +1,12 @@
 Installation
 ============
 
-PyP6XER is available on PyPI and can be installed using pip. The library is compatible with Python 3.6 and above.
+PyP6Xer-dev is available on PyPI and can be installed using pip. The library is compatible with Python 3.6 and above.
 
 Basic Installation
 -----------------
 
-To install the latest stable release of PyP6XER:
+To install the latest stable release of PyP6Xer-dev:
 
 .. code-block:: bash
 
@@ -24,7 +24,7 @@ To install the development version directly from GitHub:
 Dependencies
 -----------
 
-PyP6XER has minimal dependencies:
+PyP6Xer-dev has minimal dependencies:
 
 - Python 3.8+
 

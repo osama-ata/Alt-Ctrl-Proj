@@ -1,7 +1,7 @@
 Getting Started
 ===============
 
-This guide will walk you through the basic usage of PyP6XER to parse, analyze, and manipulate Primavera P6 XER files.
+This guide will walk you through the basic usage of PyP6Xer-dev to parse, analyze, and manipulate Primavera P6 XER files.
 
 Loading an XER File
 ------------------
@@ -89,7 +89,7 @@ You can examine the relationships (dependencies) between tasks:
 DCMA 14-Point Schedule Analysis
 ------------------------------
 
-PyP6XER includes built-in support for the DCMA 14-point schedule assessment:
+PyP6Xer-dev includes built-in support for the DCMA 14-point schedule assessment:
 
 .. code-block:: python
 

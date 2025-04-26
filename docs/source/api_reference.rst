@@ -1,7 +1,7 @@
 API Reference
 ============
 
-This section provides detailed API documentation for all modules and classes in the PyP6XER library.
+This section provides detailed API documentation for all modules and classes in the PyP6Xer-dev library.
 The documentation is automatically generated from docstrings in the code.
 
 Reader
