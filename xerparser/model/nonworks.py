@@ -21,7 +21,6 @@ from xerparser.model.classes.nonwork import NonWork
 
 
 class NonWorks:
-
     def __init__(self):
         self.index = 0
         self._NonWorks = []
@@ -32,8 +31,10 @@ class NonWorks:
     def get_tsv(self):
         if len(self._NonWorks) > 0:
             tsv = []
-            tsv.append(['%T', 'NONWORK'])
-            tsv.append(["%F", 'nonwork_type_id', 'seq_num', 'nonwork_code', 'nonwork_type'])
+            tsv.append(["%T", "NONWORK"])
+            tsv.append(
+                ["%F", "nonwork_type_id", "seq_num", "nonwork_code", "nonwork_type"]
+            )
             for nw in self._NonWorks:
                 tsv.append(nw.get_tsv())
             return tsv

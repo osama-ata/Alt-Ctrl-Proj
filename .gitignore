@@ -1,4 +1,7 @@
 *.xer
+# Sample exploration output files
+*_exploration*.txt
+*exploration*.txt
 
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
@@ -145,3 +148,5 @@ dmypy.json
 .prof
 
 # End of https://www.toptal.com/developers/gitignore/api/python
+action-plan.md
+notes.md

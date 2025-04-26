@@ -21,7 +21,6 @@ from xerparser.model.classes.projcat import ProjCat
 
 
 class ProjCats:
-
     def __init__(self):
         self.index = 0
         self._ProjCats = []
@@ -32,8 +31,8 @@ class ProjCats:
     def get_tsv(self):
         tsv = []
         if len(self._ProjCats) > 0:
-            tsv.append(['%T', 'PROJPCAT'])
-            tsv.append(['%F', 'proj_id', 'proj_catg_type_id', 'proj_catg_id'])
+            tsv.append(["%T", "PROJPCAT"])
+            tsv.append(["%F", "proj_id", "proj_catg_type_id", "proj_catg_id"])
             for pcatval in self._ProjCats:
                 tsv.append(pcatval.get_tsv())
         return tsv

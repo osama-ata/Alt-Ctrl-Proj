@@ -21,7 +21,6 @@ from xerparser.model.classes.rsrcrcat import ResourceCat
 
 
 class ResourceCategories:
-
     def __init__(self):
         self.index = 0
         self._rsrccat = []
@@ -29,8 +28,8 @@ class ResourceCategories:
     def get_tsv(self):
         tsv = []
         if len(self._rsrccat) > 0:
-            tsv.append(['%T', 'RSRCRCAT'])
-            tsv.append(['%F', 'rsrc_id', 'rsrc_catg_type_id', 'rsrc_catg_id'])
+            tsv.append(["%T", "RSRCRCAT"])
+            tsv.append(["%F", "rsrc_id", "rsrc_catg_type_id", "rsrc_catg_id"])
             for rc in self._rsrccat:
                 tsv.append(rc.get_tsv())
         return tsv

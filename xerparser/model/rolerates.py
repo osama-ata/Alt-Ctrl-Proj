@@ -21,7 +21,6 @@ from xerparser.model.classes.rolerate import RoleRate
 
 
 class RoleRates:
-
     def __init__(self):
         self.index = 0
         self._rolerates = []
@@ -29,9 +28,19 @@ class RoleRates:
     def get_tsv(self):
         tsv = []
         if len(self._rolerates) > 0:
-            tsv.append(['%T', 'ROLERATE'])
-            tsv.append(['%F', 'role_rate_id', 'role_id', 'cost_per_qty', 'cost_per_qty2',
-                   'cost_per_qty3', 'cost_per_qty4', 'cost_per_qty5'])
+            tsv.append(["%T", "ROLERATE"])
+            tsv.append(
+                [
+                    "%F",
+                    "role_rate_id",
+                    "role_id",
+                    "cost_per_qty",
+                    "cost_per_qty2",
+                    "cost_per_qty3",
+                    "cost_per_qty4",
+                    "cost_per_qty5",
+                ]
+            )
             for rr in self._rolerates:
                 tsv.append(rr.get_tsv())
         return tsv

@@ -21,8 +21,6 @@ from xerparser.model.classes.calendar import Calendar
 
 
 class Calendars:
-
-
     def __init__(self):
         self.index = 0
         self._calendars = []
@@ -33,12 +31,25 @@ class Calendars:
     def get_tsv(self):
         if len(self._calendars) > 0:
             tsv = []
-            tsv.append(['%T', 'CALENDAR'])
+            tsv.append(["%T", "CALENDAR"])
             tsv.append(
-                ['%F', 'clndr_id', 'default_flag', 'clndr_name', 'proj_id',
-                   'base_clndr_id', 'last_chng_date', 'clndr_type', 'day_hr_cnt',
-                   'week_hr_cnt', 'month_hr_cnt', 'year_hr_cnt', 'rsrc_private',
-                   'clndr_data'])
+                [
+                    "%F",
+                    "clndr_id",
+                    "default_flag",
+                    "clndr_name",
+                    "proj_id",
+                    "base_clndr_id",
+                    "last_chng_date",
+                    "clndr_type",
+                    "day_hr_cnt",
+                    "week_hr_cnt",
+                    "month_hr_cnt",
+                    "year_hr_cnt",
+                    "rsrc_private",
+                    "clndr_data",
+                ]
+            )
             for cal in self._calendars:
                 tsv.append(cal.get_tsv())
             return tsv

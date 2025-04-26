@@ -1,13 +1,14 @@
 import time
-import csv
-import re
-from xerparser import *
-from xerparser.reader import Reader
-from xerparser.dcma14 import DCMA14
+import os
 from collections import defaultdict
 
+from xerparser.dcma14 import DCMA14
+from xerparser.reader import Reader
+
 start_time = time.time()
-r = Reader('sample.xer')
+# Update the path to the sample.xer file
+sample_file_path = os.path.join(os.path.dirname(__file__), "fixtures", "sample.xer")
+r = Reader(sample_file_path)
 # print("Reader OUTCOME", r)
 elapsed_time1 = time.time() - start_time
 # # print(elapsed_time1)
@@ -43,7 +44,7 @@ elapsed_time1 = time.time() - start_time
 #     if act.total_float_hr_cnt is not None:
 #         if act.total_float_hr_cnt <= 0:
 #             print("TF FOUND", act.task_code, act.total_float_hr_cnt)
-            
+
 #             critical.append(act)
 #     else:
 #         print("TF Not found")
@@ -79,7 +80,6 @@ elapsed_time1 = time.time() - start_time
 # print(r.relations.get_predecessors(9478273))
 
 
-
 # for cal in r.calendars:
 #     print(cal.clndr_name)
 #     print(cal.working_days)
@@ -90,10 +90,10 @@ elapsed_time1 = time.time() - start_time
 
 # for taskact in r.actvcodes:
 #     print(taskact)
-# 
+#
 # for resource in r.resources:
 #     print(resource)
-# 
+#
 # for rsrc in r.activityresources:
 #     task = r.activities.find_by_id(rsrc.rsrc_id)
 #     resource = r.resources.get_resource_by_id(rsrc.task_id)
@@ -179,18 +179,25 @@ elapsed_time1 = time.time() - start_time
 
 # health = DCMA14(r)
 # print(health.analysis())
-#print(health.no_successors_cnt, health.no_successors)
-#print(health.no_predecessors_cnt, health.no_predecessors)
+# print(health.no_successors_cnt, health.no_successors)
+# print(health.no_predecessors_cnt, health.no_predecessors)
 
 # import pprint
 # pp = pprint.PrettyPrinter(depth=4)
 # print(r.relations.relations)
-#print(health.results['analysis']['lags'])
-#print(health.results['analysis']['leads'])
+# print(health.results['analysis']['lags'])
+# print(health.results['analysis']['leads'])
 
 # pp.pprint(health.results['analysis']['constraints'])
 
 for project in r.projects:
     print("PROJECT: " + project.proj_short_name + "*****")
     for activity in project.activities:
-        print("################### Activity ID | ", activity.task_code, " | Activity Name | ", activity.task_name, " | Pred |", activity.predecessors)
+        print(
+            "################### Activity ID | ",
+            activity.task_code,
+            " | Activity Name | ",
+            activity.task_name,
+            " | Pred |",
+            activity.predecessors,
+        )

@@ -21,7 +21,6 @@ from xerparser.model.classes.pcattype import PCatType
 
 
 class PCatTypes:
-
     def __init__(self):
         self.index = 0
         self._pcattypes = []
@@ -38,9 +37,17 @@ class PCatTypes:
     def get_tsv(self):
         if len(self._pcattypes) > 0:
             tsv = []
-            tsv.append(['%T', 'PCATTYPE'])
-            tsv.append(['%F', 'proj_catg_type_id', 'seq_num', 'proj_catg_short_len',
-               'proj_catg_type', 'export_flag'])
+            tsv.append(["%T", "PCATTYPE"])
+            tsv.append(
+                [
+                    "%F",
+                    "proj_catg_type_id",
+                    "seq_num",
+                    "proj_catg_short_len",
+                    "proj_catg_type",
+                    "export_flag",
+                ]
+            )
             for acttyp in self._pcattypes:
                 tsv.append(acttyp.get_tsv())
             return tsv

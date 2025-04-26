@@ -17,8 +17,8 @@
 # along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
 
 
-import re
 import datetime
+import re
 
 
 class CalendarData:
@@ -28,11 +28,11 @@ class CalendarData:
     def __init__(self, text):
         self.text = text
         cal2 = []
-        cal = re.findall("\(\d\|\|\d+\(\)", text)
+        cal = re.findall("\\(\\d\\|\\|\\d+\\(\\)", text)
         for c in cal:
             c2 = c.split("||")[1]
             cal2.append(c2.split("()")[0])
-        val = re.split("\(\d\|\|\d+\(\)", text.strip())
+        val = re.split("\\(\\d\\|\\|\\d+\\(\\)", text.strip())
         x = 0
 
         self.data = dict()
@@ -42,7 +42,7 @@ class CalendarData:
                 self.data[cal2[c]] = val[c + 1]
 
             else:
-                self.data[cal2[c]] = ''
+                self.data[cal2[c]] = ""
         self.exceptions = self.get_exceptions()
         self.working_days = self.get_days()
 
@@ -53,23 +53,31 @@ class CalendarData:
 
     def get_work_pattern(self):
         pattern = r"\(\d\|\|\d\(\)\("
-        dayName = {2: "Monday", 3: "Tuesday", 4: "Wednesday", 5: "Thursday", 6: "Friday", 7: "Saturday", 1: "Sunday"}
+        dayName = {
+            2: "Monday",
+            3: "Tuesday",
+            4: "Wednesday",
+            5: "Thursday",
+            6: "Friday",
+            7: "Saturday",
+            1: "Sunday",
+        }
         tx = self.text.split("(0||VIEW(ShowTotal|Y)())")
         days = re.split(pattern, tx[0])
         dys = re.findall(pattern, self.text)
         lst_dow = []
         for day, d in zip(days[1:], dys):
             dow = int(d.replace("(0||", "").replace(")", "").replace("(", ""))
-            starts = re.findall("s\|\d\d\:\d\d", day)
-            finishes = re.findall("f\|\d\d\:\d\d", day)
+            starts = re.findall("s\\|\\d\\d\\:\\d\\d", day)
+            finishes = re.findall("f\\|\\d\\d\\:\\d\\d", day)
 
-            day_dict = {'DayOfWeek': dayName[dow], 'WorkTimes': [], 'ifc': None}
+            day_dict = {"DayOfWeek": dayName[dow], "WorkTimes": [], "ifc": None}
             for s, f in zip(starts, finishes):
                 s_c = datetime.datetime.strptime(s.replace("s|", ""), "%H:%M").time()
                 f_c = datetime.datetime.strptime(f.replace("f|", ""), "%H:%M").time()
-                day_dict['WorkTimes'].append({"Start": s_c, "Finish": f_c})
+                day_dict["WorkTimes"].append({"Start": s_c, "Finish": f_c})
             lst_dow.append(day_dict)
-        return (lst_dow)
+        return lst_dow
 
     def get_exceptions(self):
         base_datetime = datetime.datetime(1899, 12, 30)
@@ -86,7 +94,7 @@ class CalendarData:
     def get_days(self):
         if not self.data:
             return
-        first = re.findall("\(\d\|\|\d\(\)(.*?)\)\)", self.text)
+        first = re.findall("\\(\\d\\|\\|\\d\\(\\)(.*?)\\)\\)", self.text)
         days = dict()
         i = 0
         for x in first:
@@ -94,7 +102,7 @@ class CalendarData:
             x = x.replace("(", "").replace(")", "").replace(" ", "").strip()
             key = str(i + 1)
             if len(x) > 1:
-                days[key] = (len(x) > 0)
+                days[key] = len(x) > 0
             else:
                 days[key] = False
             i += 1

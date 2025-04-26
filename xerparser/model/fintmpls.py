@@ -21,7 +21,6 @@ from xerparser.model.classes.fintmpl import FinTmpl
 
 
 class FinTmpls:
-
     def __init__(self):
         self.index = 0
         self._FinTmpls = []
@@ -32,8 +31,8 @@ class FinTmpls:
     def get_tsv(self):
         if len(self._FinTmpls) > 0:
             tsv = []
-            tsv.append(['%T', 'FINTMPL'])
-            tsv.append(["%F", 'fintmpl_id', 'fintmpl_name', 'default_flag'])
+            tsv.append(["%T", "FINTMPL"])
+            tsv.append(["%F", "fintmpl_id", "fintmpl_name", "default_flag"])
             for fin in self._FinTmpls:
                 tsv.append(fin.get_tsv())
             return tsv

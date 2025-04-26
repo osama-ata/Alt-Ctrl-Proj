@@ -19,10 +19,8 @@
 
 from xerparser.model.classes.rcattype import RCatType
 
+
 class RCatTypes:
-
-
-
     def __init__(self):
         self.index = 0
         self._rcattypes = []
@@ -33,9 +31,16 @@ class RCatTypes:
     def get_tsv(self):
         if len(self._rcattypes) > 0:
             tsv = []
-            tsv.append(['%T', 'RCATTYPE'])
-            tsv.append(['%F', 'rsrc_catg_type_id','seq_num', 'rsrc_catg_short_len',
-                        'rsrc_catg_type'])
+            tsv.append(["%T", "RCATTYPE"])
+            tsv.append(
+                [
+                    "%F",
+                    "rsrc_catg_type_id",
+                    "seq_num",
+                    "rsrc_catg_short_len",
+                    "rsrc_catg_type",
+                ]
+            )
             for rcat in self._rcattypes:
                 tsv.append(rcat.get_tsv())
             return tsv

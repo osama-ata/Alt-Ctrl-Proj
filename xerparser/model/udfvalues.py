@@ -21,7 +21,6 @@ from xerparser.model.classes.udfvalue import UDFValue
 
 
 class UDFValues:
-
     def __init__(self):
         self.index = 0
         self._udfvalues = []
@@ -32,9 +31,19 @@ class UDFValues:
     def get_tsv(self):
         if len(self._udfvalues) > 0:
             tsv = []
-            tsv.append(['%T', 'UDFVALUE'])
-            tsv.append(["%F", 'udf_type_id', 'fk_id', 'proj_id', 'udf_date', 'udf_number', 'udf_text',
-               'udf_code_id'])
+            tsv.append(["%T", "UDFVALUE"])
+            tsv.append(
+                [
+                    "%F",
+                    "udf_type_id",
+                    "fk_id",
+                    "proj_id",
+                    "udf_date",
+                    "udf_number",
+                    "udf_text",
+                    "udf_code_id",
+                ]
+            )
             for udfval in self._udfvalues:
                 tsv.append(udfval.get_tsv())
             return tsv

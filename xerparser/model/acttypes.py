@@ -19,10 +19,8 @@
 
 from xerparser.model.classes.acttype import ActType
 
+
 class ActTypes:
-
-
-
     def __init__(self):
         self.index = 0
         self._activitytypes = []
@@ -39,9 +37,19 @@ class ActTypes:
     def get_tsv(self):
         if len(self._activitytypes) > 0:
             tsv = []
-            tsv.append(['%T', 'ACTVTYPE'])
-            tsv.append(['%F', 'actv_code_type_id', 'actv_short_len', 'seq_num',
-                        'actv_code_type', 'proj_id', 'wbs_id', 'actv_code_type_scope'])
+            tsv.append(["%T", "ACTVTYPE"])
+            tsv.append(
+                [
+                    "%F",
+                    "actv_code_type_id",
+                    "actv_short_len",
+                    "seq_num",
+                    "actv_code_type",
+                    "proj_id",
+                    "wbs_id",
+                    "actv_code_type_scope",
+                ]
+            )
             for acttyp in self._activitytypes:
                 tsv.append(acttyp.get_tsv())
             return tsv

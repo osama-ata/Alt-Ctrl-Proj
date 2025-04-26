@@ -1,0 +1,72 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "PyP6Xer"
+version = "1.15.0" # Normalized from 1.015.00 to comply with PEP 440
+description = "Parser for XER written in Python"
+readme = "README.md"
+authors = [{ name = "Hassan", email = "hassan.emam@hotmail.com" }]
+license = "GPL-3.0-or-later" # Using SPDX identifier instead of text table
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+requires-python = ">=3.7"
+dependencies = []
+
+[project.urls]
+"Documentation" = "https://github.com/HassanEmam/PyP6Xer"
+"Source" = "https://github.com/HassanEmam/PyP6Xer"
+"Bug Tracker" = "https://github.com/HassanEmam/PyP6Xer/issues"
+
+[project.scripts]
+xer-explorer = "xerparser.tools.explorer:main"
+
+[tool.setuptools]
+packages = [
+    "xerparser",
+    "xerparser.dcma14",
+    "xerparser.model",
+    "xerparser.model.classes",
+    "xerparser.tools",
+]
+
+[tool.pylint]
+max-line-length = 160
+disable = [
+    "R0902", # too-many-instance-attributes
+    "R0903", # too-few-public-methods
+    "R0904", # too-many-public-methods
+    "R0912", # too-many-branches
+    "R0913", # too-many-arguments
+    "R0914", # too-many-locals
+    "R0915", # too-many-statements
+    "C0103", # invalid-name - will fix gradually
+    "C0114", # missing-module-docstring
+    "C0115", # missing-class-docstring
+    "C0116", # missing-function-docstring
+    "C0301", # line-too-long
+    "W0612", # unused-variable
+    "W0613", # unused-argument
+
+]
+
+[tool.flake8]
+
+max-line-length = 160
+extend-ignore = [
+    "E501", # line too long
+    "F841", # local variable 'x' is assigned to but never used
+    "W503", # line break before binary operator
+    "E722", # do not use bare except
+    "F401", # module imported but unused
+]
+
+good-names = ["id", "df", "dt", "i", "j", "k", "x", "y", "z", "_"]

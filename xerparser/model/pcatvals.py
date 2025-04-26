@@ -21,7 +21,6 @@ from xerparser.model.classes.pcatval import PCatVal
 
 
 class PCatVals:
-
     def __init__(self):
         self.index = 0
         self._PCatVals = []
@@ -32,9 +31,18 @@ class PCatVals:
     def get_tsv(self):
         tsv = []
         if len(self._PCatVals) > 0:
-            tsv.append(['%T', 'PCATVAL'])
-            tsv.append(['%F', 'proj_catg_id', 'proj_catg_type_id', 'seq_num', 'proj_catg_short_name',
-               'parent_proj_catg_id', 'proj_catg_name'])
+            tsv.append(["%T", "PCATVAL"])
+            tsv.append(
+                [
+                    "%F",
+                    "proj_catg_id",
+                    "proj_catg_type_id",
+                    "seq_num",
+                    "proj_catg_short_name",
+                    "parent_proj_catg_id",
+                    "proj_catg_name",
+                ]
+            )
             for pcatval in self._PCatVals:
                 tsv.append(pcatval.get_tsv())
         return tsv

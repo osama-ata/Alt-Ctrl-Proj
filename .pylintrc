@@ -1,0 +1,47 @@
+[MASTER]
+# A comma-separated list of file patterns to skip
+ignore=CVS,__pycache__
+
+# Pickle collected data for later comparisons
+persistent=yes
+
+# Use multiple processes to speed up Pylint.
+jobs=0
+
+# List of plugins (as comma separated values of python modules names) to load
+load-plugins=
+
+[MESSAGES CONTROL]
+# Disable specific warnings
+disable=
+    R0902,  # too-many-instance-attributes
+    R0903,  # too-few-public-methods
+    R0904,  # too-many-public-methods
+    R0912,  # too-many-branches
+    R0913,  # too-many-arguments
+    R0914,  # too-many-locals
+    R0915,  # too-many-statements
+    C0103,  # invalid-name - will fix gradually
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=100
+
+# Good variable names which should always be accepted
+good-names=id,df,dt,i,j,k,x,y,z,_
+
+[REPORTS]
+# Set the output format.
+output-format=text
+
+# Tells whether to display a full report or only the messages
+reports=yes
+
+# Python expression which should return a note less than 10 (10 is the highest
+# note). You have access to the variables errors, warnings, refactor, convention,
+# info, fatal are respectively the number of errors, warnings...
+evaluation=10.0 - ((float(5 * error + warning + refactor + convention) / statement) * 10)
+
+[TYPECHECK]
+# List of members which are set dynamically and missed by pylint inference system
+generated-members=REQUEST,acl_users,aq_parent,objects,obj_list

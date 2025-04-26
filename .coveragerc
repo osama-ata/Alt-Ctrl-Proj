@@ -1,0 +1,15 @@
+[run]
+source = xerparser
+omit =
+    */tests/*
+    */setup.py
+
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == "__main__":
+        pass
+    raise NotImplementedError
+
+[html]
+directory = coverage_html_report

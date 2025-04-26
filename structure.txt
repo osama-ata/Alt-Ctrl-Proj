@@ -1,0 +1,101 @@
+Folder PATH listing
+Volume serial number is 06BC-A40F
+C:.
+|   .gitignore
+|   LICENSE
+|   README.md
+|   setup.py
+|   structure.txt
+|   test.py
+|   
++---.github
+|   +---ISSUE_TEMPLATE
+|   |       bug_report.md
+|   |       feature_request.md
+|   |       
+|   \---workflows
+|           codeql-analysis.yml
+|           python-publish.yml
+|           
++---.idea
+|       misc.xml
+|       modules.xml
+|       vcs.xml
+|       xerParser.iml
+|       
+\---xerparser
+    |   reader.py
+    |   write.py
+    |   __init__.py
+    |   
+    +---dcma14
+    |       analysis.py
+    |       __init__.py
+    |       
+    \---model
+        |   accounts.py
+        |   activitiyresources.py
+        |   activitycodes.py
+        |   acttypes.py
+        |   calendars.py
+        |   currencies.py
+        |   fintmpls.py
+        |   nonworks.py
+        |   obss.py
+        |   pacttypes.py
+        |   pcatvals.py
+        |   predecessors.py
+        |   projcats.py
+        |   projects.py
+        |   rcattypes.py
+        |   rcatvals.py
+        |   resources.py
+        |   rolerates.py
+        |   roles.py
+        |   rsrccats.py
+        |   rsrccurves.py
+        |   rsrcrates.py
+        |   schedoptions.py
+        |   taskactvs.py
+        |   taskprocs.py
+        |   tasks.py
+        |   udftypes.py
+        |   udfvalues.py
+        |   wbss.py
+        |   __init__.py
+        |   
+        \---classes
+                account.py
+                activitycode.py
+                acttype.py
+                calendar.py
+                calendar_data.py
+                currency.py
+                data.py
+                fintmpl.py
+                nonwork.py
+                obs.py
+                p6codes.py
+                pcattype.py
+                pcatval.py
+                projcat.py
+                project.py
+                rcattype.py
+                rcatval.py
+                role.py
+                rolerate.py
+                rsrc.py
+                rsrccurv.py
+                rsrcrate.py
+                rsrcrcat.py
+                schedoption.py
+                task.py
+                taskactv.py
+                taskpred.py
+                taskproc.py
+                taskrsrc.py
+                udftype.py
+                udfvalue.py
+                wbs.py
+                __init__.py
+                

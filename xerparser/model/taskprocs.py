@@ -21,8 +21,6 @@ from xerparser.model.classes.taskproc import TaskProc
 
 
 class TaskProcs:
-
-
     def __init__(self):
         self.index = 0
         self._TaskProcs = []
@@ -33,9 +31,21 @@ class TaskProcs:
     def get_tsv(self):
         if len(self._TaskProcs) > 0:
             tsv = []
-            tsv.append(['%T', 'TASKPROC'])
-            tsv.append(["%F", 'proc_id', 'task_id', 'proj_id', 'seq_num', 'proc_name', 'complete_flag',
-               'proc_wt', 'complete_pct', 'proc_descr'])
+            tsv.append(["%T", "TASKPROC"])
+            tsv.append(
+                [
+                    "%F",
+                    "proc_id",
+                    "task_id",
+                    "proj_id",
+                    "seq_num",
+                    "proc_name",
+                    "complete_flag",
+                    "proc_wt",
+                    "complete_pct",
+                    "proc_descr",
+                ]
+            )
             for taskproc in self._TaskProcs:
                 tsv.append(taskproc.get_tsv())
             return tsv

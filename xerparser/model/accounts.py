@@ -19,8 +19,8 @@
 
 from xerparser.model.classes.account import Account
 
-class Accounts:
 
+class Accounts:
     def __init__(self):
         self._accounts = []
         self.index = 0
@@ -32,8 +32,17 @@ class Accounts:
         if len(self._accounts) > 0:
             tsv = list()
             tsv.append(["%T", "ACCOUNT"])
-            tsv.append(["%F", "acct_id", "parent_acct_id", "acct_seq_num", "acct_name", "acct_short_name",
-                        "acct_descr"])
+            tsv.append(
+                [
+                    "%F",
+                    "acct_id",
+                    "parent_acct_id",
+                    "acct_seq_num",
+                    "acct_name",
+                    "acct_short_name",
+                    "acct_descr",
+                ]
+            )
             for account in self._accounts:
                 tsv.append(account.get_tsv())
             return tsv
