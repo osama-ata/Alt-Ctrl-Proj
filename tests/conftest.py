@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from xerparser.reader import Reader
+from xerparser_dev.reader import Reader
 
 
 @pytest.fixture(scope="session")

@@ -2,8 +2,8 @@ import time
 import os
 from collections import defaultdict
 
-from xerparser.dcma14 import DCMA14
-from xerparser.reader import Reader
+from xerparser_dev.dcma14 import DCMA14
+from xerparser_dev.reader import Reader
 
 start_time = time.time()
 # Update the path to the sample.xer file

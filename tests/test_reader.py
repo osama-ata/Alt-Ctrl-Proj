@@ -1,6 +1,6 @@
 import pytest
 
-from xerparser.reader import Reader
+from xerparser_dev.reader import Reader
 
 
 def test_reader_initialization(sample_xer_path):

@@ -1,5 +1,5 @@
 [run]
-source = xerparser
+source = xerparser_dev
 omit =
     */tests/*
     */setup.py

@@ -9,8 +9,9 @@ version = "1.15.0" # Normalized version, follows PEP 440
 description = "An actively maintained fork of PyP6Xer: A Python parser for Primavera XER files."
 readme = "README.md"
 authors = [
-    { name = "Hassan", email = "hassan.emam@hotmail.com" },
     { name = "Osama Ata", email = "me@osamata.com" },
+    { name = "Hassan Emam", email = "hassan.emam@hotmail.com" },
+
 ]
 license = { text = "GPL-3.0-or-later" } # More modern and correct format
 classifiers = [
@@ -35,15 +36,15 @@ dependencies = []
 "Issues" = "https://github.com/osama-ata/PyP6Xer-dev/issues"
 
 [project.scripts]
-xer-explorer = "xerparser.tools.explorer:main"
+xer-explorer = "xerparser_dev.tools.explorer:main"
 
 [tool.setuptools]
 packages = [
-    "xerparser",
-    "xerparser.dcma14",
-    "xerparser.model",
-    "xerparser.model.classes",
-    "xerparser.tools",
+    "xerparser_dev",
+    "xerparser_dev.dcma14",
+    "xerparser_dev.model",
+    "xerparser_dev.model.classes",
+    "xerparser_dev.tools",
 ]
 
 [tool.pylint]

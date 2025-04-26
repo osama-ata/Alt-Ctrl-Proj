@@ -9,7 +9,7 @@ using both the functional and object-oriented approaches.
 import os
 import sys
 
-from xerparser.tools import XerExplorer, explore_xer_file
+from xerparser_dev.tools import XerExplorer, explore_xer_file
 
 
 def main():

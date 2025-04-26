@@ -1,5 +1,5 @@
 """
-Test module for the xerparser.tools.explorer module.
+Test module for the xerparser_dev.tools.explorer module.
 """
 
 import os
@@ -7,7 +7,7 @@ import tempfile
 
 import pytest
 
-from xerparser.tools.explorer import XerExplorer, explore_xer_file
+from xerparser_dev.tools.explorer import XerExplorer, explore_xer_file
 
 
 class TestXerExplorer:

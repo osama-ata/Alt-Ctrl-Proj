@@ -34,7 +34,7 @@ Project Structure
 
 The repository is organized as follows:
 
-- ``xerparser/``: Main package directory
+- ``xerparser_dev/``: Main package directory
   - ``model/``: Contains data models for XER entities
     - ``classes/``: Individual entity classes (Task, Resource, etc.)
   - ``dcma14/``: DCMA 14-point schedule assessment implementation
@@ -70,8 +70,8 @@ Development Workflow
 
    .. code-block:: bash
 
-       mypy xerparser
-       ruff check xerparser
+       mypy xerparser_dev
+       ruff check xerparser_dev
 
 6. Update documentation if necessary.
 

@@ -10,8 +10,8 @@ This example performs a complete schedule health check using the DCMA 14-point a
 
 .. code-block:: python
 
-    from xerparser.reader import Reader
-    from xerparser.dcma14.analysis import DCMA14
+    from xerparser_dev.reader import Reader
+    from xerparser_dev.dcma14.analysis import DCMA14
     
     # Load the XER file
     xer = Reader("project.xer")
@@ -57,7 +57,7 @@ This example extracts and analyzes the critical path from a project:
 
 .. code-block:: python
 
-    from xerparser.reader import Reader
+    from xerparser_dev.reader import Reader
     
     # Load the XER file
     xer = Reader("project.xer")
@@ -109,7 +109,7 @@ This example analyzes resource loading across the project timeline:
 
 .. code-block:: python
 
-    from xerparser.reader import Reader
+    from xerparser_dev.reader import Reader
     from collections import defaultdict
     from datetime import datetime, timedelta
     
@@ -212,7 +212,7 @@ The Explorer can also be used programmatically in your Python code:
 
 .. code-block:: python
 
-    from xerparser.tools import XerExplorer, explore_xer_file
+    from xerparser_dev.tools import XerExplorer, explore_xer_file
     
     # Simple function approach
     explore_xer_file("path/to/your/file.xer", "output_report.txt")

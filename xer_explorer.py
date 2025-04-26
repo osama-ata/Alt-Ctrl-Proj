@@ -7,7 +7,7 @@ This makes it easy to use the explorer without writing Python code.
 import argparse
 import sys
 
-from xerparser.tools.explorer import explore_xer_file
+from xerparser_dev.tools.explorer import explore_xer_file
 
 
 def main():

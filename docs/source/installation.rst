@@ -10,7 +10,7 @@ To install the latest stable release of PyP6XER:
 
 .. code-block:: bash
 
-    pip install pyp6xer
+    pip install pyp6xer-dev
 
 Development Installation
 -----------------------
@@ -19,14 +19,14 @@ To install the development version directly from GitHub:
 
 .. code-block:: bash
 
-    pip install git+https://github.com/HassanEmam/PyP6Xer.git
+    pip install git+https://github.com/osama-ata/PyP6Xer-dev.git
 
 Dependencies
 -----------
 
 PyP6XER has minimal dependencies:
 
-- Python 3.6+
+- Python 3.8+
 
 Optional Dependencies
 -------------------
@@ -42,7 +42,7 @@ You can install development dependencies with:
 
 .. code-block:: bash
 
-    pip install pyp6xer[dev]
+    pip install pyp6xer-dev[dev]
 
 Or manually:
 
@@ -57,5 +57,5 @@ To verify the installation, you can run:
 
 .. code-block:: python
 
-    import xerparser
-    print(xerparser.__version__)
+    import xerparser_dev
+    print(xerparser_dev.__version__)

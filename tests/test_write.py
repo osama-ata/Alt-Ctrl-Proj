@@ -2,8 +2,8 @@ import os
 
 import pytest
 
-from xerparser.reader import Reader
-from xerparser.write import writeXER
+from xerparser_dev.reader import Reader
+from xerparser_dev.write import writeXER
 
 
 def test_write_xer(sample_xer, fixtures_dir):

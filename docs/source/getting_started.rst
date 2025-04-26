@@ -10,7 +10,7 @@ The first step is to load an XER file using the ``Reader`` class:
 
 .. code-block:: python
 
-    from xerparser.reader import Reader
+    from xerparser_dev.reader import Reader
     
     # Load an XER file
     xer = Reader("project.xer")
@@ -93,7 +93,7 @@ PyP6XER includes built-in support for the DCMA 14-point schedule assessment:
 
 .. code-block:: python
 
-    from xerparser.dcma14.analysis import DCMA14
+    from xerparser_dev.dcma14.analysis import DCMA14
     
     # Create a DCMA14 analyzer
     analyzer = DCMA14(xer)
