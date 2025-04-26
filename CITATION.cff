@@ -1,4 +1,4 @@
-cff-version: 0.0.4
+cff-version: 0.0.3
 message: "If you use this software, please cite it as below."
 title: "PyP6XER-Dev"
 authors:
@@ -7,7 +7,7 @@ authors:
   - family-names: "Emam"
     given-names: "Hassan"
 date-released: "2025-04-26"
-version: "0.0.4"
+version: "0.0.3"
 doi: "10.5281/zenodo.15287707"
 repository-code: "https://github.com/osama-ata/PyP6Xer-dev"
 license: "MIT"
