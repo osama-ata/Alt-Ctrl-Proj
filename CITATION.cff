@@ -8,7 +8,7 @@ authors:
     given-names: "Hassan"
 date-released: "2025-04-26"
 version: "0.0.4"
-doi: "10.5281/zenodo.1234567" # Replace with your real Zenodo DOI after first release
+doi: "10.5281/zenodo.15287707"
 repository-code: "https://github.com/osama-ata/PyP6Xer-dev"
 license: "MIT"
 url: "https://github.com/osama-ata/PyP6Xer-dev"
