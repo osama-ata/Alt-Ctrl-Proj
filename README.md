@@ -60,4 +60,4 @@ from xerparser_dev.tools import explore_xer_file
 explore_xer_file("path/to/your/file.xer", "output_report.txt")
 ```
 
-For more advanced usage and examples, see the [documentation](https://pyp6xer.readthedocs.io/).
+For more advanced usage and examples, see the [documentation](https://pyp6xer-dev.readthedocs.io/).
