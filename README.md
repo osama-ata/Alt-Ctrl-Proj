@@ -2,6 +2,7 @@
 
 ![Tests](https://github.com/osama-ata/PyP6Xer-dev/actions/workflows/test.yml/badge.svg)
 [![codecov](https://codecov.io/gh/osama-ata/PyP6Xer-dev/branch/master/graph/badge.svg?token=YOUR-TOKEN-HERE)](https://codecov.io/gh/osama-ata/PyP6Xer-dev)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15287707.svg)](https://doi.org/10.5281/zenodo.15287707)
 
 PyXer is an open source project to parse Primavera xer files in python. The project is work in progress and open for community contributions.
 
