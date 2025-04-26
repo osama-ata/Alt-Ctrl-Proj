@@ -14,10 +14,9 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "PyP6XER"
-copyright = "2025, Hassan Emam"
-author = "Hassan Emam"
-release = "1.15.0"
+project = "PyP6XER-Dev"
+author = ["Osama Ata", "Hassan Emam"]
+release = "0.0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
