@@ -78,7 +78,7 @@ class Reader:
     Examples
     --------
 
-    >>> from xerparser.reader import Reader
+    >>> from xerparser_dev.reader import Reader
     >>> xer = Reader("myproject.xer")
     >>> for project in xer.projects:
     ...     print(project)

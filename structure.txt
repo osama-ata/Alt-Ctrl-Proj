@@ -21,7 +21,7 @@ C:.
 |       misc.xml
 |       modules.xml
 |       vcs.xml
-|       xerParser.iml
+|       xerparser_dev.iml
 |       
 \---xerparser
     |   reader.py
