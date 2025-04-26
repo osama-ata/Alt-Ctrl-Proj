@@ -77,6 +77,19 @@ except ImportError:
         "The 'sphinx_rtd_theme' package is not installed. Please install it using the requirements-docs.txt file."
     )
 
+
+# -- Options for LaTeX output ------------------------------------------------
+latex_documents = [
+    (
+        "index",
+        "PyP6XER-Dev.tex",
+        "PyP6XER-Dev Documentation",
+        "Osama Ata, Hassan Emam",
+        "manual",
+    ),
+]
+
+
 # -- Options for todo extension ----------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/extensions/todo.html#configuration
 
