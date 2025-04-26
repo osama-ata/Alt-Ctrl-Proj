@@ -1,30 +1,31 @@
 # PyP6Xer Python Primavera P6 XER parser
 
-[![codecov](https://codecov.io/gh/USERNAME/PyP6Xer-dev/branch/main/graph/badge.svg)](https://codecov.io/gh/USERNAME/PyP6Xer-dev)
+![Tests](https://github.com/osama-ata/PyP6Xer-dev/actions/workflows/test.yml/badge.svg)
+[![codecov](https://codecov.io/gh/osama-ata/PyP6Xer-dev/branch/master/graph/badge.svg?token=YOUR-TOKEN-HERE)](https://codecov.io/gh/osama-ata/PyP6Xer-dev)
 
 PyXer is an open source project to parse Primavera xer files in python. The project is work in progress and open for community contributions.
 
 In order to install a copy in your system you can use pip package manager as follows:
 
-```
-pip install PyP6XER
+```bash
+pip install PyP6XER-dev
 ```
 
 The usage of the library is fairly simple and the import examples can be:
 
-```
+```python
 from xerparser.reader import Reader
 ```
 
 Here are some examples of reading and parsing xer files:
 
-```
+```python
 xer = Reader("<filename>") # this returns a reader object  
 ```
 
 to read all projects in file as one xer file may have multiple projects stored into it:
 
-```
+```python
 for project in xer.projects:
   print(project)
 ```

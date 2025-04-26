@@ -1,30 +1,38 @@
+
 [build-system]
 requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "PyP6Xer"
-version = "1.15.0" # Normalized from 1.015.00 to comply with PEP 440
-description = "Parser for XER written in Python"
+name = "PyP6Xer-dev"
+version = "1.15.0" # Normalized version, follows PEP 440
+description = "An actively maintained fork of PyP6Xer: A Python parser for Primavera XER files."
 readme = "README.md"
-authors = [{ name = "Hassan", email = "hassan.emam@hotmail.com" }]
-license = "GPL-3.0-or-later" # Using SPDX identifier instead of text table
+authors = [
+    { name = "Hassan", email = "hassan.emam@hotmail.com" },
+    { name = "Osama Ata", email = "me@osamata.com" },
+]
+license = { text = "GPL-3.0-or-later" } # More modern and correct format
 classifiers = [
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 dependencies = []
 
 [project.urls]
-"Documentation" = "https://github.com/HassanEmam/PyP6Xer"
-"Source" = "https://github.com/HassanEmam/PyP6Xer"
-"Bug Tracker" = "https://github.com/HassanEmam/PyP6Xer/issues"
+"Homepage" = "https://github.com/osama-ata/PyP6Xer-dev"
+"Documentation" = "https://github.com/osama-ata/PyP6Xer-dev"
+"Source" = "https://github.com/osama-ata/PyP6Xer-dev"
+"Issues" = "https://github.com/osama-ata/PyP6Xer-dev/issues"
 
 [project.scripts]
 xer-explorer = "xerparser.tools.explorer:main"
@@ -55,18 +63,6 @@ disable = [
     "C0301", # line-too-long
     "W0612", # unused-variable
     "W0613", # unused-argument
-
-]
-
-[tool.flake8]
-
-max-line-length = 160
-extend-ignore = [
-    "E501", # line too long
-    "F841", # local variable 'x' is assigned to but never used
-    "W503", # line break before binary operator
-    "E722", # do not use bare except
-    "F401", # module imported but unused
 ]
 
 good-names = ["id", "df", "dt", "i", "j", "k", "x", "y", "z", "_"]
