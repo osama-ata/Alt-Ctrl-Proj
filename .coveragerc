@@ -1,8 +1,12 @@
 [run]
+branch = True
+parallel = True
+
 source = xerparser_dev
 omit =
     */tests/*
     */setup.py
+
 
 [report]
 exclude_lines =
@@ -10,6 +14,7 @@ exclude_lines =
     if __name__ == "__main__":
         pass
     raise NotImplementedError
+skip_covered = True
 
 [html]
-directory = coverage_html_report
+directory = htmlcov
