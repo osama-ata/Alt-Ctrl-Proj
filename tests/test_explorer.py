@@ -61,7 +61,7 @@ class TestXerExplorer:
         assert os.path.exists(output_file)
 
         # Verify report content
-        with open(output_file, "r") as f:
+        with open(output_file) as f:
             content = f.read()
             assert "PyP6Xer Exploration Results" in content
             assert "PROJECT SUMMARY" in content
@@ -75,7 +75,7 @@ class TestXerExplorer:
         assert os.path.exists(output_file)
 
         # Verify report content
-        with open(output_file, "r") as f:
+        with open(output_file) as f:
             content = f.read()
             assert "PyP6Xer Exploration Results" in content
 

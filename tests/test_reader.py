@@ -1,4 +1,3 @@
-import pytest
 
 from xerparser_dev.reader import Reader
 

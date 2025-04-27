@@ -1,26 +1,8 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-
-
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, dict, list, tuple
 
 from xerparser_dev.model.classes.rsrc import Resource
 
+__all__ = ["Resources"]
 
 class Resources:
     """
@@ -45,7 +27,7 @@ class Resources:
         self.index = 0
         self._rsrcs = []
 
-    def add(self, params: Dict[str, Any]) -> None:
+    def add(self, params: dict[str, Any]) -> None:
         """
         Add a new resource to the container.
 
@@ -57,7 +39,7 @@ class Resources:
         rsrc = Resource(params)
         self._rsrcs.append(rsrc)
 
-    def get_resource_by_id(self, id: int) -> Optional[Resource]:
+    def get_resource_by_id(self, id: int) -> Resource | None:
         """
         Find a resource by its ID.
 
@@ -78,7 +60,7 @@ class Resources:
             rsrc = None
         return rsrc
 
-    def get_parent(self, id: int) -> Optional[Resource]:
+    def get_parent(self, id: int) -> Resource | None:
         """
         Find the parent resource of a given resource.
 
@@ -130,13 +112,13 @@ class Resources:
         self.index += 1
         return self._rsrcs[idx]
 
-    def _get_list(self) -> List[Tuple[int, Optional[int]]]:
+    def _get_list(self) -> list[tuple[int, int | None]]:
         """
         Get a list of resource ID and parent resource ID pairs.
 
         Returns
         -------
-        List[Tuple[int, Optional[int]]]
+        list[tuple[int, Optional[int]]]
             List of tuples containing (resource_id, parent_resource_id)
         """
         resor = []
@@ -144,13 +126,13 @@ class Resources:
             resor.append((res.rsrc_id, res.parent_rsrc_id))
         return resor
 
-    def get_tsv(self) -> List[List[Any]]:
+    def get_tsv(self) -> list[list[Any]]:
         """
         Get all resources in TSV format.
 
         Returns
         -------
-        List[List[Any]]
+        list[list[Any]]
             Resources data formatted for TSV output
         """
         tsv = []
@@ -196,7 +178,7 @@ class Resources:
                 tsv.append(rsr.get_tsv())
         return tsv
 
-    def build_tree(self) -> List[Dict[int, Any]]:
+    def build_tree(self) -> list[dict[int, Any]]:
         """
         Build a hierarchical tree structure of resources.
 
@@ -206,7 +188,7 @@ class Resources:
 
         Returns
         -------
-        List[Dict[int, Any]]
+        list[dict[int, Any]]
             A forest of resource trees, where each tree represents a hierarchical
             structure of resources
         """

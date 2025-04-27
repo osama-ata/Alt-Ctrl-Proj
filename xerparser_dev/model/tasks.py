@@ -1,27 +1,10 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-
-
-from typing import List
+from typing import list
 
 from xerparser_dev.model.classes.task import Task
 from xerparser_dev.model.classes.taskactv import TaskActv
 from xerparser_dev.model.classes.taskpred import TaskPred
+
+__all__ = ["Tasks"]
 
 
 class Tasks:
@@ -38,7 +21,7 @@ class Tasks:
         self._tasks.append(task)
 
     @property
-    def activities(self) -> List[Task]:
+    def activities(self) -> list[Task]:
         return self._tasks
 
     @property
@@ -47,23 +30,21 @@ class Tasks:
 
     @property
     def has_no_successor(self):
-        objs = list(
+        return list(
             filter(
                 lambda x: x.task_id not in [z.pred_task_id for z in TaskPred.obj_list],
                 self._tasks,
             )
         )
-        return objs
 
     @property
     def has_no_predecessor(self):
-        objs = list(
+        return list(
             filter(
                 lambda x: x.task_id not in [z.task_id for z in TaskPred.obj_list],
                 self._tasks,
             )
         )
-        return objs
 
     def __len__(self):
         return len(self._tasks)
@@ -163,12 +144,10 @@ class Tasks:
         return obj
 
     def activities_by_status(self, status):
-        objs = list(filter(lambda x: x.status_code == status, self._tasks))
-        return objs
+        return list(filter(lambda x: x.status_code == status, self._tasks))
 
     def activities_by_wbs_id(self, id):
-        objs = list(filter(lambda x: x.wbs_id == id, self._tasks))
-        return objs
+        return list(filter(lambda x: x.wbs_id == id, self._tasks))
 
     def activities_by_activity_code_id(self, id):
         objs = list(filter(lambda x: x.actv_code_id == id, TaskActv.obj_list))
@@ -178,35 +157,31 @@ class Tasks:
         return activities
 
     def no_predecessors(self):
-        objs = list(
+        return list(
             filter(
                 lambda x: x.task_id not in [z.task_id for z in TaskPred.obj_list],
                 self._tasks,
             )
         )
-        return objs
 
     def no_successors(self):
-        objs = list(
+        return list(
             filter(
                 lambda x: x.task_id not in [z.pred_task_id for z in TaskPred.obj_list],
                 self._tasks,
             )
         )
-        return objs
 
     def activities_with_hard_contratints(self):
-        obj = list(
+        return list(
             filter(
                 lambda x: x.cstr_type == "CS_MEO" or x.cstr_type == "CS_MSO",
                 self._tasks,
             )
         )
-        return obj
 
     def activities_by_type(self, type):
-        obj = list(filter(lambda x: x.cstr_type == type, self._tasks))
-        return obj
+        return list(filter(lambda x: x.cstr_type == type, self._tasks))
 
     def get_tsv(self):
         tsv = []
@@ -282,8 +257,7 @@ class Tasks:
         return tsv
 
     def get_by_project(self, id):
-        obj = list(filter(lambda x: x.proj_id == id, self._tasks))
-        return obj
+        return list(filter(lambda x: x.proj_id == id, self._tasks))
 
     def __iter__(self):
         return self

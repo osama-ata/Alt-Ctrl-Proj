@@ -1,0 +1,28 @@
+
+# This configuration file (ruff.toml) is used to specify linting rules for the Ruff linter.
+# The `ignore` section lists the specific linting rules to be ignored during code analysis.
+# Naming conventions for ignored rules:
+# - E501: Line too long
+# - N802: Function name should be lowercase
+# - SIM102: Use a single `if` statement instead of nested `if` statements
+# - T201: Print statements found (use logging instead)
+# - RUF012: Mutable class attributes should be annotated with `typing.ClassVar`
+# - RET504: Unnecessary assignment to `objs` before `return` statement
+# - RET504: Unnecessary assignment to `succ` before `return` statement
+# - N803: Argument name `Tfloat` should be lowercase
+# - SIM108: Use ternary operator `rsrc = rsrc[0] if len(rsrc) > 0 else None` instead of `if`-`else`-block
+# - I001: [*] Import block is un-sorted or un-formatted
+# - UP006: Use `list` instead of `List` for type annotation
+# - N803 Argument name `ID` should be lowercase
+# - C408 Unnecessary `dict()` call (rewrite as a literal)
+# - B018 Found useless expression. Either assign it to a variable or remove it.
+
+
+line-length = 88
+target-version = "py312"
+
+[lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "T20", "Q", "RET", "SIM", "RUF"]
+
+
+ignore = ["N802", "N803","SIM102","SIM108","RET504","T201","E501","B018"]

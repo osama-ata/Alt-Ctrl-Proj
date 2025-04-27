@@ -1,26 +1,8 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-
-
-from typing import Any, Dict, List, Optional
+from typing import Any, dict, list
 
 from xerparser_dev.model.classes.taskpred import TaskPred
 
+__all__ = ["Predecessors"]
 
 class Predecessors:
     """
@@ -55,7 +37,7 @@ class Predecessors:
         self.index = 0
         self.task_pred = []
 
-    def find_by_id(self, code_id: int) -> Optional[TaskPred]:
+    def find_by_id(self, code_id: int) -> TaskPred | None:
         """
         Find a relationship by its ID.
 
@@ -72,16 +54,15 @@ class Predecessors:
         obj = list(filter(lambda x: x.task_pred_id == code_id, self.task_pred))
         if len(obj) > 0:
             return obj[0]
-        else:
-            return None
+        return None
 
-    def get_tsv(self) -> List[List[Any]]:
+    def get_tsv(self) -> list[list[Any]]:
         """
         Get all relationships in TSV format.
 
         Returns
         -------
-        List[List[Any]]
+        list[list[Any]]
             Relationship data formatted for TSV output
         """
         tsv = []
@@ -107,38 +88,38 @@ class Predecessors:
                 tsv.append(pred.get_tsv())
         return tsv
 
-    def add(self, params: Dict[str, Any]) -> None:
+    def add(self, params: dict[str, Any]) -> None:
         """
         Add a new relationship to the container.
 
         Parameters
         ----------
-        params : Dict[str, Any]
+        params : dict[str, Any]
             Dictionary of parameters from the XER file to create a new TaskPred
         """
         pred = TaskPred(params)
         self.task_pred.append(pred)
 
     @property
-    def relations(self) -> List[TaskPred]:
+    def relations(self) -> list[TaskPred]:
         """
         Get all relationships.
 
         Returns
         -------
-        List[TaskPred]
+        list[TaskPred]
             List of all relationships in the container
         """
         return self.task_pred
 
     @property
-    def leads(self) -> List[TaskPred]:
+    def leads(self) -> list[TaskPred]:
         """
         Get all relationships with lead time (negative lag).
 
         Returns
         -------
-        List[TaskPred]
+        list[TaskPred]
             List of relationships with negative lag values
         """
         return list(
@@ -146,18 +127,18 @@ class Predecessors:
         )
 
     @property
-    def finish_to_start(self) -> List[TaskPred]:
+    def finish_to_start(self) -> list[TaskPred]:
         """
         Get all Finish-to-Start relationships.
 
         Returns
         -------
-        List[TaskPred]
+        list[TaskPred]
             List of Finish-to-Start relationships
         """
         return list(filter(lambda x: x.pred_type == "PR_FS", self.task_pred))
 
-    def get_successors(self, act_id: int) -> List[TaskPred]:
+    def get_successors(self, act_id: int) -> list[TaskPred]:
         """
         Get all successor relationships for a given activity.
 
@@ -168,13 +149,13 @@ class Predecessors:
 
         Returns
         -------
-        List[TaskPred]
+        list[TaskPred]
             List of relationships where the specified activity is a predecessor
         """
         succ = list(filter(lambda x: x.pred_task_id == act_id, self.task_pred))
         return succ
 
-    def get_predecessors(self, act_id: int) -> List[TaskPred]:
+    def get_predecessors(self, act_id: int) -> list[TaskPred]:
         """
         Get all predecessor relationships for a given activity.
 
@@ -185,7 +166,7 @@ class Predecessors:
 
         Returns
         -------
-        List[TaskPred]
+        list[TaskPred]
             List of relationships where the specified activity is a successor
         """
         succ = list(filter(lambda x: x.task_id == act_id, self.task_pred))

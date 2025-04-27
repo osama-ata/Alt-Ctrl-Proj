@@ -5,10 +5,14 @@ This makes it easy to use the explorer without writing Python code.
 """
 
 import argparse
+import logging
 import sys
 
 from xerparser_dev.tools.explorer import explore_xer_file
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 def main():
     """Run the XER explorer from the command line."""
@@ -34,17 +38,16 @@ def main():
 
     args = parser.parse_args()
 
-    print(f"Exploring XER file: {args.xer_file}")
+    logger.info(f"Exploring XER file: {args.xer_file}")
     success = explore_xer_file(
         args.xer_file, args.output, not args.include_large, args.threshold
     )
 
     if success:
-        print(f"Exploration complete! Results saved to {args.output}")
+        logger.info(f"Exploration complete! Results saved to {args.output}")
         return 0
-    else:
-        print("Exploration failed!")
-        return 1
+    logger.error("Exploration failed!")
+    return 1
 
 
 if __name__ == "__main__":

@@ -1,27 +1,7 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
 
-
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from xerparser_dev.model.classes.wbs import WBS
-from xerparser_dev.model.tasks import Tasks
-from xerparser_dev.model.wbss import WBSs
 
 
 class Project:
@@ -56,7 +36,7 @@ class Project:
         List of all WBS elements in this project
     """
 
-    def __init__(self, params: Dict[str, Any], data: Any) -> None:
+    def __init__(self, params: dict[str, Any], data: Any) -> None:
         """
         Initialize a Project object from XER file parameters.
 
@@ -383,7 +363,7 @@ class Project:
         """
         return self.proj_id
 
-    def get_tsv(self) -> List[Any]:
+    def get_tsv(self) -> list[Any]:
         """
         Get the project data in TSV format.
 
@@ -468,7 +448,7 @@ class Project:
         return tsv
 
     @property
-    def activities(self) -> List[Any]:
+    def activities(self) -> list[Any]:
         """
         Get all activities in this project.
 
@@ -480,7 +460,7 @@ class Project:
         return self.data.tasks.get_by_project(self.proj_id)
 
     @property
-    def wbss(self) -> List[WBS]:
+    def wbss(self) -> list[WBS]:
         """
         Get all WBS elements in this project.
 

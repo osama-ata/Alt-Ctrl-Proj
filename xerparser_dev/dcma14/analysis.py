@@ -3,26 +3,18 @@
 This module implements the Defense Contract Management Agency (DCMA) 14-point schedule assessment, which evaluates the quality and reliability of project schedules.
 """
 
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-from datetime import datetime
-from typing import Any, Dict, List, Optional
 
+import logging
+from datetime import datetime
+from typing import Any, dict, list
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+__all__ = [
+    "DCMA14",
+]
 
 class DCMA14:
     """
@@ -116,10 +108,10 @@ class DCMA14:
         self.dur_limit = duration_limit
         self.lag_limit = lag_limit
         self.tf_limit = tf_limit
-        self.results: Dict[str, Any] = {}
+        self.results: dict[str, Any] = {}
         self.results["analysis"] = {}
 
-    def analysis(self) -> Dict[str, Any]:
+    def analysis(self) -> dict[str, Any]:
         """
         Perform the DCMA 14-point schedule assessment analysis.
 
@@ -129,7 +121,7 @@ class DCMA14:
         Returns
         -------
 
-        Dict[str, Any]
+        dict[str, Any]
             Dictionary containing the results of the analysis, with metrics for each
             of the 14 points in the assessment
 
@@ -277,7 +269,7 @@ class DCMA14:
                     2025, 4, 15
                 )  # Default to current date
 
-        print(data_date)  # Debugging output to verify data_date population
+        logger.debug(data_date)  # Debugging output to verify data_date population
 
         # Ensure all project IDs are included in data_date with a default value
         for project in self.programme.projects:
@@ -368,7 +360,7 @@ class DCMA14:
             "cnt": len(no_resources),
             "pct": len(no_resources) / float(self.activity_count),
         }
-        print(no_resources)
+        logger.info(no_resources)
 
         # 11 slippage from target
         # end dates are later than target end dates
@@ -393,7 +385,7 @@ class DCMA14:
             )
         )
         slipped = self.actualendslippage + self.earlyendslippage
-        print("SLIPPED", slipped)
+        logger.info("SLIPPED: %s", slipped)
         self.results["analysis"]["slippage"] = {
             "activities": [
                 {
@@ -416,14 +408,14 @@ class DCMA14:
         critical_activities = []
         for act in self.programme.activities.activities:
             if act.total_float_hr_cnt is not None:
-                print("TF FOUND", act.task_code, act.total_float_hr_cnt)
+                logger.info("TF FOUND: %s, %s", act.task_code, act.total_float_hr_cnt)
                 if act.total_float_hr_cnt <= 0:
                     critical_activities.append(act)
             else:
-                print("TF Not found")
+                logger.info("TF Not found")
 
-        print(
-            "critical",
+        logger.info(
+            "critical: %s",
             [
                 (task.task_code, task.early_start_date, task.total_float_hr_cnt)
                 for task in critical_activities
@@ -465,7 +457,7 @@ class DCMA14:
 
         return self.results
 
-    def chk_successors(self) -> List[Any]:
+    def chk_successors(self) -> list[Any]:
         """
         Check for activities without successors.
 
@@ -474,12 +466,12 @@ class DCMA14:
 
         Returns
         -------
-        List[Task]
-            List of activities without successors
+        list[Task]
+            list of activities without successors
         """
         return self.programme.activities.has_no_successor
 
-    def chk_predessors(self) -> List[Any]:
+    def chk_predessors(self) -> list[Any]:
         """
         Check for activities without predecessors.
 
@@ -488,12 +480,12 @@ class DCMA14:
 
         Returns
         -------
-        List[Task]
-            List of activities without predecessors
+        list[Task]
+            list of activities without predecessors
         """
         return self.programme.activities.has_no_predecessor
 
-    def get_activity(self, id: int) -> Optional[Dict[str, Any]]:
+    def get_activity(self, id: int) -> dict[str, Any] | None:
         """
         Get a simplified representation of an activity by its ID.
 
@@ -504,7 +496,7 @@ class DCMA14:
 
         Returns
         -------
-        Dict[str, Any] or None
+        dict[str, Any] or None
             Dictionary containing key information about the activity,
             or None if the activity is not found
         """

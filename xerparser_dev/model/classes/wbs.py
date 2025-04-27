@@ -1,26 +1,10 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-
-
-from typing import Any, ClassVar, Dict, List, Optional
+import logging
+from typing import Any, ClassVar, Optional
 
 from xerparser_dev.model.classes.task import Task
 
+# Initialize logger
+logger = logging.getLogger(__name__)
 
 class WBS:
     """
@@ -53,9 +37,9 @@ class WBS:
         Status code of the WBS element
     """
 
-    obj_list: ClassVar[List["WBS"]] = []
+    obj_list: ClassVar[list["WBS"]] = []
 
-    def __init__(self, params: Dict[str, Any], data: Any = None) -> None:
+    def __init__(self, params: dict[str, Any], data: Any = None) -> None:
         """
         Initialize a WBS object from XER file parameters.
 
@@ -116,16 +100,8 @@ class WBS:
         """
         return self.wbs_id
 
-    def get_tsv(self) -> List[Any]:
-        """
-        Get the WBS data in TSV format.
-
-        Returns
-        -------
-        List[Any]
-            WBS data formatted for TSV output
-        """
-        tsv = [
+    def get_tsv(self) -> list[Any]:
+        return [
             "%R",
             self.wbs_id,
             self.proj_id,
@@ -154,50 +130,26 @@ class WBS:
             self.tmpl_guid,
             self.plan_open_state,
         ]
-        return tsv
 
     @classmethod
-    def get_json(cls) -> Dict[str, Any]:
-        """
-        Get the WBS hierarchy as a JSON structure.
-
-        Returns
-        -------
-        Dict[str, Any]
-            JSON representation of the WBS hierarchy
-        """
+    def get_json(cls) -> dict[str, Any]:
         root_nodes = list(
             filter(lambda x: WBS.find_by_id(x.parent_wbs_id) is None, cls.obj_list)
         )
-        print(root_nodes)
-        json = dict()
+        logger.info(root_nodes)
+        json = {}
         for node in root_nodes:
             json["node"] = node
             json["level"] = 0
             json["childs"] = []
             json["childs"].append(cls.get_childs(node, 0))
-        print(json)
+        logger.info(json)
         return json
 
     @classmethod
-    def get_childs(cls, node: "WBS", level: int) -> Dict[str, Any]:
-        """
-        Get all child WBS elements for a given WBS node.
-
-        Parameters
-        ----------
-        node : WBS
-            The parent WBS node
-        level : int
-            The hierarchical level (depth) of the parent node
-
-        Returns
-        -------
-        Dict[str, Any]
-            Dictionary representing the child nodes and their children
-        """
+    def get_childs(cls, node: "WBS", level: int) -> dict[str, Any]:
         nodes_lst = list(filter(lambda x: x.parent_wbs_id == node.wbs_id, cls.obj_list))
-        nod = dict()
+        nod = {}
         for node in nodes_lst:
             nod["node"] = node
             nod["level"] = level + 1
@@ -207,27 +159,14 @@ class WBS:
         return nod
 
     @classmethod
-    def find_by_id(cls, ID: Optional[int]) -> Optional["WBS"]:
-        """
-        Find a WBS element by its ID.
-
-        Parameters
-        ----------
-        ID : int or None
-            The WBS ID to search for
-
-        Returns
-        -------
-        WBS or None
-            The WBS element with the specified ID, or None if not found
-        """
-        obj = list(filter(lambda x: x.wbs_id == ID, cls.obj_list))
+    def find_by_id(cls, id_: int | None) -> Optional["WBS"]:
+        obj = list(filter(lambda x: x.wbs_id == id_, cls.obj_list))
         if obj:
             return obj[0]
         return None
 
     @classmethod
-    def find_by_project_id(cls, project_id: int) -> List["WBS"]:
+    def find_by_project_id(cls, project_id: int) -> list["WBS"]:
         """
         Find all WBS elements belonging to a project.
 
@@ -244,7 +183,7 @@ class WBS:
         return [v for v in cls.obj_list if v.proj_id == project_id]
 
     @property
-    def activities(self) -> List[Task]:
+    def activities(self) -> list[Task]:
         """
         Get all activities associated with this WBS element.
 

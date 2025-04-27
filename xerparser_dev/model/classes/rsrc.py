@@ -1,24 +1,6 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-
 
 import json
-from typing import Any, ClassVar, Dict, List, Optional
+from typing import Any, ClassVar, Optional
 
 
 class Resource:
@@ -55,9 +37,9 @@ class Resource:
         Email address of the resource (for labor resources)
     """
 
-    obj_list: ClassVar[List["Resource"]] = []
+    obj_list: ClassVar[list["Resource"]] = []
 
-    def __init__(self, params: Dict[str, Any]) -> None:
+    def __init__(self, params: dict[str, Any]) -> None:
         """
         Initialize a Resource object from XER file parameters.
 
@@ -180,7 +162,7 @@ class Resource:
         """
         return self.rsrc_id
 
-    def get_tsv(self) -> List[Any]:
+    def get_tsv(self) -> list[Any]:
         """
         Get the resource data in TSV format.
 
@@ -246,7 +228,7 @@ class Resource:
         return None
 
     @property
-    def parent(self) -> Optional[int]:
+    def parent(self) -> int | None:
         """
         Get the parent resource ID.
 

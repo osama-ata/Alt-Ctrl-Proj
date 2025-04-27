@@ -69,14 +69,6 @@ exclude_patterns = []
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
 
-# Ensure the theme is installed and available
-try:
-    import sphinx_rtd_theme
-except ImportError:
-    raise RuntimeError(
-        "The 'sphinx_rtd_theme' package is not installed. Please install it using the requirements-docs.txt file."
-    )
-
 
 # -- Options for LaTeX output ------------------------------------------------
 latex_documents = [

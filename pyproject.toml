@@ -46,24 +46,3 @@ packages = [
     "xerparser_dev.model.classes",
     "xerparser_dev.tools",
 ]
-
-[tool.pylint]
-max-line-length = 160
-disable = [
-    "R0902", # too-many-instance-attributes
-    "R0903", # too-few-public-methods
-    "R0904", # too-many-public-methods
-    "R0912", # too-many-branches
-    "R0913", # too-many-arguments
-    "R0914", # too-many-locals
-    "R0915", # too-many-statements
-    "C0103", # invalid-name - will fix gradually
-    "C0114", # missing-module-docstring
-    "C0115", # missing-class-docstring
-    "C0116", # missing-function-docstring
-    "C0301", # line-too-long
-    "W0612", # unused-variable
-    "W0613", # unused-argument
-]
-
-good-names = ["id", "df", "dt", "i", "j", "k", "x", "y", "z", "_"]

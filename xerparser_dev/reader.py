@@ -5,16 +5,25 @@ This module provides functionality to read and parse Primavera P6 XER files,
 transforming the tabular data into Python objects.
 """
 
+# Standard library imports
 import codecs
 import csv
+import logging
 import mmap
-from typing import Any, Dict, List, Optional
+from typing import Any, ClassVar
 
+# Local imports
 from xerparser_dev.model.accounts import Accounts
 from xerparser_dev.model.activitiyresources import ActivityResources
 from xerparser_dev.model.activitycodes import ActivityCodes
 from xerparser_dev.model.acttypes import ActTypes
 from xerparser_dev.model.calendars import Calendars
+from xerparser_dev.model.classes.data import Data
+from xerparser_dev.model.classes.fintmpl import FinTmpl
+from xerparser_dev.model.classes.nonwork import NonWork
+from xerparser_dev.model.classes.projcat import ProjCat
+from xerparser_dev.model.classes.taskpred import TaskPred
+from xerparser_dev.model.classes.taskproc import TaskProc
 from xerparser_dev.model.currencies import Currencies
 from xerparser_dev.model.fintmpls import FinTmpls
 from xerparser_dev.model.nonworks import NonWorks
@@ -39,13 +48,11 @@ from xerparser_dev.model.tasks import Tasks
 from xerparser_dev.model.udftypes import UDFTypes
 from xerparser_dev.model.udfvalues import UDFValues
 from xerparser_dev.model.wbss import WBSs
-from xerparser_dev.model.classes.data import Data
 from xerparser_dev.write import writeXER
-from xerparser_dev.model.classes.taskpred import TaskPred
-from xerparser_dev.model.classes.projcat import ProjCat
-from xerparser_dev.model.classes.taskproc import TaskProc
-from xerparser_dev.model.classes.fintmpl import FinTmpl
-from xerparser_dev.model.classes.nonwork import NonWork
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class Reader:
@@ -85,9 +92,9 @@ class Reader:
     """
 
     current_table: str = ""
-    current_headers: List[str] = []
+    current_headers: ClassVar[list[str]] = []
 
-    def write(self, filename: Optional[str] = None) -> None:
+    def write(self, filename: str | None = None) -> None:
         """
         Write the parsed data back to an XER file.
 
@@ -112,7 +119,7 @@ class Reader:
             raise ValueError("You have to provide the filename")
         writeXER(self, filename)
 
-    def create_object(self, object_type: str, params: Dict[str, Any]) -> None:
+    def create_object(self, object_type: str, params: dict[str, Any]) -> None:
         """
         Create appropriate objects based on the record type.
 
@@ -193,7 +200,7 @@ class Reader:
 
     def summary(self) -> None:
         """
-        Print a summary of the parsed XER file.
+        Log a summary of the parsed XER file.
 
         Displays the number of activities and relationships in the parsed file.
 
@@ -202,8 +209,8 @@ class Reader:
 
         None
         """
-        print("Number of activities: ", self.activities.count)
-        print("Number of relationships: ", len(TaskPred.obj_list))
+        logger.info("Number of activities: %d", self.activities.count)
+        logger.info("Number of relationships: %d", len(TaskPred.obj_list))
 
     @property
     def projects(self) -> Projects:
@@ -505,79 +512,79 @@ class Reader:
         return self._udftypes
 
     @property
-    def pcattypes(self) -> List[PCatTypes]:
+    def pcattypes(self) -> list[PCatTypes]:
         """
         Get all project category types in the XER file.
 
         Returns
         -------
 
-        List[PCatTypes]
+        list[PCatTypes]
             Collection of all project category types in the XER file
         """
         return self._pcattypes
 
     @property
-    def pcatvals(self) -> List[PCatVals]:
+    def pcatvals(self) -> list[PCatVals]:
         """
         Get all project category values in the XER file.
 
         Returns
         -------
 
-        List[PCatVals]
+        list[PCatVals]
             Collection of all project category values in the XER file
         """
         return self._pcatvals
 
     @property
-    def projpcats(self) -> List[ProjCat]:
+    def projpcats(self) -> list[ProjCat]:
         """
         Get all project categories in the XER file.
 
         Returns
         -------
 
-        List[ProjCat]
+        list[ProjCat]
             Collection of all project categories in the XER file
         """
         return self._projpcats
 
     @property
-    def taskprocs(self) -> List[TaskProc]:
+    def taskprocs(self) -> list[TaskProc]:
         """
         Get all task procedures in the XER file.
 
         Returns
         -------
 
-        List[TaskProc]
+        list[TaskProc]
             Collection of all task procedures in the XER file
         """
         return self._taskprocs
 
     @property
-    def fintmpls(self) -> List[FinTmpl]:
+    def fintmpls(self) -> list[FinTmpl]:
         """
         Get all financial templates in the XER file.
 
         Returns
         -------
 
-        List[FinTmpl]
+        list[FinTmpl]
             Collection of all financial templates in the XER file
         """
         return self._fintmpls
 
     @property
-    def nonworks(self) -> List[NonWork]:
+    def nonworks(self) -> list[NonWork]:
         """
         Get all non-work periods in the XER file.
 
         Returns
         -------
 
-        List[NonWork]
+        list[NonWork]
             Collection of all non-work periods in the XER file
         """
         return self._nonworks
@@ -629,7 +636,7 @@ class Reader:
                 elif row[0] == "%F":
                     current_headers = [r.strip() for r in row[1:]]
                 elif row[0] == "%R":
-                    zipped_record = dict(zip(current_headers, row[1:]))
+                    zipped_record = dict(zip(current_headers, row[1:], strict=False))
                     self.create_object(current_table, zipped_record)
 
         # for line in content:

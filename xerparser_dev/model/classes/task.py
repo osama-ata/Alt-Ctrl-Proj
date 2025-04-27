@@ -1,27 +1,8 @@
-# PyP6XER
-# Copyright (C) 2020, 2021 Hassan Emam <hassan@constology.com>
-#
-# This file is part of PyP6XER.
-#
-# PyP6XER library is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License v2.1 as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# PyP6XER is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with PyP6XER.  If not, see <https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html>.
-
-
 import locale
 from datetime import datetime
-from typing import Any, Dict, List, Optional
-from xerparser_dev.model.classes.calendar import Calendar
+from typing import Any, ClassVar, dict, list
 
+from xerparser_dev.model.classes.calendar import Calendar
 from xerparser_dev.model.taskprocs import TaskProcs
 
 
@@ -75,9 +56,9 @@ class Task:
         Total float in hours
     """
 
-    obj_list: List["Task"] = []
+    obj_list: ClassVar[list["Task"]] = []
 
-    def __init__(self, params: Dict[str, Any], data: Any) -> None:
+    def __init__(self, params: dict[str, Any], data: Any) -> None:
         """
         Initialize a Task object from XER file parameters.
 
@@ -100,7 +81,7 @@ class Task:
         #  There is a project setting specifying this.
         self.phys_complete_pct = (
             locale.atof(params.get("phys_complete_pct"))
-            if "phys_complete_pct" in params.keys()
+            if "phys_complete_pct" in params
             else None
         )
         # Indicates that the primary resource has sent feedback notes about this activity which have not been
@@ -115,7 +96,7 @@ class Task:
 
         self.est_wt = (
             locale.atof(params.get("est_wt").strip())
-            if "est_wt" in params.keys() and params.get("est_wt") != ""
+            if "est_wt" in params and params.get("est_wt") != ""
             else None
         )
         # Indicates that the planned labor and nonlabor units for the activity will not be modified by top-down
@@ -465,7 +446,7 @@ class Task:
         self.data = data
         self.logic_missing = False  # Initialize logic_missing attribute
 
-    def get_tsv(self) -> List[Any]:
+    def get_tsv(self) -> list[Any]:
         """
         Get the task data in TSV format.
 
@@ -474,7 +455,7 @@ class Task:
         List[Any]
             Task data formatted for TSV output
         """
-        tsv = [
+        return [
             "%R",
             self.task_id,
             self.proj_id,
@@ -585,7 +566,7 @@ class Task:
             self.update_user,
             self.location_id,
         ]
-        return tsv
+
 
     @property
     def id(self) -> int:
@@ -600,7 +581,7 @@ class Task:
         return self.task_id
 
     @property
-    def totalint(self) -> Optional[float]:
+    def totalint(self) -> float | None:
         """
         Get the total float in days.
 
@@ -616,7 +597,7 @@ class Task:
         return tf
 
     @property
-    def resources(self) -> List[Any]:
+    def resources(self) -> list[Any]:
         """
         Get all resources assigned to this task.
 
@@ -628,7 +609,7 @@ class Task:
         return self.data.taskresource.find_by_activity_id(self.task_id)
 
     @property
-    def steps(self) -> List[Any]:
+    def steps(self) -> list[Any]:
         """
         Get all steps (work products) for this task.
 
@@ -640,7 +621,7 @@ class Task:
         return TaskProcs.find_by_activity_id(self.task_id)
 
     @property
-    def activitycodes(self) -> List[Any]:
+    def activitycodes(self) -> list[Any]:
         """
         Get all activity codes assigned to this task.
 
@@ -672,7 +653,7 @@ class Task:
         return dur
 
     @property
-    def constraints(self) -> Optional[Dict[str, Any]]:
+    def constraints(self) -> dict[str, Any] | None:
         """
         Get the constraints applied to this task.
 
@@ -686,7 +667,7 @@ class Task:
         return {"ConstraintType": self.cstr_type, "ConstrintDate": self.cstr_date}
 
     @property
-    def start_date(self) -> Optional[datetime]:
+    def start_date(self) -> datetime | None:
         """
         Get the effective start date of the task.
 
@@ -699,11 +680,10 @@ class Task:
         """
         if self.act_start_date:
             return self.act_start_date
-        else:
-            return self.target_start_date
+        return self.target_start_date
 
     @property
-    def end_date(self) -> Optional[datetime]:
+    def end_date(self) -> datetime | None:
         """
         Get the effective end date of the task.
 
@@ -716,11 +696,10 @@ class Task:
         """
         if self.act_end_date:
             return self.act_end_date
-        else:
-            return self.target_end_date
+        return self.target_end_date
 
     @property
-    def successors(self) -> List[Any]:
+    def successors(self) -> list[Any]:
         """
         Get all successor tasks to this task.
 
@@ -729,11 +708,11 @@ class Task:
         List[Any]
             List of tasks that are successors to this task
         """
-        suss = self.data.predecessors.get_successors(self.task_id)
-        return suss
+        return self.data.predecessors.get_successors(self.task_id)
+
 
     @property
-    def predecessors(self) -> List[Any]:
+    def predecessors(self) -> list[Any]:
         """
         Get all predecessor tasks to this task.
 
@@ -745,7 +724,7 @@ class Task:
         return self.data.predecessors.get_predecessors(self.task_id)
 
     @classmethod
-    def find_by_wbs_id(cls, wbs_id: int) -> List["Task"]:
+    def find_by_wbs_id(cls, wbs_id: int) -> list["Task"]:
         """
         Find all tasks belonging to a WBS element.
 

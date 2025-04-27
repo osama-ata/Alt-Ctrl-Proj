@@ -1,7 +1,5 @@
 import os
 
-import pytest
-
 from xerparser_dev.reader import Reader
 from xerparser_dev.write import writeXER
 

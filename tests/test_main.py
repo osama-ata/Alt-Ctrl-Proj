@@ -1,9 +1,12 @@
-import time
+import logging
 import os
-from collections import defaultdict
+import time
 
-from xerparser_dev.dcma14 import DCMA14
 from xerparser_dev.reader import Reader
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 start_time = time.time()
 # Update the path to the sample.xer file
@@ -191,13 +194,11 @@ elapsed_time1 = time.time() - start_time
 # pp.pprint(health.results['analysis']['constraints'])
 
 for project in r.projects:
-    print("PROJECT: " + project.proj_short_name + "*****")
+    logger.info("PROJECT: " + project.proj_short_name + "*****")
     for activity in project.activities:
-        print(
-            "################### Activity ID | ",
+        logger.info(
+            "################### Activity ID | %s | Activity Name | %s | Pred | %s",
             activity.task_code,
-            " | Activity Name | ",
             activity.task_name,
-            " | Pred |",
             activity.predecessors,
         )

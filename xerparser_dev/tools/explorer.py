@@ -5,11 +5,16 @@ This module provides functionality to explore and summarize XER files,
 giving a concise overview of the file contents.
 """
 
+import logging
 import os
 import sys
 from datetime import datetime
 
 from xerparser_dev.reader import Reader
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 class XerExplorer:
@@ -37,7 +42,7 @@ class XerExplorer:
             self.reader = Reader(self.xer_path)
             return True
         except Exception as e:
-            print(f"Error parsing XER file: {str(e)}")
+            logger.error(f"Error parsing XER file: {e!s}")
             return False
 
     def collect_data(self):
@@ -96,7 +101,7 @@ class XerExplorer:
 
         # Open the output file for writing
         with open(output_file, "w") as f:
-            f.write(f"PyP6Xer Exploration Results\n")
+            f.write("PyP6Xer Exploration Results\n")
             f.write(f"Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
             f.write(f"XER File: {os.path.basename(self.xer_path)}\n")
             f.write("=" * 80 + "\n\n")
@@ -175,7 +180,7 @@ class XerExplorer:
         file_obj.write("1. PROJECT SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
 
-        if "projects" in self.collection_data and self.collection_data["projects"]:
+        if self.collection_data.get("projects"):
             projects = self.collection_data["projects"]
             file_obj.write(f"Found {len(projects)} project(s)\n\n")
 
@@ -213,7 +218,7 @@ class XerExplorer:
         file_obj.write("2. CALENDAR SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
 
-        if "calendars" in self.collection_data and self.collection_data["calendars"]:
+        if self.collection_data.get("calendars"):
             calendars = self.collection_data["calendars"]
             file_obj.write(f"Total calendars: {len(calendars)}\n\n")
 
@@ -234,7 +239,7 @@ class XerExplorer:
         file_obj.write("3. WBS SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
 
-        if "wbss" in self.collection_data and self.collection_data["wbss"]:
+        if self.collection_data.get("wbss"):
             wbss_list = self.collection_data["wbss"]
             file_obj.write(f"Total WBS elements: {len(wbss_list)}\n\n")
 
@@ -260,7 +265,7 @@ class XerExplorer:
         file_obj.write("4. RESOURCES SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
 
-        if "resources" in self.collection_data and self.collection_data["resources"]:
+        if self.collection_data.get("resources"):
             resources_list = self.collection_data["resources"]
             file_obj.write(f"Total resources: {len(resources_list)}\n\n")
 
@@ -290,7 +295,7 @@ class XerExplorer:
         file_obj.write("5. ACTIVITY SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
 
-        if "activities" in self.collection_data and self.collection_data["activities"]:
+        if self.collection_data.get("activities"):
             activities_list = self.collection_data["activities"]
             file_obj.write(f"Total activities: {len(activities_list)}\n\n")
 
@@ -318,7 +323,7 @@ class XerExplorer:
         file_obj.write("6. RELATIONSHIP SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
 
-        if "relations" in self.collection_data and self.collection_data["relations"]:
+        if self.collection_data.get("relations"):
             relations_list = self.collection_data["relations"]
             file_obj.write(f"Total relationships: {len(relations_list)}\n\n")
 
@@ -392,15 +397,15 @@ def main():
 
     args = parser.parse_args()
 
-    print(f"Exploring XER file: {args.xer_file}")
+    logger.info(f"Exploring XER file: {args.xer_file}")
     success = explore_xer_file(
         args.xer_file, args.output, not args.include_large, args.threshold
     )
 
     if success:
-        print(f"Exploration complete! Results saved to {args.output}")
+        logger.info(f"Exploration complete! Results saved to {args.output}")
     else:
-        print("Exploration failed!")
+        logger.error("Exploration failed!")
         sys.exit(1)
 
 
