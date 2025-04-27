@@ -41,7 +41,8 @@ jobs:
 
       - name: Install project and dev tools
         run: |
-          uv pip install --system -r requirements.txt ruff pytest coverage
+          uv pip install --system --upgrade -r requirements.txt
+          uv pip install --system --upgrade ruff pytest coverage
           uv pip install -e .
 
       - name: Lint with Ruff
