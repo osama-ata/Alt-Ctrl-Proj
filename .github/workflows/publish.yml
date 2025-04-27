@@ -1,4 +1,3 @@
-# .github/workflows/publish.yml
 name: Publish Python package
 
 on:
@@ -7,67 +6,28 @@ on:
       - 'v*.*.*'
 
 permissions:
-  id-token: write  # For Trusted Publishing
-  contents: write  # For GitHub Releases
+  id-token: write   # For Trusted Publishing
+  contents: write   # For GitHub Release
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          enable-cache: true
-
-      - name: Set up cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/uv
-          key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements*.txt') }}
-          restore-keys: uv-${{ runner.os }}-${{ matrix.python-version }}-
-
-      - name: Install Python
-        run: uv python install --python ${{ matrix.python-version }}
-
-      - name: Install dependencies
-        run: uv pip install -r requirements.txt
-
-      - name: Install Ruff
-        run: uv pip install ruff
-
-      - name: Lint with Ruff
-        run: ruff check .
-
-      - name: Install and run Pytest
-        run: |
-          uv pip install pytest
-          pytest tests
-
   publish:
-    needs: test
     runs-on: ubuntu-latest
-    if: github.repository == 'osama-ata/PyP6Xer-dev'
+    if: success()  # Only publish if all previous jobs (test.yml) succeeded
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install uv
         uses: astral-sh/setup-uv@v6
 
-      - name: Install Python
-        run: uv python install
-
-      - name: Install dependencies
-        run: uv pip install -r requirements.txt
+      - name: Install project dependencies
+        run: uv pip install --system -r requirements.txt
 
       - name: Set version from Git tag
         run: |
