@@ -1,80 +1,87 @@
 # .github/workflows/publish.yml
-name: Publish Python 🐍 package
+name: Publish Python package
 
 on:
   push:
     tags:
       - 'v*.*.*'
 
-env:
-  PACKAGE_NAME: PyP6Xer-dev
+permissions:
+  id-token: write  # For Trusted Publishing
+  contents: write  # For GitHub Releases
 
 jobs:
-  test-build-publish:
+  test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        python: ['3.9', '3.10', '3.11']
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        
-      - name: Extract version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
 
-      - name: Bump pyproject.toml
-        run: poetry version $VERSION
-
-      - name: Cache pip
-        uses: actions/cache@v3
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python }}-${{ hashFiles('**/requirements*.txt') }}
+          enable-cache: true
 
-      - name: Set up Python ${{ matrix.python }}
-        uses: actions/setup-python@v4
+      - name: Set up cache
+        uses: actions/cache@v4
         with:
-          python-version: ${{ matrix.python }}
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements*.txt') }}
+          restore-keys: uv-${{ runner.os }}-${{ matrix.python-version }}-
+
+      - name: Install Python
+        run: uv python install --python ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install build twine pytest ruff
+        run: uv pip install -r requirements.txt
+
+      - name: Install Ruff
+        run: uv pip install ruff
 
       - name: Lint with Ruff
-        uses: astral-sh/ruff-action@v3
-        with:
-          src: .
+        run: ruff check .
 
-      - name: Run tests
-        run: pytest --maxfail=1 --disable-warnings -q
+      - name: Install and run Pytest
+        run: |
+          uv pip install pytest
+          pytest tests
 
-      - name: Build distributions
-        run: python -m build
+  publish:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.repository == 'osama-ata/PyP6Xer-dev'
 
-      - name: Validate distributions
-        run: twine check dist/*
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Publish to TestPyPI
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: pypa/gh-action-pypi-publish@v1
-        with:
-          repository-url: https://test.pypi.org/legacy/
-          user: __token__
-          password: ${{ secrets.TEST_PYPI_API_TOKEN }}
-          skip-existing: true
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv pip install -r requirements.txt
+
+      - name: Set version from Git tag
+        run: |
+          TAG_VERSION="${GITHUB_REF#refs/tags/v}"
+          echo "Detected tag version: $TAG_VERSION"
+          sed -i "s/^version = .*/version = \"$TAG_VERSION\"/" pyproject.toml
+
+      - name: Build package
+        run: uv build --no-sources
 
       - name: Publish to PyPI
-        if: startsWith(github.ref, 'refs/tags/v') && github.repository == 'osama-ata/${{ env.PACKAGE_NAME }}'
-        uses: pypa/gh-action-pypi-publish@v1
-        with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
-          skip-existing: true
+        run: uv publish
 
       - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
