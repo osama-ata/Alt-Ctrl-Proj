@@ -48,12 +48,17 @@ jobs:
       - name: Run tests with coverage
         run: |
           coverage run --parallel -m pytest tests
+          coverage combine
+          coverage report
+          coverage html
 
       - name: Upload coverage artifacts
         uses: actions/upload-artifact@v4
         with:
           name: coverage-data
-          path: .coverage*
+          path: |
+            .coverage
+            htmlcov/
           retention-days: 1
 
   coverage:
