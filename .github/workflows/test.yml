@@ -16,7 +16,7 @@ jobs:
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11", "3.12"]
-      fail-fast: false  # Allow all versions to complete even if one fails
+      fail-fast: false
 
     steps:
       - name: Checkout code
@@ -39,17 +39,11 @@ jobs:
           key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements*.txt') }}
           restore-keys: uv-${{ runner.os }}-${{ matrix.python-version }}-
 
-      - name: Install dependencies
-        run: uv pip install --system -r requirements.txt
-
-      - name: Install Ruff
-        run: uv pip install ruff
+      - name: Install project and dev tools
+        run: uv pip install --system -r requirements.txt ruff pytest coverage
 
       - name: Lint with Ruff
         run: ruff check .
-
-      - name: Install Pytest and Coverage
-        run: uv pip install pytest coverage
 
       - name: Run tests with coverage
         run: |
@@ -75,11 +69,16 @@ jobs:
         with:
           name: coverage-data
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
       - name: Install uv
         uses: astral-sh/setup-uv@v6
 
       - name: Install Coverage.py
-        run: uv pip install coverage
+        run: uv pip install --system coverage
 
       - name: Combine coverage and generate XML
         run: |
@@ -87,10 +86,10 @@ jobs:
           coverage xml
 
       - name: Upload to Codecov
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@v4
         with:
           files: coverage.xml
-          token: ${{ secrets.CODECOV_TOKEN }}  # Needed only if your repo is private
+          token: ${{ secrets.CODECOV_TOKEN }}  # optional if repo is public
           flags: combined
           name: combined-coverage
           fail_ci_if_error: true
