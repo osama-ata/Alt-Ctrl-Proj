@@ -19,6 +19,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        
+      - name: Extract version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
+      - name: Bump pyproject.toml
+        run: poetry version $VERSION
 
       - name: Cache pip
         uses: actions/cache@v3
