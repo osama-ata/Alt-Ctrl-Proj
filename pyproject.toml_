@@ -1,11 +1,12 @@
+
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=61.0", "wheel", "uvicorn"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyP6Xer-dev"
 version = "0.0.3" # Normalized version, follows PEP 440
-description = "An actively maintained fork of PyP6Xer: A Python parser for Primavera XER files."
+description = "An actively maintained fork of PyP6Xer-dev: A Python parser for Primavera XER files."
 readme = "README.md"
 authors = [
     { name = "Osama Ata", email = "me@osamata.com" },
@@ -24,10 +25,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.10"
-dependencies = [
-    "pytest==8.3.5",
-    "setuptools==65.5.0",
-]
+dependencies = []
 
 [project.urls]
 "Homepage" = "https://github.com/osama-ata/PyP6Xer-dev"
@@ -37,3 +35,12 @@ dependencies = [
 
 [project.scripts]
 xer-explorer = "xerparser_dev.tools.explorer:main"
+
+[tool.setuptools]
+packages = [
+    "xerparser_dev",
+    "xerparser_dev.dcma14",
+    "xerparser_dev.model",
+    "xerparser_dev.model.classes",
+    "xerparser_dev.tools",
+]

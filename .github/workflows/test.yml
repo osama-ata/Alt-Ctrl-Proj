@@ -40,7 +40,9 @@ jobs:
           restore-keys: uv-${{ runner.os }}-${{ matrix.python-version }}-
 
       - name: Install project and dev tools
-        run: uv pip install --system -r requirements.txt ruff pytest coverage
+        run: |
+          uv pip install --system -r requirements.txt ruff pytest coverage
+          uv pip install -e .
 
       - name: Lint with Ruff
         run: ruff check .
