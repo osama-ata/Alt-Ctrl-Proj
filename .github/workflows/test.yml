@@ -55,7 +55,7 @@ jobs:
       - name: Delete existing coverage artifact if any
         continue-on-error: true
         run: |
-          artifact_id=$(gh api /repos/${{ github.repository }}/actions/artifacts --jq '.artifacts[] | select(.name=="coverage-data") | .id')
+          artifact_id=$(gh api /repos/${{ github.repository }}/actions/artifacts | jq -r '.artifacts[] | select(.name=="coverage-data") | .id')
           if [ -n "$artifact_id" ]; then
             gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/$artifact_id
           fi
