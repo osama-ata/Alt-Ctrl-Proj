@@ -1,6 +1,6 @@
 import locale
 from datetime import datetime
-from typing import Any, ClassVar, dict, list
+from typing import Any, ClassVar
 
 from xerparser_dev.model.classes.calendar import Calendar
 from xerparser_dev.model.taskprocs import TaskProcs

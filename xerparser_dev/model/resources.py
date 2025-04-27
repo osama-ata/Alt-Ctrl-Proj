@@ -1,4 +1,4 @@
-from typing import Any, dict, list, tuple
+from typing import Any
 
 from xerparser_dev.model.classes.rsrc import Resource
 

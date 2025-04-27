@@ -1,5 +1,3 @@
-from typing import list
-
 from xerparser_dev.model.classes.wbs import WBS
 
 __all__ = ["WBSs"]

@@ -1,4 +1,4 @@
-from typing import Any, dict, list
+from typing import Any
 
 from xerparser_dev.model.classes.taskpred import TaskPred
 

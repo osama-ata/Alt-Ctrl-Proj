@@ -1,5 +1,3 @@
-from typing import list
-
 from xerparser_dev.model.classes.task import Task
 from xerparser_dev.model.classes.taskactv import TaskActv
 from xerparser_dev.model.classes.taskpred import TaskPred

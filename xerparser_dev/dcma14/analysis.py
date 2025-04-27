@@ -6,7 +6,7 @@ This module implements the Defense Contract Management Agency (DCMA) 14-point sc
 
 import logging
 from datetime import datetime
-from typing import Any, dict, list
+from typing import Any
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
