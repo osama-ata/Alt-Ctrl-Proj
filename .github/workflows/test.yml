@@ -6,41 +6,89 @@ on:
   pull_request:
     branches: [master]
 
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        python-version: [3.8, 3.9]
+        python-version: ["3.9", "3.10", "3.11", "3.12"]
+      fail-fast: false  # Allow all versions to complete even if one fails
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          python-version: ${{ matrix.python-version }}
+          enable-cache: true
 
-      - name: Cache pip
+      - name: Set up cache
         uses: actions/cache@v4
         with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          path: ~/.cache/uv
+          key: uv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('requirements*.txt') }}
+          restore-keys: uv-${{ runner.os }}-${{ matrix.python-version }}-
+
+      - name: Install Python
+        run: uv python install --python ${{ matrix.python-version }}
 
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install --upgrade pytest pytest-cov
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install --upgrade -e .
+        run: uv pip install -r requirements.txt
 
-      - name: Test with pytest
-        run: |
-          pytest --cov=xerparser --cov-report=xml
+      - name: Install Ruff
+        run: uv pip install ruff
 
-      - name: Upload coverage reports to Codecov
+      - name: Lint with Ruff
+        run: ruff check .
+
+      - name: Install Pytest and Coverage
+        run: uv pip install pytest coverage
+
+      - name: Run tests with coverage
+        run: |
+          coverage run --parallel -m pytest tests
+
+      - name: Upload coverage artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-data
+          path: .coverage*
+          retention-days: 1
+
+  coverage:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Download coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage-data
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+
+      - name: Install Coverage.py
+        run: uv pip install coverage
+
+      - name: Combine coverage and generate XML
+        run: |
+          coverage combine
+          coverage xml
+
+      - name: Upload to Codecov
         uses: codecov/codecov-action@v5
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          token: ${{ secrets.CODECOV_TOKEN }}  # Needed only if your repo is private
+          flags: combined
+          name: combined-coverage
+          fail_ci_if_error: true
