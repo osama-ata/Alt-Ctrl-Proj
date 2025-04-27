@@ -52,18 +52,23 @@ jobs:
           coverage report
           coverage html
 
-      - name: Delete existing artifact if any
-        continue-on-error: true
-        run: gh api --method DELETE /repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts --jq '.artifacts[] | select(.name=="coverage-data") | .id' | xargs -I{} gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/{}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          - name: Delete existing coverage artifact if any
+            continue-on-error: true
+            run: |
+                artifact_id=$(gh api /repos/${{ github.repository }}/actions/artifacts --jq '.artifacts[] | select(.name=="coverage-data") | .id')
+                if [ -n "$artifact_id" ]; then
+                gh api --method DELETE /repos/${{ github.repository }}/actions/artifacts/$artifact_id
+                fi
+            env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
 
 
       - name: Upload coverage artifacts
         if:   success()
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-data-${{ github.run_id }}
+          name: coverage-data
           path: |
             .coverage
             htmlcov/
