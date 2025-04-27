@@ -43,7 +43,7 @@ jobs:
         run: |
           uv pip install --system --upgrade -r requirements.txt
           uv pip install --system --upgrade ruff pytest coverage
-          uv pip install -e .
+          uv pip install --system -e .
 
       - name: Lint with Ruff
         run: ruff check .
