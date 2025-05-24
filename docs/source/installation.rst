@@ -26,7 +26,7 @@ Dependencies
 
 Alt-Ctrl-Proj has minimal dependencies:
 
-- Python 3.8+
+- Python 3.10+
 
 Optional Dependencies
 -------------------

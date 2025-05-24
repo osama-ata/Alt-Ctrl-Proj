@@ -14,8 +14,6 @@ authors = [
 license = { text = "GPL-3.0-or-later" }
 classifiers = [
     "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
     "Operating System :: OS Independent",
     "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Development Status :: 4 - Beta",
@@ -26,6 +24,12 @@ requires-python = ">=3.10"
 
 [project.optional-dependencies]
 test = ["pytest==8.3.5"]
+docs = [
+    "sphinx==7.3.7",
+    "sphinx-rtd-theme==2.0.1",
+    "sphinx-autodoc-typehints==1.20.0",
+    "sphinxcontrib-mermaid==0.9.0",
+]
 
 [project.urls]
 "Homepage" = "https://github.com/osama-ata/Alt-Ctrl-Proj"

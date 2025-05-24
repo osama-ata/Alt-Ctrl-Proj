@@ -1,0 +1,34 @@
+name: Build
+
+on:
+    push:
+        tags: ["v*.*.*"]
+        branches: [main, master]
+    pull_request:
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.10"
+
+            - name: Install uv
+              run: pip install uv
+
+            - name: Install build tool
+              run: uv pip install build
+
+            - name: Build package
+              run: uv venv -- python -m build
+
+            - name: Upload build artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                  name: dist
+                  path: dist/
