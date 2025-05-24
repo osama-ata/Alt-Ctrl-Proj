@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Alt-Ctrl-Proj"
-version = "0.0.3"
+version = "0.0.4"
 description = "An actively maintained fork of PyP6Xer: A Python parser for Primavera XER files."
 readme = "README.md"
 authors = [

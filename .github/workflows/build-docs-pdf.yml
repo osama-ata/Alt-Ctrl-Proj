@@ -27,12 +27,17 @@ jobs:
               run: uv venv
 
             - name: Install dependencies
-              run: uv pip install -r pyproject.toml
+              run: |
+                  uv pip install sphinx
+                  # Add any Sphinx extensions you use:
+                  # uv pip install sphinx_rtd_theme myst-parser
+                  # If your docs need your package:
+                  uv pip install .
 
             - name: Build PDF Documentation
               run: |
                   cd docs
-                  uv venv -- sphinx-build -b latex source _build/latex
+                  uv run sphinx-build -b latex source _build/latex
                   cd _build/latex
                   latexmk -pdf -quiet *.tex
                   mkdir -p ../../release
