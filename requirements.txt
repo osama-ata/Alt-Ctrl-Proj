@@ -1,3 +1,0 @@
-# Core dependencies for the project
-pytest==8.3.5
-setuptools==65.5.0

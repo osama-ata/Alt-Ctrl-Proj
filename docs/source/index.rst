@@ -1,7 +1,7 @@
-Welcome to PyP6Xer-dev's documentation!
+Welcome to Alt-Ctrl-Proj's documentation!
 ===================================
 
-PyP6Xer-dev is a Python library for parsing and manipulating Primavera P6 XER files.
+Alt-Ctrl-Proj is a Python library for parsing and manipulating Primavera P6 XER files.
 It provides a comprehensive API for working with all aspects of Primavera P6 project data.
 
 .. toctree::

@@ -9,19 +9,19 @@ date-released: '2025-04-26'
 doi: 10.5281/zenodo.15287707
 identifiers:
 - type: swh
-  value: swh:1:dir:b35fd8057a96e506c8088ef18ad463367b7d7363;origin=https://doi.org/10.5281/zenodo.15287706;visit=swh:1:snp:b374d21a9778e07f428a45a67abb758d34fc29f4;anchor=swh:1:rel:d79cc17583ec9b195a220be59474fb9acdca2cfb;path=osama-ata-PyP6Xer-dev-1fb4d12
+  value: swh:1:dir:b35fd8057a96e506c8088ef18ad463367b7d7363;origin=https://doi.org/10.5281/zenodo.15287706;visit=swh:1:snp:b374d21a9778e07f428a45a67abb758d34fc29f4;anchor=swh:1:rel:d79cc17583ec9b195a220be59474fb9acdca2cfb;path=osama-ata-Alt-Ctrl-Proj-1fb4d12
 keywords:
 - Project Schdulling
 - Project Management
 - Python
 - P6XER
-- PyP6XER-Dev
+- Alt-Ctrl-Proj
 - software
 - data analysis
 license:
 - mit
 message: If you use this software, please cite it using the metadata from this file.
-repository-code: https://github.com/osama-ata/PyP6Xer-dev/tree/v0.0.3
-title: PyP6XER-Dev
+repository-code: https://github.com/osama-ata/Alt-Ctrl-Proj/tree/v0.0.3
+title: Alt-Ctrl-Proj
 type: software
 version: v0.0.3

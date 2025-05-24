@@ -24,10 +24,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.10"
-dependencies = [
-    "pytest==8.3.5",
-    "setuptools==65.5.0",
-]
+dependencies = ["pytest==8.3.5", "setuptools==65.5.0"]
 
 [project.urls]
 "Homepage" = "https://github.com/osama-ata/Alt-Ctrl-Proj"
@@ -36,4 +33,4 @@ dependencies = [
 "Issues" = "https://github.com/osama-ata/Alt-Ctrl-Proj/issues"
 
 [project.scripts]
-xer-explorer = "xerparser_dev.tools.explorer:main"
+xer-explorer = "xer_parser.tools.explorer:main"

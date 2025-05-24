@@ -1,12 +1,12 @@
 # Chapter 8: DCMA14 Analysis
 
-Welcome back! In our journey through PyP6Xer-dev, we've learned how the [Reader](01_reader_.md) loads your XER file, how data is organized into [Collections](02_data_collections_.md), how the [Project](03_project_.md) object represents the overall container, how [Task (Activity)](04_task__activity__.md) objects are the individual work items, how [WBS (Work Breakdown Structure)](05_wbs__work_breakdown_structure__.md) organizes those tasks, how [Relationships (TaskPred)](06_relationship__taskpred_.md) link tasks together, and how [Resource](07_resource_.md) assignments track who does the work.
+Welcome back! In our journey through Alt-Ctrl-Proj, we've learned how the [Reader](01_reader_.md) loads your XER file, how data is organized into [Collections](02_data_collections_.md), how the [Project](03_project_.md) object represents the overall container, how [Task (Activity)](04_task__activity__.md) objects are the individual work items, how [WBS (Work Breakdown Structure)](05_wbs__work_breakdown_structure__.md) organizes those tasks, how [Relationships (TaskPred)](06_relationship__taskpred_.md) link tasks together, and how [Resource](07_resource_.md) assignments track who does the work.
 
 With all these individual pieces of schedule data now accessible, you might wonder: how good is my schedule overall? Is it built correctly? Are there common mistakes that could make it unreliable?
 
 This is where schedule *analysis* comes in. One of the most widely recognized standards for checking the quality of a schedule is the **DCMA 14-Point Assessment**, developed by the Defense Contract Management Agency. It's a checklist of common scheduling pitfalls.
 
-PyP6Xer-dev provides a dedicated tool to automatically perform this check for you: the **DCMA14 Analysis** abstraction.
+Alt-Ctrl-Proj provides a dedicated tool to automatically perform this check for you: the **DCMA14 Analysis** abstraction.
 
 ## What is DCMA14 Analysis?
 
@@ -21,7 +21,7 @@ Imagine you have a checklist of 14 important things to look for when reviewing a
 
 Manually going through a large schedule to check each of these points for every activity and relationship would be incredibly time-consuming.
 
-The `DCMA14` class in PyP6Xer-dev is designed to automate this process. You give it your loaded schedule data, and it runs through these 14 checks, calculating metrics and identifying problematic areas. It's like having a built-in schedule health checker!
+The `DCMA14` class in Alt-Ctrl-Proj is designed to automate this process. You give it your loaded schedule data, and it runs through these 14 checks, calculating metrics and identifying problematic areas. It's like having a built-in schedule health checker!
 
 The **central use case** for `DCMA14` is to get a quick, standardized report on the quality of your schedule based on these well-established criteria.
 
@@ -148,7 +148,7 @@ print(f"Activities with float > 15 days: {custom_analysis_data['totalfloat']['pc
 
 This allows you to tailor the assessment to different project requirements or reporting standards.
 
-## Key DCMA Checks and How They Relate to PyP6Xer-dev Objects
+## Key DCMA Checks and How They Relate to Alt-Ctrl-Proj Objects
 
 Let's briefly look at what a few of these checks mean and how the `DCMA14` tool uses the objects we've learned about:
 
@@ -285,7 +285,7 @@ Each problematic activity or relationship in the lists (`"activities"`, `"relati
 
 ## Conclusion
 
-In this chapter, you've learned about the DCMA 14-Point Analysis abstraction in PyP6Xer-dev. It provides a powerful, automated way to check the quality and reliability of your project schedule against an industry standard.
+In this chapter, you've learned about the DCMA 14-Point Analysis abstraction in Alt-Ctrl-Proj. It provides a powerful, automated way to check the quality and reliability of your project schedule against an industry standard.
 
 You now know how to:
 
@@ -298,12 +298,12 @@ You now know how to:
 
 With the DCMA14 Analysis tool, you can quickly identify areas of your schedule that might need attention, helping you create more robust and reliable project plans.
 
-This chapter concludes our introductory tutorial series for PyP6Xer-dev. You've learned the fundamental steps: loading data with the [Reader](01_reader_.md), understanding how data is organized into [Collections](02_data_collections_.md), accessing core schedule elements like [Project](03_project_.md)s, [Task (Activity)](04_task__activity__.md)s, [WBS (Work Breakdown Structure)](05_wbs__work_breakdown_structure__.md) elements, [Relationship (TaskPred)](06_relationship__taskpred_.md)s, and [Resource](07_resource_.md) assignments, and finally, performing a standard schedule quality check using the DCMA14 analysis.
+This chapter concludes our introductory tutorial series for Alt-Ctrl-Proj. You've learned the fundamental steps: loading data with the [Reader](01_reader_.md), understanding how data is organized into [Collections](02_data_collections_.md), accessing core schedule elements like [Project](03_project_.md)s, [Task (Activity)](04_task__activity__.md)s, [WBS (Work Breakdown Structure)](05_wbs__work_breakdown_structure__.md) elements, [Relationship (TaskPred)](06_relationship__taskpred_.md)s, and [Resource](07_resource_.md) assignments, and finally, performing a standard schedule quality check using the DCMA14 analysis.
 
-You now have a solid foundation for using PyP6Xer-dev to read, explore, and analyze your Primavera P6 XER files programmatically.
+You now have a solid foundation for using Alt-Ctrl-Proj to read, explore, and analyze your Primavera P6 XER files programmatically.
 
 Thank you for following along with this tutorial! We encourage you to explore the library further, refer to the examples in the `examples.rst` file, and consult the library's source code or documentation for more advanced features and details on other data types and collections available. Good luck with your schedule analysis!
 
 ---
 
-<sub><sup>Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge).</sup></sub> <sub><sup>**References**: [[1]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/examples.rst), [[2]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/getting_started.rst), [[3]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/dcma14/__init__.py), [[4]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/dcma14/analysis.py)</sup></sub>
+<sub><sup>Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge).</sup></sub> <sub><sup>**References**: [[1]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/examples.rst), [[2]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/getting_started.rst), [[3]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/dcma14/__init__.py), [[4]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/dcma14/analysis.py)</sup></sub>

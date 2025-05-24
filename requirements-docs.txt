@@ -1,3 +1,0 @@
-# Documentation dependencies
-sphinx>=7.0
-sphinx-rtd-theme>=1.0

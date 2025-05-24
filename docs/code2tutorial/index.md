@@ -1,6 +1,6 @@
-# Tutorial: PyP6Xer-dev
+# Tutorial: Alt-Ctrl-Proj
 
-PyP6Xer-dev is a **Python library** designed to *read and understand* Primavera P6 XER files.
+Alt-Ctrl-Proj is a **Python library** designed to *read and understand* Primavera P6 XER files.
 It transforms the complex XER data into **easy-to-use Python objects** representing project elements like tasks, resources, and their relationships.
 This allows users to *analyze schedules*, perform checks like the **DCMA 14-point assessment**, or *extract specific information* programmatically.
 

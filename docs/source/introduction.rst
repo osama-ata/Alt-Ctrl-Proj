@@ -1,7 +1,7 @@
 Introduction
 ============
 
-PyP6Xer-dev is a Python library for parsing, analyzing, and manipulating Primavera P6 XER files. Primavera P6 is a widely used project management software in construction, engineering, and other industries that deal with complex schedules.
+Alt-Ctrl-Proj is a Python library for parsing, analyzing, and manipulating Primavera P6 XER files. Primavera P6 is a widely used project management software in construction, engineering, and other industries that deal with complex schedules.
 
 Overview
 --------

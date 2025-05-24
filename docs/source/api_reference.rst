@@ -1,7 +1,7 @@
 API Reference
 ============
 
-This section provides detailed API documentation for all modules and classes in the PyP6Xer-dev library.
+This section provides detailed API documentation for all modules and classes in the Alt-Ctrl-Proj library.
 The documentation is automatically generated from docstrings in the code.
 
 Reader

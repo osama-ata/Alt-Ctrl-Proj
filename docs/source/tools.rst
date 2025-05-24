@@ -1,7 +1,7 @@
 Tools Reference
 ==============
 
-This section covers the utility tools provided by PyP6Xer-dev for common operations when working with XER files.
+This section covers the utility tools provided by Alt-Ctrl-Proj for common operations when working with XER files.
 
 XER Explorer
 -----------
@@ -23,13 +23,13 @@ When working with XER files, especially large ones, it can be difficult to quick
 Command-Line Usage
 ~~~~~~~~~~~~~~~~
 
-The XER Explorer can be used directly from the command line after installing PyP6Xer-dev:
+The XER Explorer can be used directly from the command line after installing Alt-Ctrl-Proj:
 
 .. code-block:: bash
 
     # Basic usage
     xer-explorer path/to/your/file.xer
-    
+
     # Specify custom output file
     xer-explorer path/to/your/file.xer -o custom_report.txt
 
@@ -89,18 +89,18 @@ Example Usage
 .. code-block:: python
 
     from xerparser_dev.tools import XerExplorer, explore_xer_file
-    
+
     # Simple function approach
     explore_xer_file("path/to/your/file.xer", "output_report.txt")
-    
+
     # Object-oriented approach for more control
     explorer = XerExplorer("path/to/your/file.xer")
     explorer.parse_file()
     explorer.collect_data()
-    explorer.generate_report("output_report.txt", 
-                           skip_large_collections=True, 
+    explorer.generate_report("output_report.txt",
+                           skip_large_collections=True,
                            large_threshold=1000)
-    
+
     # Access the collected data directly
     project_data = explorer.collection_data.get("projects", [])
     for project in project_data:

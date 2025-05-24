@@ -8,12 +8,12 @@ Now, it's time to dive into one of the most fundamental pieces of data from your
 
 Think of a Primavera P6 XER file like a big folder that might contain one or more projects. Inside that folder, everything related to a specific project is organized: the list of tasks for that project, the Work Breakdown Structure (WBS) for that project, details about the project's start and finish dates, etc.
 
-In PyP6Xer-dev, the `Project` object is the Python representation of one of these project containers from your XER file. It's like a single, organized sub-folder within the main XER data that holds all the top-level information about that specific project.
+In Alt-Ctrl-Proj, the `Project` object is the Python representation of one of these project containers from your XER file. It's like a single, organized sub-folder within the main XER data that holds all the top-level information about that specific project.
 
 The `Project` object holds:
 
-1.  **Details *about* the project:** Things like its name, ID, planned dates, and various settings.
-2.  **Access points *to* the data within that project:** Importantly, it lets you easily find the specific tasks and WBS elements that belong to *this* project, pulling them from the main collections loaded by the `Reader`.
+1. **Details *about* the project:** Things like its name, ID, planned dates, and various settings.
+2. **Access points *to* the data within that project:** Importantly, it lets you easily find the specific tasks and WBS elements that belong to *this* project, pulling them from the main collections loaded by the `Reader`.
 
 ## Accessing Project Objects
 
@@ -68,13 +68,13 @@ A `Project` object has many attributes that correspond to the data fields stored
 
 Some common and useful attributes include:
 
-*   `proj_id`: The unique internal ID of the project.
-*   `proj_short_name`: The name of the project as seen in P6.
-*   `plan_start_date`: The project's planned start date.
-*   `plan_end_date`: The project's planned end date.
-*   `last_recalc_date`: The date the schedule was last calculated.
-*   `critical_path_type`: How the critical path is determined (e.g., Total Float <= 0).
-*   ...and many more!
+* `proj_id`: The unique internal ID of the project.
+* `proj_short_name`: The name of the project as seen in P6.
+* `plan_start_date`: The project's planned start date.
+* `plan_end_date`: The project's planned end date.
+* `last_recalc_date`: The date the schedule was last calculated.
+* `critical_path_type`: How the critical path is determined (e.g., Total Float <= 0).
+* ...and many more!
 
 You access these just like any other object attribute in Python:
 
@@ -100,8 +100,8 @@ Recall that the `Reader` loads *all* tasks into the main `xer.activities` collec
 
 The `Project` object acts as a filter for these main collections. It has properties that give you *only* the tasks or WBS elements associated with *its* specific `proj_id`.
 
-*   `project.activities`: Provides a list of `Task` objects that belong to this project.
-*   `project.wbss`: Provides a list of `WBS` objects that belong to this project.
+* `project.activities`: Provides a list of `Task` objects that belong to this project.
+* `project.wbss`: Provides a list of `WBS` objects that belong to this project.
 
 Let's see how to use these:
 
@@ -237,11 +237,11 @@ Here's a quick look at some of the commonly used attributes available on a `Proj
 | `activities`          | `list`   | List of `Task` objects belonging to this project.|
 | `wbss`                | `list`   | List of `WBS` objects belonging to this project. |
 
-Note that date attributes like `plan_start_date` are typically stored as strings in the raw XER data. You might need to convert them to Python `datetime` objects if you plan to perform date calculations (PyP6Xer-dev doesn't do this automatically for all date fields).
+Note that date attributes like `plan_start_date` are typically stored as strings in the raw XER data. You might need to convert them to Python `datetime` objects if you plan to perform date calculations (Alt-Ctrl-Proj doesn't do this automatically for all date fields).
 
 ## Conclusion
 
-In this chapter, you've learned that the `Project` object in PyP6Xer-dev represents a single project from your XER file. It's more than just a collection of attributes; it acts as a central point to access information *about* the project and provides convenient ways to retrieve the tasks and WBS elements that belong specifically to it, by filtering the main collections managed by the `Reader`.
+In this chapter, you've learned that the `Project` object in Alt-Ctrl-Proj represents a single project from your XER file. It's more than just a collection of attributes; it acts as a central point to access information *about* the project and provides convenient ways to retrieve the tasks and WBS elements that belong specifically to it, by filtering the main collections managed by the `Reader`.
 
 You now know how to access the `Project` collection from the `Reader`, get individual `Project` objects, and use their attributes and the `.activities` and `.wbss` properties to explore the project's structure and contents.
 
@@ -251,4 +251,4 @@ Let's move on to [Chapter 4: Task (Activity)](04_task__activity__.md) to learn a
 
 ---
 
-<sub><sup>Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge).</sup></sub> <sub><sup>**References**: [[1]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/examples.rst), [[2]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/getting_started.rst), [[3]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/model/classes/project.py), [[4]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/model/projects.py), [[5]](https://github.com/osama-ata/PyP6Xer-dev/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/reader.py)</sup></sub>
+<sub><sup>Generated by [AI Codebase Knowledge Builder](https://github.com/The-Pocket/Tutorial-Codebase-Knowledge).</sup></sub> <sub><sup>**References**: [[1]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/examples.rst), [[2]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/docs/source/getting_started.rst), [[3]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/model/classes/project.py), [[4]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/model/projects.py), [[5]](https://github.com/osama-ata/Alt-Ctrl-Proj/blob/61f38213dc38bccd4d84cb765b1a5678723c47c2/xerparser_dev/reader.py)</sup></sub>

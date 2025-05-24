@@ -1,16 +1,16 @@
 Installation
 ============
 
-PyP6Xer-dev is available on PyPI and can be installed using pip. The library is compatible with Python 3.6 and above.
+Alt-Ctrl-Proj is available on PyPI and can be installed using pip. The library is compatible with Python 3.6 and above.
 
 Basic Installation
 -----------------
 
-To install the latest stable release of PyP6Xer-dev:
+To install the latest stable release of Alt-Ctrl-Proj:
 
 .. code-block:: bash
 
-    pip install pyp6xer-dev
+    pip install Alt-Ctrl-Proj
 
 Development Installation
 -----------------------
@@ -19,12 +19,12 @@ To install the development version directly from GitHub:
 
 .. code-block:: bash
 
-    pip install git+https://github.com/osama-ata/PyP6Xer-dev.git
+    pip install git+https://github.com/osama-ata/Alt-Ctrl-Proj.git
 
 Dependencies
 -----------
 
-PyP6Xer-dev has minimal dependencies:
+Alt-Ctrl-Proj has minimal dependencies:
 
 - Python 3.8+
 
@@ -42,7 +42,7 @@ You can install development dependencies with:
 
 .. code-block:: bash
 
-    pip install pyp6xer-dev[dev]
+    pip install Alt-Ctrl-Proj[dev]
 
 Or manually:
 
