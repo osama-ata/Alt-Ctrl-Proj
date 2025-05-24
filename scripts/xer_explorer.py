@@ -8,7 +8,7 @@ import argparse
 import logging
 import sys
 
-from xerparser_dev.tools.explorer import explore_xer_file
+from xer_parser.tools.explorer import explore_xer_file
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

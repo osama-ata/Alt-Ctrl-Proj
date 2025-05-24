@@ -4,15 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Alt-Ctrl-Proj"
-version = "0.0.3" # Normalized version, follows PEP 440
+version = "0.0.3"
 description = "An actively maintained fork of PyP6Xer: A Python parser for Primavera XER files."
 readme = "README.md"
 authors = [
     { name = "Osama Ata", email = "me@osamata.com" },
     { name = "Hassan Emam", email = "hassan.emam@hotmail.com" },
-
 ]
-license = { text = "GPL-3.0-or-later" } # More modern and correct format
+license = { text = "GPL-3.0-or-later" }
 classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -24,7 +23,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.10"
-dependencies = ["pytest==8.3.5", "setuptools==65.5.0"]
+
+[project.optional-dependencies]
+test = ["pytest==8.3.5"]
 
 [project.urls]
 "Homepage" = "https://github.com/osama-ata/Alt-Ctrl-Proj"

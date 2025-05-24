@@ -4,12 +4,12 @@ Tools Reference
 This section covers the utility tools provided by Alt-Ctrl-Proj for common operations when working with XER files.
 
 XER Explorer
------------
+------------
 
 The XER Explorer is a utility for exploring and summarizing the contents of XER files. It provides both a command-line interface and a programmatic API.
 
 Overview
-~~~~~~~
+~~~~~~~~
 
 When working with XER files, especially large ones, it can be difficult to quickly understand what data is contained within the file. The XER Explorer tool generates a concise report that summarizes the key elements in an XER file, including:
 
@@ -21,9 +21,9 @@ When working with XER files, especially large ones, it can be difficult to quick
 - And optionally activities and relationships (if not too large)
 
 Command-Line Usage
-~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
 
-The XER Explorer can be used directly from the command line after installing Alt-Ctrl-Proj:
+The XER Explorer can be used directly from the command line after installing Alt-Ctrl-Proj. The CLI entry point is installed as `xer-explorer`:
 
 .. code-block:: bash
 
@@ -33,14 +33,19 @@ The XER Explorer can be used directly from the command line after installing Alt
     # Specify custom output file
     xer-explorer path/to/your/file.xer -o custom_report.txt
 
+    # Include large collections (which are skipped by default)
+    xer-explorer path/to/your/file.xer --include-large
+
 Options:
 
 * ``-o, --output``: Specify the output file path (default: xer_exploration.txt)
 * ``--include-large``: Include detailed exploration of large collections
 * ``--threshold``: Set the threshold for what is considered a large collection (default: 1000)
 
+> **Note:** The `xer-explorer` command is available after installing the package. The script in `scripts/xer_explorer.py` is for development or manual use only.
+
 API Reference
-~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. py:class:: xerparser_dev.tools.XerExplorer(xer_path)
 
@@ -84,7 +89,7 @@ API Reference
    :rtype: bool
 
 Example Usage
-~~~~~~~~~~~
+~~~~~~~~~~~~~
 
 .. code-block:: python
 

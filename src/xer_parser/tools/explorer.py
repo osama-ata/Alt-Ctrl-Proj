@@ -9,6 +9,8 @@ import logging
 import os
 import sys
 from datetime import datetime
+from typing import Any
+
 
 from xer_parser.reader import Reader
 
@@ -20,7 +22,7 @@ logger = logging.getLogger(__name__)
 class XerExplorer:
     """Class for exploring and summarizing XER files."""
 
-    def __init__(self, xer_path):
+    def __init__(self, xer_path:str):
         """
         Initialize the XER Explorer with a path to an XER file.
 
@@ -45,7 +47,8 @@ class XerExplorer:
             logger.error(f"Error parsing XER file: {e!s}")
             return False
 
-    def collect_data(self):
+
+    def collect_data(self) -> dict[str, list[Any]]:
         """
         Collect data from all collections in the XER file.
 

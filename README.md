@@ -5,7 +5,7 @@
 [![Publish Python 🐍 package](https://github.com/osama-ata/Alt-Ctrl-Proj/actions/workflows/publish.yml/badge.svg)](https://github.com/osama-ata/Alt-Ctrl-Proj/actions/workflows/publish.yml)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15287707.svg)](https://doi.org/10.5281/zenodo.15287707)
 
-PyXer is an open source project to parse Primavera xer files in python. The project is work in progress and open for community contributions.
+Alt-Ctrl-Proj is an actively maintained fork of PyP6Xer, an open-source project for parsing Primavera XER files in Python. The project is a work in progress and open for community contributions.
 
 In order to install a copy in your system you can use pip package manager as follows:
 
@@ -22,7 +22,7 @@ from xerparser_dev.reader import Reader
 Here are some examples of reading and parsing xer files:
 
 ```python
-xer = Reader("<filename>") # this returns a reader object  
+xer = Reader("<filename>") # this returns a reader object
 ```
 
 to read all projects in file as one xer file may have multiple projects stored into it:
@@ -38,7 +38,7 @@ Alt-Ctrl-Proj now includes an XER Explorer tool that helps you quickly analyze t
 
 ### Command-line Usage
 
-After installing Alt-Ctrl-Proj, you can use the explorer directly from the command line:
+After installing Alt-Ctrl-Proj, you can use the XER Explorer tool directly from the command line using the provided entry point:
 
 ```bash
 # Basic usage
@@ -50,6 +50,8 @@ xer-explorer path/to/your/file.xer -o custom_report.txt
 # Include large collections (which are skipped by default)
 xer-explorer path/to/your/file.xer --include-large
 ```
+
+> **Note:** The `xer-explorer` command is available after installing the package via pip. The script in `scripts/xer_explorer.py` is for development or manual use only.
 
 ### Programmatic Usage
 

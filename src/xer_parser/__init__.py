@@ -16,10 +16,9 @@ def _get_model_modules() -> List[str]:
     Returns:
         List of module names in the model package.
     """
-    model_modules: List[str] = []
 
     return [
-        "accounts", "activitiyresources", "acttypes", "calendars", "currencies",
+        "accounts", "activityresources", "acttypes", "calendars", "currencies",
         "fintmpls", "nonworks", "obss", "pacttypes", "pcatvals", "predecessors",
         "projcats", "projects", "rcattypes", "rcatvals", "resources", "rolerates",
         "roles", "rsrccats", "rsrccurves", "rsrcrates", "schedoptions", "taskactvs",
@@ -76,7 +75,7 @@ def _import_all_models():
     """Import all model modules explicitly for backwards compatibility."""
     # Import modules locally to avoid circular dependencies
     import xer_parser.model.accounts as accounts
-    import xer_parser.model.activitiyresources as activitiyresources
+    import xer_parser.model.activityresources as activityresources
     import xer_parser.model.acttypes as acttypes
     import xer_parser.model.calendars as calendars
     import xer_parser.model.currencies as currencies
@@ -109,7 +108,7 @@ def _import_all_models():
     __all__ = []
 
     modules = [
-        accounts, activitiyresources, acttypes, calendars, currencies,
+        accounts, activityresources, acttypes, calendars, currencies,
         fintmpls, nonworks, obss, pacttypes, pcatvals, predecessors,
         projcats, projects, rcattypes, rcatvals, resources, rolerates,
         roles, rsrccats, rsrccurves, rsrcrates, schedoptions, taskactvs,

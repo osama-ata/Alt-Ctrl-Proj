@@ -195,10 +195,10 @@ Let's trace what happens internally when you access `task.resources` and then ge
     ```
 
     When you access `task.resources`, this property internally calls the `find_by_activity_id` method on the central `ActivityResources` collection (`xer.activityresources`), passing the task's own `task_id`.
-3. **Finding Assignments by Task ID:** The `ActivityResources` collection (`xerparser_dev/model/activitiyresources.py`) stores all assignment objects in an internal list (`self._taskresources`). Its `find_by_activity_id` method filters this list.
+3. **Finding Assignments by Task ID:** The `ActivityResources` collection (`xerparser_dev/model/activityresources.py`) stores all assignment objects in an internal list (`self._taskresources`). Its `find_by_activity_id` method filters this list.
 
     ```python
-    # Inside ActivityResources collection (xerparser_dev/model/activitiyresources.py)
+    # Inside ActivityResources collection (xerparser_dev/model/activityresources.py)
         def find_by_activity_id(self, id: int) -> list[ActivityResource]:
             """Find all activity resources for a given activity ID."""
             # Filter the internal list where task_id matches the given ID
