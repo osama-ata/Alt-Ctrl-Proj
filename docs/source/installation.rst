@@ -57,5 +57,5 @@ To verify the installation, you can run:
 
 .. code-block:: python
 
-    import xerparser_dev
-    print(xerparser_dev.__version__)
+    import xer_parser
+    print(xer_parser.__version__)

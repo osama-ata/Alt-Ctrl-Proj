@@ -36,8 +36,8 @@ def writeXER(r: Any, filename: str) -> None:
 
     Examples
     --------
-    >>> from xerparser_dev.reader import Reader
-    >>> from xerparser_dev.write import writeXER
+    >>> from xer_parser.reader import Reader
+    >>> from xer_parser.write import writeXER
     >>> xer = Reader("input.xer")
     >>> # Make modifications to the data
     >>> writeXER(xer, "output.xer")

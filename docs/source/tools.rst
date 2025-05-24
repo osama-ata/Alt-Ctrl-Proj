@@ -47,7 +47,7 @@ Options:
 API Reference
 ~~~~~~~~~~~~~
 
-.. py:class:: xerparser_dev.tools.XerExplorer(xer_path)
+.. py:class:: xer_parser.tools.XerExplorer(xer_path)
 
    A class for exploring and summarizing XER files.
 
@@ -77,7 +77,7 @@ API Reference
       :return: True if successful, False otherwise
       :rtype: bool
 
-.. py:function:: xerparser_dev.tools.explore_xer_file(xer_path, output_file, skip_large=True, large_threshold=1000)
+.. py:function:: xer_parser.tools.explore_xer_file(xer_path, output_file, skip_large=True, large_threshold=1000)
 
    Explore a XER file and generate a report.
 
@@ -93,7 +93,7 @@ Example Usage
 
 .. code-block:: python
 
-    from xerparser_dev.tools import XerExplorer, explore_xer_file
+    from xer_parser.tools import XerExplorer, explore_xer_file
 
     # Simple function approach
     explore_xer_file("path/to/your/file.xer", "output_report.txt")

@@ -2,7 +2,7 @@ import logging
 import os
 import time
 
-from xerparser_dev.reader import Reader
+from xer_parser.reader import Reader
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

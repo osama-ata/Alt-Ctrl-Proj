@@ -10,7 +10,7 @@ The first step is to load an XER file using the ``Reader`` class:
 
 .. code-block:: python
 
-    from xerparser_dev.reader import Reader
+    from xer_parser.reader import Reader
 
     # Load an XER file
     xer = Reader("project.xer")
@@ -93,7 +93,7 @@ Alt-Ctrl-Proj includes built-in support for the DCMA 14-point schedule assessmen
 
 .. code-block:: python
 
-    from xerparser_dev.dcma14.analysis import DCMA14
+    from xer_parser.dcma14.analysis import DCMA14
 
     # Create a DCMA14 analyzer
     analyzer = DCMA14(xer)

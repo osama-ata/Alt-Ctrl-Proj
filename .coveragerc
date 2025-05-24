@@ -2,7 +2,7 @@
 branch = True
 parallel = True
 
-source = xerparser_dev
+source = xer_parser
 omit =
     */tests/*
     */setup.py

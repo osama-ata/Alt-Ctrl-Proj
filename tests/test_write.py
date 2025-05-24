@@ -1,7 +1,7 @@
 import os
 
-from xerparser_dev.reader import Reader
-from xerparser_dev.write import writeXER
+from xer_parser.reader import Reader
+from xer_parser.write import writeXER
 
 
 def test_write_xer(sample_xer, fixtures_dir):

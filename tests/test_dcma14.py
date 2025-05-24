@@ -1,11 +1,11 @@
 """
-Unit tests for the DCMA14 module in the xerparser_dev package.
+Unit tests for the DCMA14 module in the xer_parser package.
 """
 
 # import pytest
 
-# from xerparser_dev.dcma14 import DCMA14
-# from xerparser_dev.reader import Reader
+# from xer_parser.dcma14 import DCMA14
+# from xer_parser.reader import Reader
 
 # def test_missing_logic_detection(sample_xer: Reader):
 #     """Test that activities with missing logic are detected correctly"""

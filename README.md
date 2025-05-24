@@ -16,7 +16,7 @@ pip install Alt-Ctrl-Proj
 The usage of the library is fairly simple and the import examples can be:
 
 ```python
-from xerparser_dev.reader import Reader
+from xer_parser.reader import Reader
 ```
 
 Here are some examples of reading and parsing xer files:
@@ -58,7 +58,7 @@ xer-explorer path/to/your/file.xer --include-large
 You can also use the Explorer in your Python code:
 
 ```python
-from xerparser_dev.tools import explore_xer_file
+from xer_parser.tools import explore_xer_file
 
 # Generate a report with default settings
 explore_xer_file("path/to/your/file.xer", "output_report.txt")

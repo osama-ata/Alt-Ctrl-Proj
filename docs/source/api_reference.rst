@@ -7,7 +7,7 @@ The documentation is automatically generated from docstrings in the code.
 Reader
 ------
 
-.. automodule:: xerparser_dev.reader
+.. automodule:: xer_parser.reader
    :members:
    :undoc-members:
    :show-inheritance:
@@ -15,12 +15,12 @@ Reader
 Tasks
 -----
 
-.. automodule:: xerparser_dev.model.tasks
+.. automodule:: xer_parser.model.tasks
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: xerparser_dev.model.classes.task
+.. automodule:: xer_parser.model.classes.task
    :members:
    :undoc-members:
    :show-inheritance:
@@ -28,7 +28,7 @@ Tasks
 Projects
 --------
 
-.. automodule:: xerparser_dev.model.projects
+.. automodule:: xer_parser.model.projects
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,12 +36,12 @@ Projects
 Resources
 ---------
 
-.. automodule:: xerparser_dev.model.resources
+.. automodule:: xer_parser.model.resources
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: xerparser_dev.model.classes.rsrc
+.. automodule:: xer_parser.model.classes.rsrc
    :members:
    :undoc-members:
    :show-inheritance:
@@ -49,12 +49,12 @@ Resources
 Relationships
 ------------
 
-.. automodule:: xerparser_dev.model.predecessors
+.. automodule:: xer_parser.model.predecessors
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: xerparser_dev.model.classes.taskpred
+.. automodule:: xer_parser.model.classes.taskpred
    :members:
    :undoc-members:
    :show-inheritance:
@@ -62,12 +62,12 @@ Relationships
 WBS
 ---
 
-.. automodule:: xerparser_dev.model.wbss
+.. automodule:: xer_parser.model.wbss
    :members:
    :undoc-members:
    :show-inheritance:
 
-.. automodule:: xerparser_dev.model.classes.wbs
+.. automodule:: xer_parser.model.classes.wbs
    :members:
    :undoc-members:
    :show-inheritance:
@@ -75,7 +75,7 @@ WBS
 DCMA14 Analysis
 --------------
 
-.. automodule:: xerparser_dev.dcma14.analysis
+.. automodule:: xer_parser.dcma14.analysis
    :members:
    :undoc-members:
    :show-inheritance:
@@ -83,7 +83,7 @@ DCMA14 Analysis
 XER Writer
 ---------
 
-.. automodule:: xerparser_dev.write
+.. automodule:: xer_parser.write
    :members:
    :undoc-members:
    :show-inheritance:

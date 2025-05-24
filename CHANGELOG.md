@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- XER Explorer tool in the `xerparser_dev.tools` module for exploring and summarizing XER files
+- XER Explorer tool in the `xer_parser.tools` module for exploring and summarizing XER files
 - Command-line interface via `xer-explorer` command for easy access to the exploration tool
 - Examples directory with sample scripts demonstrating how to use the library
 - New documentation section for utility tools

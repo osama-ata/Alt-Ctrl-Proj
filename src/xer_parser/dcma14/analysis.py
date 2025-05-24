@@ -73,8 +73,8 @@ class DCMA14:
     Examples
     --------
 
-    >>> from xerparser_dev.reader import Reader
-    >>> from xerparser_dev.dcma14.analysis import DCMA14
+    >>> from xer_parser.reader import Reader
+    >>> from xer_parser.dcma14.analysis import DCMA14
     >>> xer = Reader("project.xer")
     >>> dcma = DCMA14(xer)
     >>> results = dcma.analysis()

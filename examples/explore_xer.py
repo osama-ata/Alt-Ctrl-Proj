@@ -10,7 +10,7 @@ import logging
 import os
 import sys
 
-from xerparser_dev.tools import XerExplorer, explore_xer_file
+from xer_parser.tools import XerExplorer, explore_xer_file
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
