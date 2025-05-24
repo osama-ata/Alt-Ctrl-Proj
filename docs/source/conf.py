@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "PyP6XER-Dev"
+project = "Alt-Ctrl-Proj"
 author = "Osama Ata, Hassan Emam"
 release = "0.0.1"
 
@@ -74,8 +74,8 @@ html_static_path = ["_static"]
 latex_documents = [
     (
         "index",
-        "PyP6XER-Dev.tex",
-        "PyP6XER-Dev Documentation",
+        "Alt-Ctrl-Proj.tex",
+        "Alt-Ctrl-Proj Documentation",
         "Osama Ata, Hassan Emam",
         "manual",
     ),
