@@ -3,7 +3,7 @@ requires = ["setuptools>=61", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "PyP6Xer-dev"
+name = "Alt-Ctrl-Proj"
 version = "0.0.3" # Normalized version, follows PEP 440
 description = "An actively maintained fork of PyP6Xer: A Python parser for Primavera XER files."
 readme = "README.md"
@@ -30,10 +30,10 @@ dependencies = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/osama-ata/PyP6Xer-dev"
-"Documentation" = "https://github.com/osama-ata/PyP6Xer-dev"
-"Source" = "https://github.com/osama-ata/PyP6Xer-dev"
-"Issues" = "https://github.com/osama-ata/PyP6Xer-dev/issues"
+"Homepage" = "https://github.com/osama-ata/Alt-Ctrl-Proj"
+"Documentation" = "https://github.com/osama-ata/Alt-Ctrl-Proj"
+"Source" = "https://github.com/osama-ata/Alt-Ctrl-Proj"
+"Issues" = "https://github.com/osama-ata/Alt-Ctrl-Proj/issues"
 
 [project.scripts]
 xer-explorer = "xerparser_dev.tools.explorer:main"
