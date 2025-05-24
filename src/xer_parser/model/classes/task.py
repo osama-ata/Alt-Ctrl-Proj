@@ -567,7 +567,6 @@ class Task:
             self.location_id,
         ]
 
-
     @property
     def id(self) -> int:
         """
@@ -709,7 +708,6 @@ class Task:
             List of tasks that are successors to this task
         """
         return self.data.predecessors.get_successors(self.task_id)
-
 
     @property
     def predecessors(self) -> list[Any]:

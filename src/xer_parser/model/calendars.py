@@ -1,18 +1,21 @@
+from typing import Any
+
 from xer_parser.model.classes.calendar import Calendar
 
 __all__ = ["Calendars"]
 
-class Calendars:
-    def __init__(self):
-        self.index = 0
-        self._calendars = []
 
-    def add(self, params):
+class Calendars:
+    def __init__(self) -> None:
+        self.index: int = 0
+        self._calendars: list[Calendar] = []
+
+    def add(self, params: Any) -> None:
         self._calendars.append(Calendar(params))
 
-    def get_tsv(self):
+    def get_tsv(self) -> list[list[str]]:
         if len(self._calendars) > 0:
-            tsv = []
+            tsv: list[list[str]] = []
             tsv.append(["%T", "CALENDAR"])
             tsv.append(
                 [
@@ -37,19 +40,19 @@ class Calendars:
             return tsv
         return []
 
-    def find_by_id(self, id) -> Calendar:
-        obj = list(filter(lambda x: x.clndr_id == id, self._calendars))
+    def find_by_id(self, id: Any) -> Calendar | list[Calendar]:
+        obj: list[Calendar] = list(filter(lambda x: x.clndr_id == id, self._calendars))
         if len(obj) > 0:
             return obj[0]
         return obj
 
-    def count(self):
+    def count(self) -> int:
         return len(self._calendars)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._calendars)
 
-    def __iter__(self):
+    def __iter__(self) -> "Calendars":
         return self
 
     def __next__(self) -> Calendar:

@@ -1,19 +1,22 @@
+from typing import Any
+
 from xer_parser.model.classes.wbs import WBS
 
 __all__ = ["WBSs"]
 
-class WBSs:
-    def __init__(self, data=None):
-        self.index = 0
-        self._wbss = []
-        self.data = data
 
-    def add(self, params, data):
+class WBSs:
+    def __init__(self, data: Any = None) -> None:
+        self.index: int = 0
+        self._wbss: list[WBS] = []
+        self.data: Any = data
+
+    def add(self, params: dict[str, Any], data: Any) -> None:
         wbs = WBS(params, data)
         self._wbss.append(wbs)
 
-    def get_tsv(self):
-        tsv = []
+    def get_tsv(self) -> list[list[str]]:
+        tsv: list[list[str]] = []
         if len(self._wbss) > 0:
             tsv.append(["%T", "PROJWBS"])
             tsv.append(
@@ -48,13 +51,13 @@ class WBSs:
                 ]
             )
             for wb in self._wbss:
-                tsv.append(wb.get_tsv())
+                tsv.append([str(x) if x is not None else "" for x in wb.get_tsv()])
         return tsv
 
-    def get_by_project(self, id) -> list[WBS]:
-        return list(filter(lambda x: x.proj_id == id, self._wbss))
+    def get_by_project(self, id: int) -> list[WBS]:
+        return list(filter(lambda x: getattr(x, "proj_id", None) == id, self._wbss))
 
-    def __iter__(self):
+    def __iter__(self) -> "WBSs":
         return self
 
     def __next__(self) -> WBS:
@@ -63,3 +66,6 @@ class WBSs:
         idx = self.index
         self.index += 1
         return self._wbss[idx]
+
+    def __len__(self) -> int:
+        return len(self._wbss)

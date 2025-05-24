@@ -1,4 +1,3 @@
-
 class FinTmpl:
     def __init__(self, params):
         self.fintmpl_id = (

@@ -9,8 +9,7 @@ import logging
 import os
 import sys
 from datetime import datetime
-from typing import Any
-
+from typing import Any, TextIO
 
 from xer_parser.reader import Reader
 
@@ -22,7 +21,7 @@ logger = logging.getLogger(__name__)
 class XerExplorer:
     """Class for exploring and summarizing XER files."""
 
-    def __init__(self, xer_path:str):
+    def __init__(self, xer_path: str):
         """
         Initialize the XER Explorer with a path to an XER file.
 
@@ -31,9 +30,9 @@ class XerExplorer:
         """
         self.xer_path = xer_path
         self.reader = None
-        self.collection_data = {}
+        self.collection_data: dict[str, list[Any]] = {}
 
-    def parse_file(self):
+    def parse_file(self) -> bool:
         """
         Parse the XER file using the Reader class.
 
@@ -46,7 +45,6 @@ class XerExplorer:
         except Exception as e:
             logger.error(f"Error parsing XER file: {e!s}")
             return False
-
 
     def collect_data(self) -> dict[str, list[Any]]:
         """
@@ -78,13 +76,19 @@ class XerExplorer:
                     self.collection_data[name] = collection_data
                 except Exception:
                     # Skip collections that can't be accessed
-                    pass
+                    self.collection_data[name] = []
+            else:
+                # Always include the key, even if the attribute is missing
+                self.collection_data[name] = []
 
         return self.collection_data
 
     def generate_report(
-        self, output_file, skip_large_collections=True, large_threshold=1000
-    ):
+        self,
+        output_file: str,
+        skip_large_collections: bool = True,
+        large_threshold: int = 1000,
+    ) -> bool:
         """
         Generate a report of the XER file contents.
 
@@ -178,7 +182,9 @@ class XerExplorer:
 
         return True
 
-    def _write_project_summary(self, file_obj):
+    def _write_project_summary(
+        self, file_obj: TextIO
+    ) -> None:  # TODO: file_obj type could be TextIO
         """Write project summary to file."""
         file_obj.write("1. PROJECT SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
@@ -216,7 +222,9 @@ class XerExplorer:
         else:
             file_obj.write("No projects found in this XER file.\n\n")
 
-    def _write_calendar_summary(self, file_obj):
+    def _write_calendar_summary(
+        self, file_obj: TextIO
+    ) -> None:  # TODO: file_obj type could be TextIO
         """Write calendar summary to file."""
         file_obj.write("2. CALENDAR SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
@@ -237,7 +245,9 @@ class XerExplorer:
         else:
             file_obj.write("No calendars found in this XER file.\n")
 
-    def _write_wbs_summary(self, file_obj):
+    def _write_wbs_summary(
+        self, file_obj: TextIO
+    ) -> None:  # TODO: file_obj type could be TextIO
         """Write WBS summary to file."""
         file_obj.write("3. WBS SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
@@ -263,7 +273,9 @@ class XerExplorer:
         else:
             file_obj.write("No WBS elements found in this XER file.\n")
 
-    def _write_resource_summary(self, file_obj):
+    def _write_resource_summary(
+        self, file_obj: TextIO
+    ) -> None:  # TODO: file_obj type could be TextIO
         """Write resource summary to file."""
         file_obj.write("4. RESOURCES SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
@@ -293,7 +305,9 @@ class XerExplorer:
         else:
             file_obj.write("No resources found in this XER file.\n")
 
-    def _write_activity_summary(self, file_obj):
+    def _write_activity_summary(
+        self, file_obj: TextIO
+    ) -> None:  # TODO: file_obj type could be TextIO
         """Write activity summary to file."""
         file_obj.write("5. ACTIVITY SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
@@ -321,7 +335,9 @@ class XerExplorer:
         else:
             file_obj.write("No activities found in this XER file.\n")
 
-    def _write_relationship_summary(self, file_obj):
+    def _write_relationship_summary(
+        self, file_obj: TextIO
+    ) -> None:  # TODO: file_obj type could be TextIO
         """Write relationship summary to file."""
         file_obj.write("6. RELATIONSHIP SUMMARY\n")
         file_obj.write("=" * 80 + "\n")
@@ -353,7 +369,12 @@ class XerExplorer:
             file_obj.write("No relationships found in this XER file.\n")
 
 
-def explore_xer_file(xer_path, output_file, skip_large=True, large_threshold=1000):
+def explore_xer_file(
+    xer_path: str,
+    output_file: str,
+    skip_large: bool = True,
+    large_threshold: int = 1000,
+) -> bool:
     """
     Explore a XER file and generate a report.
 
@@ -374,7 +395,7 @@ def explore_xer_file(xer_path, output_file, skip_large=True, large_threshold=100
     return explorer.generate_report(output_file, skip_large, large_threshold)
 
 
-def main():
+def main() -> None:
     """Command-line interface for XER Explorer."""
     import argparse
 

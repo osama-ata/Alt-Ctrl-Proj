@@ -1,24 +1,29 @@
+from typing import Any
+
 from xer_parser.model.classes.pcattype import PCatType
 
 __all__ = ["PCatTypes"]
 
-class PCatTypes:
-    def __init__(self):
-        self.index = 0
-        self._pcattypes = []
 
-    def add(self, params):
+class PCatTypes:
+    def __init__(self) -> None:
+        self.index: int = 0
+        self._pcattypes: list[PCatType] = []
+
+    def add(self, params: dict[str, Any]) -> None:
         self._pcattypes.append(PCatType(params))
 
-    def find_by_id(self, id) -> PCatType:
-        obj = list(filter(lambda x: x.proj_catg_type_id == id, self._pcattypes))
+    def find_by_id(self, id: int) -> PCatType | list[PCatType]:
+        obj = [
+            x for x in self._pcattypes if getattr(x, "proj_catg_type_id", None) == id
+        ]
         if len(obj) > 0:
             return obj[0]
         return obj
 
-    def get_tsv(self):
+    def get_tsv(self) -> list[list[str | int | None]]:
         if len(self._pcattypes) > 0:
-            tsv = []
+            tsv: list[list[str | int | None]] = []
             tsv.append(["%T", "PCATTYPE"])
             tsv.append(
                 [
@@ -35,13 +40,13 @@ class PCatTypes:
             return tsv
         return []
 
-    def count(self):
+    def count(self) -> int:
         return len(self._pcattypes)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._pcattypes)
 
-    def __iter__(self):
+    def __iter__(self) -> "PCatTypes":
         return self
 
     def __next__(self) -> PCatType:

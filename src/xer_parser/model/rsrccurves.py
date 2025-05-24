@@ -2,8 +2,9 @@ from xer_parser.model.classes.rsrccurv import ResourceCurve
 
 __all__ = ["ResourceCurves"]
 
+
 class ResourceCurves:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._resourcecurves = []
 
@@ -57,10 +58,10 @@ class ResourceCurves:
     def count(self):
         return len(self._resourcecurves)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._resourcecurves)
 
-    def __iter__(self):
+    def __iter__(self) -> "ResourceCurves":
         return self
 
     def __next__(self) -> ResourceCurve:

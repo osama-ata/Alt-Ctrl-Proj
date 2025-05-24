@@ -4,6 +4,7 @@ from xer_parser.model.classes.taskpred import TaskPred
 
 __all__ = ["Predecessors"]
 
+
 class Predecessors:
     """
     Container class for managing relationships between activities in Primavera P6.

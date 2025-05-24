@@ -2,8 +2,9 @@ from xer_parser.model.classes.rsrcrcat import ResourceCat
 
 __all__ = ["ResourceCategories"]
 
+
 class ResourceCategories:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._rsrccat = []
 
@@ -29,10 +30,10 @@ class ResourceCategories:
     def count(self):
         return len(self._rsrccat)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._rsrccat)
 
-    def __iter__(self):
+    def __iter__(self) -> "ResourceCategories":
         return self
 
     def __next__(self) -> ResourceCat:

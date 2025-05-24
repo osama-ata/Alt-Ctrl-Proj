@@ -1,38 +1,66 @@
-
-from typing import ClassVar
+from typing import Any, ClassVar
 
 
 class Role:
-    obj_list: ClassVar[list] = []
+    obj_list: ClassVar[list["Role"]] = []
 
-    def __init__(self, params):
-        self.role_id = int(params.get("role_id")) if params.get("role_id") else None
-        self.parent_role_id = (
-            int(params.get("parent_role_id")) if params.get("parent_role_id") else None
+    def __init__(self, params: dict[str, Any]) -> None:
+        try:
+            self.role_id: int | None = (
+                int(params["role_id"])
+                if params.get("role_id") not in (None, "")
+                else None
+            )
+        except Exception:
+            self.role_id = None
+        try:
+            self.parent_role_id: int | None = (
+                int(params["parent_role_id"])
+                if params.get("parent_role_id") not in (None, "")
+                else None
+            )
+        except Exception:
+            self.parent_role_id = None
+        try:
+            self.seq_num: int | None = (
+                int(params["seq_num"])
+                if params.get("seq_num") not in (None, "")
+                else None
+            )
+        except Exception:
+            self.seq_num = None
+        self.role_name: str | None = (
+            str(params["role_name"]) if params.get("role_name") is not None else None
         )
-        self.seq_num = int(params.get("seq_num")) if params.get("seq_num") else None
-        self.role_name = params.get("role_name") if params.get("role_name") else None
-        self.role_short_name = (
-            params.get("role_short_name") if params.get("role_short_name") else None
-        )
-        self.pobs_id = params.get("pobs_id") if params.get("pobs_id") else None
-        self.def_cost_qty_link_flag = (
-            params.get("def_cost_qty_link_flag")
-            if params.get("def_cost_qty_link_flag")
+        self.role_short_name: str | None = (
+            str(params["role_short_name"])
+            if params.get("role_short_name") is not None
             else None
         )
-        self.cost_qty_type = (
-            params.get("cost_qty_type") if params.get("cost_qty_type") else None
+        self.pobs_id: Any = (
+            params.get("pobs_id") if params.get("pobs_id") is not None else None
         )
-        self.role_descr = params.get("role_descr") if params.get("role_descr") else None
-        self.last_checksum = (
-            params.get("role_descr") if params.get("role_descr") else None
+        self.def_cost_qty_link_flag: Any = (
+            params.get("def_cost_qty_link_flag")
+            if params.get("def_cost_qty_link_flag") is not None
+            else None
+        )
+        self.cost_qty_type: Any = (
+            params.get("cost_qty_type")
+            if params.get("cost_qty_type") is not None
+            else None
+        )
+        self.role_descr: str | None = (
+            str(params["role_descr"]) if params.get("role_descr") is not None else None
+        )
+        self.last_checksum: str | None = (
+            str(params["role_descr"]) if params.get("role_descr") is not None else None
         )
 
         Role.obj_list.append(self)
 
-    def get_tsv(self):
-        tsv = [
+    def get_tsv(self) -> list[str | int | None]:
+        tsv: list[str | int | None] = [
             "%R",
             self.role_id,
             self.parent_role_id,
@@ -47,5 +75,5 @@ class Role:
         ]
         return tsv
 
-    def __repr__(self):
-        return self.role_name
+    def __repr__(self) -> str:
+        return str(self.role_name) if self.role_name is not None else ""

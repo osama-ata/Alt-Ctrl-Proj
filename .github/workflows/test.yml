@@ -2,15 +2,15 @@ name: Test
 
 on:
     push:
-        branches: [main, master]
+        branches: [main]
     pull_request:
 
 jobs:
     test:
         runs-on: ubuntu-latest
-
         steps:
-            - uses: actions/checkout@v4
+            - name: Checkout Repo
+              uses: actions/checkout@v4
 
             - name: Set up Python
               uses: actions/setup-python@v5
@@ -25,6 +25,15 @@ jobs:
 
             - name: Install dependencies
               run: uv pip install .[test]
+
+            - name: Run Ruff lint
+              run: ruff check .
+
+            - name: Run Ruff type annotation check
+              run: ruff check --select=ANN .
+
+            - name: Run Ruff format check
+              run: ruff format --check .
 
             - name: Run tests
               run: .venv/bin/python -m pytest

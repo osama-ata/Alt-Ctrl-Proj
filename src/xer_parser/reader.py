@@ -14,8 +14,8 @@ from typing import Any, ClassVar
 
 # Local imports
 from xer_parser.model.accounts import Accounts
-from xer_parser.model.activityresources import ActivityResources
 from xer_parser.model.activitycodes import ActivityCodes
+from xer_parser.model.activityresources import ActivityResources
 from xer_parser.model.acttypes import ActTypes
 from xer_parser.model.calendars import Calendars
 from xer_parser.model.classes.data import Data

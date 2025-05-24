@@ -1,4 +1,3 @@
-
 from typing import Any
 
 from xer_parser.model.classes.wbs import WBS

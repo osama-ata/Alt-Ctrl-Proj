@@ -4,6 +4,7 @@ from xer_parser.model.classes.rsrc import Resource
 
 __all__ = ["Resources"]
 
+
 class Resources:
     """
     Container class for managing Primavera P6 resources.

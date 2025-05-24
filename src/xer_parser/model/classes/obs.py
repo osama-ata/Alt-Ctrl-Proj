@@ -4,6 +4,7 @@ from typing import ClassVar
 # Initialize logger
 logger = logging.getLogger(__name__)
 
+
 class OBS:
     obj_list: ClassVar[list["OBS"]] = []
 

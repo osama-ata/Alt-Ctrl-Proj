@@ -1,4 +1,3 @@
-
 import locale
 from typing import ClassVar
 

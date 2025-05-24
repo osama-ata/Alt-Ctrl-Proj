@@ -4,7 +4,7 @@ __all__ = ["TaskProcs"]
 
 
 class TaskProcs:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._TaskProcs = []
 
@@ -48,10 +48,10 @@ class TaskProcs:
     def count(self):
         return len(self._TaskProcs)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._TaskProcs)
 
-    def __iter__(self):
+    def __iter__(self) -> "TaskProcs":
         return self
 
     def __next__(self) -> TaskProc:

@@ -1,4 +1,3 @@
-
 class TaskProc:
     def __init__(self, params):
         self.complete_flag = (

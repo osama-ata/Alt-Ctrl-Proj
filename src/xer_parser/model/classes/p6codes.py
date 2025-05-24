@@ -1,4 +1,3 @@
-
 class ActivityStatus:
     Complete = "TK_Complete"
     InProgress = "TK_Active"

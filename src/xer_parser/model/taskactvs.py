@@ -2,8 +2,9 @@ from xer_parser.model.classes.taskactv import TaskActv
 
 __all__ = ["TaskActvs"]
 
+
 class TaskActvs:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._taskactvs = []
 
@@ -36,10 +37,10 @@ class TaskActvs:
     def count(self):
         return len(self._taskactvs)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._taskactvs)
 
-    def __iter__(self):
+    def __iter__(self) -> "TaskActvs":
         return self
 
     def __next__(self) -> TaskActv:

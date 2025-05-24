@@ -1,24 +1,27 @@
+from typing import Any
+
 from xer_parser.model.classes.currency import Currency
 
 __all__ = ["Currencies"]
 
-class Currencies:
-    def __init__(self):
-        self.index = 0
-        self._currencies = []
 
-    def add(self, params):
+class Currencies:
+    def __init__(self) -> None:
+        self.index: int = 0
+        self._currencies: list[Currency] = []
+
+    def add(self, params: Any) -> None:
         self._currencies.append(Currency(params))
 
-    def find_by_id(self, id) -> Currency:
-        obj = list(filter(lambda x: x.curr_id == id, self._currencies))
+    def find_by_id(self, id: Any) -> Currency | list[Currency]:
+        obj: list[Currency] = list(filter(lambda x: x.curr_id == id, self._currencies))
         if len(obj) > 0:
             return obj[0]
         return obj
 
-    def get_tsv(self):
+    def get_tsv(self) -> list[list[str]]:
         if len(self._currencies) > 0:
-            tsv = []
+            tsv: list[list[str]] = []
             tsv.append(["%T", "CURRTYPE"])
             tsv.append(
                 [
@@ -42,13 +45,13 @@ class Currencies:
         return []
 
     @property
-    def count(self):
+    def count(self) -> int:
         return len(self._currencies)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._currencies)
 
-    def __iter__(self):
+    def __iter__(self) -> "Currencies":
         return self
 
     def __next__(self) -> Currency:

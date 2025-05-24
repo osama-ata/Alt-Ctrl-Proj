@@ -1,0 +1,46 @@
+name: Build and Push Docs as PDF
+
+on:
+    push:
+        tags:
+            - "v*.*.*"
+
+jobs:
+    build-docs:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.10"
+
+            - name: Install uv and system LaTeX dependencies
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y latexmk texlive-latex-extra texlive-fonts-recommended texlive-latex-recommended texlive-xetex
+                  pip install uv
+
+            - name: Create venv
+              run: uv venv
+
+            - name: Install dependencies
+              run: uv pip install -r pyproject.toml
+
+            - name: Build PDF Documentation
+              run: |
+                  cd docs
+                  uv venv -- sphinx-build -b latex source _build/latex
+                  cd _build/latex
+                  latexmk -pdf -quiet *.tex
+                  mkdir -p ../../release
+                  cp *.pdf ../../release/alt-ctrl-proj-documentation.pdf
+
+            - name: Create GitHub Release and Upload PDF
+              uses: softprops/action-gh-release@v2
+              with:
+                  files: docs/release/alt-ctrl-proj-documentation.pdf
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,4 +1,3 @@
-
 class ProjCat:
     def __init__(self, params):
         # %F	proj_id	proj_catg_type_id	proj_catg_id

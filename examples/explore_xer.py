@@ -22,7 +22,9 @@ def main():
     # Check if a file path was provided
     if len(sys.argv) < 2:
         logger.error("Usage: python explore_xer.py <path_to_xer_file> [output_file]")
-        logger.error("Example: python explore_xer.py ../tests/fixtures/sample.xer report.txt")
+        logger.error(
+            "Example: python explore_xer.py ../tests/fixtures/sample.xer report.txt"
+        )
         return 1
 
     # Get file paths

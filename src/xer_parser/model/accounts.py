@@ -1,19 +1,19 @@
-
 from xer_parser.model.classes.account import Account
 
 __all__ = ["Accounts"]
 
+
 class Accounts:
-    def __init__(self):
+    def __init__(self) -> None:
         self._accounts = []
         self.index = 0
 
-    def add(self, params):
+    def add(self, params) -> None:  # TODO: Add type annotation for params
         self._accounts.append(Account(params))
 
-    def get_tsv(self):
+    def get_tsv(self) -> list:
+        tsv = []
         if len(self._accounts) > 0:
-            tsv = {}
             tsv.append(["%T", "ACCOUNT"])
             tsv.append(
                 [
@@ -31,10 +31,10 @@ class Accounts:
             return tsv
         return []
 
-    def count(self):
+    def count(self) -> int:
         return len(self._accounts)
 
-    def __iter__(self):
+    def __iter__(self) -> "Accounts":
         return self
 
     def __next__(self) -> Account:

@@ -1,18 +1,21 @@
+from typing import Any
+
 from xer_parser.model.classes.udfvalue import UDFValue
 
 __all__ = ["UDFValues"]
 
-class UDFValues:
-    def __init__(self):
-        self.index = 0
-        self._udfvalues = []
 
-    def add(self, params):
+class UDFValues:
+    def __init__(self) -> None:
+        self.index: int = 0
+        self._udfvalues: list[UDFValue] = []
+
+    def add(self, params: Any) -> None:
         self._udfvalues.append(UDFValue(params))
 
-    def get_tsv(self):
+    def get_tsv(self) -> list[list[str]]:
         if len(self._udfvalues) > 0:
-            tsv = []
+            tsv: list[list[str]] = []
             tsv.append(["%T", "UDFVALUE"])
             tsv.append(
                 [
@@ -31,20 +34,22 @@ class UDFValues:
             return tsv
         return []
 
-    def find_by_id(self, id) -> UDFValue:
-        obj = list(filter(lambda x: x.actv_code_type_id == id, self._udfvalues))
+    def find_by_id(self, id: Any) -> UDFValue | list[UDFValue]:
+        obj: list[UDFValue] = list(
+            filter(lambda x: getattr(x, "udf_type_id", None) == id, self._udfvalues)
+        )
         if len(obj) > 0:
             return obj[0]
         return obj
 
     @property
-    def count(self):
+    def count(self) -> int:
         return len(self._udfvalues)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._udfvalues)
 
-    def __iter__(self):
+    def __iter__(self) -> "UDFValues":
         return self
 
     def __next__(self) -> UDFValue:

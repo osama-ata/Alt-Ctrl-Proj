@@ -14,6 +14,7 @@ from xer_parser.tools.explorer import explore_xer_file
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def main():
     """Run the XER explorer from the command line."""
     parser = argparse.ArgumentParser(description="Explore and summarize XER files")

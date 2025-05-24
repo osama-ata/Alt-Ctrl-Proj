@@ -1,18 +1,21 @@
+from typing import Any
+
 from xer_parser.model.classes.rcatval import RCatVal
 
 __all__ = ["RCatVals"]
 
-class RCatVals:
-    def __init__(self):
-        self.index = 0
-        self._rcatvals = []
 
-    def add(self, params):
+class RCatVals:
+    def __init__(self) -> None:
+        self.index: int = 0
+        self._rcatvals: list[RCatVal] = []
+
+    def add(self, params: dict[str, Any]) -> None:
         self._rcatvals.append(RCatVal(params))
 
-    def get_tsv(self):
+    def get_tsv(self) -> list[list[str]]:
+        tsv: list[list[str]] = []
         if len(self._rcatvals) > 0:
-            tsv = []
             tsv.append(["%T", "RCATVAL"])
             tsv.append(
                 [
@@ -26,23 +29,24 @@ class RCatVals:
             )
             for rc in self._rcatvals:
                 tsv.append(rc.get_tsv())
-            return tsv
-        return []
+        return tsv
 
-    def find_by_id(self, id) -> RCatVal:
-        obj = list(filter(lambda x: x.actv_code_type_id == id, self._rcatvals))
+    def find_by_id(self, id: str) -> RCatVal | list[RCatVal]:
+        obj: list[RCatVal] = list(
+            filter(lambda x: getattr(x, "rsrc_catg_id", None) == id, self._rcatvals)
+        )
         if len(obj) > 0:
             return obj[0]
         return obj
 
     @property
-    def count(self):
+    def count(self) -> int:
         return len(self._rcatvals)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._rcatvals)
 
-    def __iter__(self):
+    def __iter__(self) -> "RCatVals":
         return self
 
     def __next__(self) -> RCatVal:

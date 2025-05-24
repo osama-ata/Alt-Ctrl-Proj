@@ -3,7 +3,6 @@
 This module implements the Defense Contract Management Agency (DCMA) 14-point schedule assessment, which evaluates the quality and reliability of project schedules.
 """
 
-
 import logging
 from datetime import datetime
 from typing import Any
@@ -15,6 +14,7 @@ logger = logging.getLogger(__name__)
 __all__ = [
     "DCMA14",
 ]
+
 
 class DCMA14:
     """

@@ -1,24 +1,29 @@
+from typing import Any
+
 from xer_parser.model.classes.acttype import ActType
 
 __all__ = ["ActTypes"]
 
-class ActTypes:
-    def __init__(self):
-        self.index = 0
-        self._activitytypes = []
 
-    def add(self, params):
+class ActTypes:
+    def __init__(self) -> None:
+        self.index: int = 0
+        self._activitytypes: list[ActType] = []
+
+    def add(self, params: Any) -> None:
         self._activitytypes.append(ActType(params))
 
-    def find_by_id(self, id) -> ActType:
-        obj = list(filter(lambda x: x.actv_code_type_id == id, self._activitytypes))
+    def find_by_id(self, id: Any) -> ActType | list[ActType]:
+        obj: list[ActType] = list(
+            filter(lambda x: x.actv_code_type_id == id, self._activitytypes)
+        )
         if len(obj) > 0:
             return obj[0]
         return obj
 
-    def get_tsv(self):
+    def get_tsv(self) -> list[list[str]]:
         if len(self._activitytypes) > 0:
-            tsv = []
+            tsv: list[list[str]] = []
             tsv.append(["%T", "ACTVTYPE"])
             tsv.append(
                 [
@@ -37,13 +42,13 @@ class ActTypes:
             return tsv
         return []
 
-    def count(self):
+    def count(self) -> int:
         return len(self._activitytypes)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._activitytypes)
 
-    def __iter__(self):
+    def __iter__(self) -> "ActTypes":
         return self
 
     def __next__(self) -> ActType:

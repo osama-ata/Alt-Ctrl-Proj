@@ -4,13 +4,16 @@ PyP6XER is a Python library for parsing and working with Primavera P6 XER files.
 """
 
 import importlib
-from typing import List
+import os
 
 # Version information
 __version__ = "1.0.0"  # Add version info if not already defined elsewhere
 
+# Initialize __all__ as empty list (keep only this definition)
+__all__: list[str] = []
 
-def _get_model_modules() -> List[str]:
+
+def _get_model_modules() -> list[str]:
     """Dynamically discover all model modules.
 
     Returns:
@@ -18,12 +21,36 @@ def _get_model_modules() -> List[str]:
     """
 
     return [
-        "accounts", "activityresources", "acttypes", "calendars", "currencies",
-        "fintmpls", "nonworks", "obss", "pacttypes", "pcatvals", "predecessors",
-        "projcats", "projects", "rcattypes", "rcatvals", "resources", "rolerates",
-        "roles", "rsrccats", "rsrccurves", "rsrcrates", "schedoptions", "taskactvs",
-        "taskprocs", "tasks", "udftypes", "udfvalues", "wbss"
+        "accounts",
+        "activityresources",
+        "acttypes",
+        "calendars",
+        "currencies",
+        "fintmpls",
+        "nonworks",
+        "obss",
+        "pacttypes",
+        "pcatvals",
+        "predecessors",
+        "projcats",
+        "projects",
+        "rcattypes",
+        "rcatvals",
+        "resources",
+        "rolerates",
+        "roles",
+        "rsrccats",
+        "rsrccurves",
+        "rsrcrates",
+        "schedoptions",
+        "taskactvs",
+        "taskprocs",
+        "tasks",
+        "udftypes",
+        "udfvalues",
+        "wbss",
     ]
+
 
 def _lazy_import_models():
     """Lazily import all model modules and build __all__.
@@ -45,10 +72,11 @@ def _lazy_import_models():
         except ImportError as e:
             # Log warning but don't fail completely
             import warnings
-            warnings.warn(f"Failed to import model module {module_name}: {e}")
 
-# Initialize __all__ as empty list
-__all__: List[str] = []
+            warnings.warn(
+                f"Failed to import model module {module_name}: {e}", stacklevel=2
+            )
+
 
 # Lazy loading approach - only import when __all__ is accessed
 def __getattr__(name: str):
@@ -68,6 +96,7 @@ def __getattr__(name: str):
             continue
 
     raise AttributeError(f"module '{__name__}' has no attribute '{name}'")
+
 
 # For backwards compatibility, provide explicit imports
 # This can be removed if lazy loading is preferred
@@ -108,21 +137,46 @@ def _import_all_models():
     __all__ = []
 
     modules = [
-        accounts, activityresources, acttypes, calendars, currencies,
-        fintmpls, nonworks, obss, pacttypes, pcatvals, predecessors,
-        projcats, projects, rcattypes, rcatvals, resources, rolerates,
-        roles, rsrccats, rsrccurves, rsrcrates, schedoptions, taskactvs,
-        taskprocs, tasks, udftypes, udfvalues, wbss
+        accounts,
+        activityresources,
+        acttypes,
+        calendars,
+        currencies,
+        fintmpls,
+        nonworks,
+        obss,
+        pacttypes,
+        pcatvals,
+        predecessors,
+        projcats,
+        projects,
+        rcattypes,
+        rcatvals,
+        resources,
+        rolerates,
+        roles,
+        rsrccats,
+        rsrccurves,
+        rsrcrates,
+        schedoptions,
+        taskactvs,
+        taskprocs,
+        tasks,
+        udftypes,
+        udfvalues,
+        wbss,
     ]
 
     for module in modules:
         if hasattr(module, "__all__"):
             __all__.extend(module.__all__)
 
+
 # Choose import strategy based on environment variable or default to lazy loading
-import os
 if os.getenv("XER_PARSER_EAGER_IMPORT", "false").lower() == "true":
     _import_all_models()
 else:
     # Use lazy loading by default
     pass
+
+# __all__ is defined only once at the top, no duplicates present.

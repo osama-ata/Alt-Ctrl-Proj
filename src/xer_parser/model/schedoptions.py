@@ -1,10 +1,10 @@
-
 from xer_parser.model.classes.schedoption import SchedOption
 
 __all__ = ["SchedOptions"]
 
+
 class SchedOptions:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._schoptions = []
 
@@ -59,10 +59,10 @@ class SchedOptions:
     def count(self):
         return len(self._schoptions)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._schoptions)
 
-    def __iter__(self):
+    def __iter__(self) -> "SchedOptions":
         return self
 
     def __next__(self) -> SchedOption:

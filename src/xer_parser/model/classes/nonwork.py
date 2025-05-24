@@ -1,4 +1,3 @@
-
 class NonWork:
     def __init__(self, params):
         self.nonwork_type_id = (

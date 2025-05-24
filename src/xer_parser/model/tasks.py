@@ -10,11 +10,11 @@ class Tasks:
     This class is a collection of tasks that controls functionalities to search, add, update and delete tasks
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._tasks = []
 
-    def add(self, params, data):
+    def add(self, params, data) -> None:
         task = Task(params, data)
         self._tasks.append(task)
 
@@ -23,11 +23,11 @@ class Tasks:
         return self._tasks
 
     @property
-    def count(self):
+    def count(self) -> int:
         return len(self._tasks)
 
     @property
-    def has_no_successor(self):
+    def has_no_successor(self) -> list:
         return list(
             filter(
                 lambda x: x.task_id not in [z.pred_task_id for z in TaskPred.obj_list],
@@ -36,7 +36,7 @@ class Tasks:
         )
 
     @property
-    def has_no_predecessor(self):
+    def has_no_predecessor(self) -> list:
         return list(
             filter(
                 lambda x: x.task_id not in [z.task_id for z in TaskPred.obj_list],
@@ -44,36 +44,38 @@ class Tasks:
             )
         )
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._tasks)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str([x.task_code for x in self._tasks])
 
-    def __str__(self):
+    def __str__(self) -> str:
         return str([str(x.task_code) for x in self._tasks])
 
     @property
-    def constraints(self):
+    def constraints(self) -> list:
         lst = [
             x.constraints if x.constraints is not None else None for x in self._tasks
         ]
         # print(lst)
         return list(filter(lambda x: x is not None, lst))
 
-    def find_by_id(self, id):
+    def find_by_id(self, id):  # TODO: Add correct return type annotation
         obj = list(filter(lambda x: x.task_id == id, self._tasks))
         if len(obj) > 0:
             return obj[0]
         return obj
 
-    def find_by_code(self, code):
+    def find_by_code(self, code):  # TODO: Add correct return type annotation
         obj = list(filter(lambda x: x.task_code == code, self._tasks))
         if len(obj) > 0:
             return obj[0]
         return obj
 
-    def duration_greater_than(self, duration):
+    def duration_greater_than(
+        self, duration
+    ):  # TODO: Add correct return type annotation
         obj = list(
             filter(
                 lambda x: x.target_drtn_hr_cnt
@@ -85,7 +87,7 @@ class Tasks:
             return obj
         return obj
 
-    def float_less_than(self, Tfloat):
+    def float_less_than(self, Tfloat):  # TODO: Add correct return type annotation
         objs = list(filter(lambda x: x.status_code != "TK_Complete", self._tasks))
         obj = list(
             filter(
@@ -97,7 +99,7 @@ class Tasks:
             return obj
         return obj
 
-    def float_greater_than(self, Tfloat):
+    def float_greater_than(self, Tfloat):  # TODO: Add correct return type annotation
         objs = list(filter(lambda x: x.status_code != "TK_Complete", self._tasks))
         obj = list(
             filter(
@@ -257,7 +259,7 @@ class Tasks:
     def get_by_project(self, id):
         return list(filter(lambda x: x.proj_id == id, self._tasks))
 
-    def __iter__(self):
+    def __iter__(self) -> "Tasks":
         return self
 
     def __next__(self) -> Task:

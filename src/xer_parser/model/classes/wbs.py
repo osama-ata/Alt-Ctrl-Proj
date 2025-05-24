@@ -6,6 +6,7 @@ from xer_parser.model.classes.task import Task
 # Initialize logger
 logger = logging.getLogger(__name__)
 
+
 class WBS:
     """
     Represents a Work Breakdown Structure (WBS) element in Primavera P6.

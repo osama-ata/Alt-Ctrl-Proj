@@ -2,8 +2,9 @@ from xer_parser.model.classes.rsrcrate import ResourceRate
 
 __all__ = ["ResourceRates"]
 
+
 class ResourceRates:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._rsrcrates = []
 
@@ -43,10 +44,10 @@ class ResourceRates:
     def count(self):
         return len(self._rsrcrates)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._rsrcrates)
 
-    def __iter__(self):
+    def __iter__(self) -> "ResourceRates":
         return self
 
     def __next__(self) -> ResourceRate:

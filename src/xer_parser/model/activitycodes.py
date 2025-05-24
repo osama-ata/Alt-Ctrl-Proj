@@ -2,18 +2,19 @@ from xer_parser.model.classes.activitycode import ActivityCode
 
 __all__ = ["ActivityCodes"]
 
+
 class ActivityCodes:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._activitycodes = []
 
-    def add(self, params):
+    def add(self, params) -> None:
         self._activitycodes.append(ActivityCode(params))
 
-    def count(self):
+    def count(self) -> int:
         return len(self._activitycodes)
 
-    def get_tsv(self):
+    def get_tsv(self) -> list:
         if len(self._activitycodes) > 0:
             tsv = []
             tsv.append(["%T", "ACTVCODE"])
@@ -41,14 +42,14 @@ class ActivityCodes:
             return obj[0]
         return obj
 
-    def find_by_type_id(self, id):
+    def find_by_type_id(self, id):  # TODO: Add correct return type annotation
         obj = list(filter(lambda x: x.actv_code_type_id == id, self._activitycodes))
         return obj
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._activitycodes)
 
-    def __iter__(self):
+    def __iter__(self) -> "ActivityCodes":
         return self
 
     def __next__(self) -> ActivityCode:

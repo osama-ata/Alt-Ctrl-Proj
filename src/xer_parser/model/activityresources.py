@@ -2,12 +2,13 @@ from xer_parser.model.classes.taskrsrc import TaskRsrc
 
 __all__ = ["ActivityResources"]
 
+
 class ActivityResources:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._taskrsrc = []
 
-    def add(self, params, data):
+    def add(self, params, data) -> None:  # TODO: Add type annotation for params, data
         self._taskrsrc.append(TaskRsrc(params, data))
 
     def find_by_id(self, id) -> TaskRsrc:
@@ -16,7 +17,7 @@ class ActivityResources:
             return obj[0]
         return None
 
-    def get_tsv(self):
+    def get_tsv(self) -> list:
         if len(self._taskrsrc) > 0:
             tsv = []
             tsv.append(["%T", "TASKRSRC"])
@@ -82,18 +83,18 @@ class ActivityResources:
         obj = list(filter(lambda x: x.rsrc_id == id, self._taskrsrc))
         return obj
 
-    def find_by_activity_id(self, id):
+    def find_by_activity_id(self, id):  # TODO: Add correct return type annotation
         obj = list(filter(lambda x: x.task_id == id and x.rsrc_id, self._taskrsrc))
         return obj
 
     @property
-    def count(self):
+    def count(self) -> int:
         return len(self._taskrsrc)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(ActivityResources._taskrsrc)
 
-    def __iter__(self):
+    def __iter__(self) -> "ActivityResources":
         return self
 
     def __next__(self) -> TaskRsrc:

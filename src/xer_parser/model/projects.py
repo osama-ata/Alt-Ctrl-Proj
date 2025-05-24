@@ -2,8 +2,9 @@ from xer_parser.model.classes.project import Project
 
 __all__ = ["Projects"]
 
+
 class Projects:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._projects = []
 
@@ -104,7 +105,10 @@ class Projects:
     def __repr__(self):
         return str(self._projects)
 
-    def __iter__(self):
+    def __len__(self) -> int:
+        return super().__len__()
+
+    def __iter__(self) -> "Projects":
         return self
 
     def __next__(self) -> Project:

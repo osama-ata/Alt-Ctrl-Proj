@@ -2,8 +2,9 @@ from xer_parser.model.classes.rolerate import RoleRate
 
 __all__ = ["RoleRates"]
 
+
 class RoleRates:
-    def __init__(self):
+    def __init__(self) -> None:
         self.index = 0
         self._rolerates = []
 
@@ -41,10 +42,10 @@ class RoleRates:
     def count(self):
         return len(self._rolerates)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return len(self._rolerates)
 
-    def __iter__(self):
+    def __iter__(self) -> "RoleRates":
         return self
 
     def __next__(self) -> RoleRate:
