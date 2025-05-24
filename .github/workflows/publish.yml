@@ -27,7 +27,7 @@ jobs:
               run: uv pip install build
 
             - name: Build package
-              run: uv venv -- python -m build
+              run: .venv/bin/python -m build
 
             - name: Publish to PyPI
               uses: pypa/gh-action-pypi-publish@release/v1
