@@ -20,6 +20,9 @@ jobs:
             - name: Install uv
               run: pip install uv
 
+            - name: Create venv
+              run: uv venv
+
             - name: Install build tool
               run: uv pip install build
 
