@@ -16,7 +16,7 @@ sys.path.insert(0, os.path.abspath("../.."))
 
 project = "Alt-Ctrl-Proj"
 author = "Osama Ata, Hassan Emam"
-release = "0.0.1"
+release = "0.0.4"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -28,6 +28,7 @@ extensions = [
     "sphinx.ext.intersphinx",  # Link to other project's documentation
     "sphinx.ext.coverage",  # Measure documentation coverage
     "sphinx.ext.todo",  # Support for todo items
+    "sphinx_sitemap",
 ]
 
 # Napoleon settings
@@ -68,6 +69,11 @@ exclude_patterns = []
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+html_baseurl = "https://alt-ctrl-proj.readthedocs.io/"
+html_meta = {
+    "description": "Alt-Ctrl-Proj documentation for advanced project control solutions.",
+    "keywords": "project control, documentation, Alt-Ctrl-Proj, project management"
+}
 
 
 # -- Options for LaTeX output ------------------------------------------------

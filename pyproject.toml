@@ -30,6 +30,7 @@ docs = [
     "sphinx-rtd-theme",
     "sphinx-autodoc-typehints",
     "sphinxcontrib-mermaid",
+    "sphinx-sitemap",
 ]
 
 [project.urls]
