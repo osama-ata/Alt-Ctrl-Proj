@@ -1,0 +1,30 @@
+{% extends "!layout.html" %}
+
+{% block extrahead %}
+  {{ super() }}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Alt-Ctrl-Proj Documentation",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Osama Ata",
+        "sameAs": "https://www.wikidata.org/wiki/Q132189472"
+      },
+      {
+        "@type": "Person",
+        "name": "Hassan Emam",
+        "sameAs": "https://github.com/HassanEmam"
+      }
+    ],
+    "url": "https://alt-ctrl-proj.readthedocs.io/",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Alt-Ctrl-Proj"
+    },
+    "inLanguage": "en"
+  }
+  </script>
+{% endblock %}
