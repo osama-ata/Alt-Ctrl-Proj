@@ -1,48 +1,27 @@
-class Account:
-    # obj_list = []
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
-    def __init__(self, params):
-        self.acct_id = (
-            int(params.get("acct_id").strip()) if params.get("acct_id") else None
-        )
-        self.parent_acct_id = (
-            int(params.get("parent_acct_id").strip())
-            if params.get("parent_acct_id")
-            else None
-        )
-        self.acct_seq_num = (
-            int(params.get("acct_seq_num").strip())
-            if params.get("acct_seq_num")
-            else None
-        )
-        self.acct_name = (
-            params.get("acct_name").strip() if params.get("acct_name") else None
-        )
-        self.acct_short_name = (
-            params.get("acct_short_name").strip()
-            if params.get("acct_short_name")
-            else None
-        )
-        self.acct_descr = (
-            params.get("acct_descr").strip() if params.get("acct_descr") else None
-        )
-        # Account.obj_list.append(self)
 
-    def get_tsv(self):
-        tsv = [
+class Account(BaseModel):
+    acct_id: Optional[int] = None
+    parent_acct_id: Optional[int] = None
+    acct_seq_num: Optional[int] = None
+    acct_name: Optional[str] = None
+    acct_short_name: Optional[str] = None
+    acct_descr: Optional[str] = None
+    data: Any = Field(default=None, exclude=True)
+
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        return [
             "%R",
-            self.acct_id,
-            self.parent_acct_id,
-            self.acct_seq_num,
-            self.acct_name,
-            self.acct_short_name,
-            self.acct_descr,
+            model_data.get("acct_id") if model_data.get("acct_id") is not None else "",
+            model_data.get("parent_acct_id") if model_data.get("parent_acct_id") is not None else "",
+            model_data.get("acct_seq_num") if model_data.get("acct_seq_num") is not None else "",
+            model_data.get("acct_name") if model_data.get("acct_name") is not None else "",
+            model_data.get("acct_short_name") if model_data.get("acct_short_name") is not None else "",
+            model_data.get("acct_descr") if model_data.get("acct_descr") is not None else "",
         ]
-        return tsv
-
-    @classmethod
-    def find_by_id(cls, id):
-        return next((x for x in cls.obj_list if x.acct_id == id), None)
 
     def __repr__(self):
-        return self.acct_name
+        return self.acct_name if self.acct_name is not None else super().__repr__()

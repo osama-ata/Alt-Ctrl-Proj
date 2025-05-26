@@ -24,9 +24,10 @@ To install the development version directly from GitHub:
 Dependencies
 -----------
 
-Alt-Ctrl-Proj has minimal dependencies:
+Alt-Ctrl-Proj has the following core dependencies:
 
 - Python 3.10+
+- Pydantic (>=2.0)
 
 Optional Dependencies
 -------------------

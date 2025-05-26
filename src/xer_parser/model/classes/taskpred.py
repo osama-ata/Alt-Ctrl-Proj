@@ -1,145 +1,48 @@
-from typing import Any, ClassVar
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
 
-class TaskPred:
-    """
-    Represents a relationship between two activities in Primavera P6.
+class TaskPred(BaseModel):
+    task_pred_id: Optional[int] = Field(default=None, alias="task_pred_id") # Assuming int ID
+    task_id: Optional[int] = Field(default=None, alias="task_id")
+    pred_task_id: Optional[int] = Field(default=None, alias="pred_task_id")
+    proj_id: Optional[int] = Field(default=None, alias="proj_id")
+    pred_proj_id: Optional[int] = Field(default=None, alias="pred_proj_id") # Original used params.get("proj_id")
+    pred_type: Optional[str] = Field(default=None, alias="pred_type")
+    lag_hr_cnt: Optional[float] = Field(default=None, alias="lag_hr_cnt")
+    float_path: Optional[str] = Field(default=None, alias="float_path") # Assuming string, could be int/bool if specific values
+    aref: Optional[str] = Field(default=None, alias="aref")
+    arls: Optional[str] = Field(default=None, alias="arls")
+    comments: Optional[str] = Field(default=None, alias="comments")
 
-    This class encapsulates a logical connection between two activities, defining
-    how they are related in time. Relationships are directional, having a predecessor
-    and a successor activity, a relationship type, and an optional lag or lead time.
+    data: Any = Field(default=None, exclude=True)
 
-    Parameters
-    ----------
-    params : Dict[str, Any]
-        Dictionary of parameters from the XER file
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        
+        # Helper to convert None to empty string and other types to string
+        def s(value: Any) -> str:
+            return "" if value is None else str(value)
 
-    Attributes
-    ----------
-    task_pred_id : str
-        Unique identifier for the relationship
-    task_id : int
-        ID of the successor task
-    pred_task_id : int
-        ID of the predecessor task
-    pred_type : str
-        Type of relationship: 'PR_FS' (Finish-to-Start), 'PR_SS' (Start-to-Start),
-        'PR_FF' (Finish-to-Finish), or 'PR_SF' (Start-to-Finish)
-    lag_hr_cnt : float
-        Lag time in hours between the predecessor and successor
-        Positive values represent lag (delay), negative values represent lead (acceleration)
-    proj_id : int
-        Project ID to which the successor task belongs
-    pred_proj_id : int
-        Project ID to which the predecessor task belongs
-    float_path : str
-        Float path indicator
-    comments : str
-        Comments associated with the relationship
-
-    Notes
-    -----
-    Relationship types in Primavera P6 are defined as:
-    - Finish-to-Start (PR_FS): The successor cannot start until the predecessor finishes
-    - Start-to-Start (PR_SS): The successor cannot start until the predecessor starts
-    - Finish-to-Finish (PR_FF): The successor cannot finish until the predecessor finishes
-    - Start-to-Finish (PR_SF): The successor cannot finish until the predecessor starts
-    """
-
-    obj_list: ClassVar[list["TaskPred"]] = []
-
-    def __init__(self, params: dict[str, Any]) -> None:
-        """
-        Initialize a TaskPred object from XER file parameters.
-
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters from the XER file
-        """
-        self.task_pred_id = (
-            params.get("task_pred_id").strip() if params.get("task_pred_id") else None
-        )
-        self.task_id = int(params.get("task_id")) if params.get("task_id") else None
-        self.pred_task_id = (
-            int(params.get("pred_task_id")) if params.get("pred_task_id") else None
-        )
-        self.proj_id = (
-            int(params.get("proj_id").strip()) if params.get("proj_id") else None
-        )
-        self.pred_proj_id = (
-            int(params.get("proj_id").strip()) if params.get("pred_proj_id") else None
-        )
-        self.pred_type = (
-            params.get("pred_type").strip() if params.get("pred_type") else None
-        )
-        self.lag_hr_cnt = (
-            float(params.get("lag_hr_cnt").strip())
-            if params.get("lag_hr_cnt")
-            else None
-        )
-        self.float_path = (
-            params.get("float_path").strip() if params.get("float_path") else None
-        )
-        self.aref = params.get("aref").strip() if params.get("aref") else None
-        self.arls = params.get("arls").strip() if params.get("arls") else None
-        self.comments = (
-            params.get("comments").strip() if params.get("comments") else None
-        )
-        TaskPred.obj_list.append(self)
-
-    def get_id(self) -> str:
-        """
-        Get the relationship ID.
-
-        Returns
-        -------
-        str
-            The unique identifier for this relationship
-        """
-        return self.task_pred_id
-
-    def get_tsv(self) -> list[Any]:
-        """
-        Get the relationship data in TSV format.
-
-        Returns
-        -------
-        List[Any]
-            Relationship data formatted for TSV output
-        """
-        tsv = [
+        return [
             "%R",
-            self.task_pred_id,
-            self.task_id,
-            self.pred_task_id,
-            self.proj_id,
-            self.pred_proj_id,
-            self.pred_type,
-            self.lag_hr_cnt,
-            self.comments,
-            self.float_path,
-            self.aref,
-            self.arls,
+            s(model_data.get("task_pred_id")),
+            s(model_data.get("task_id")),
+            s(model_data.get("pred_task_id")),
+            s(model_data.get("proj_id")),
+            s(model_data.get("pred_proj_id")),
+            s(model_data.get("pred_type")),
+            s(model_data.get("lag_hr_cnt")),
+            s(model_data.get("comments")),
+            s(model_data.get("float_path")),
+            s(model_data.get("aref")),
+            s(model_data.get("arls")),
         ]
-        return tsv
 
     def __repr__(self) -> str:
-        """
-        String representation of the relationship.
-
-        Returns
-        -------
-        str
-            A string representing the relationship in the format:
-            "predecessor_id - relationship_type -> successor_id lag: lag_value"
-        """
-        return (
-            str(self.pred_task_id)
-            + "- "
-            + self.pred_type
-            + " ->"
-            + str(self.task_id)
-            + " lag: "
-            + str(self.lag_hr_cnt)
-        )
+        pred_id_str = str(self.pred_task_id) if self.pred_task_id is not None else "N/A"
+        succ_id_str = str(self.task_id) if self.task_id is not None else "N/A"
+        pred_type_str = self.pred_type if self.pred_type is not None else "N/A"
+        lag_str = str(self.lag_hr_cnt) if self.lag_hr_cnt is not None else "N/A"
+        
+        return f"<TaskPred: {pred_id_str} -{pred_type_str}-> {succ_id_str} (Lag: {lag_str}h)>"

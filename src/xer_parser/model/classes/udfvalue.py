@@ -1,75 +1,52 @@
-from typing import Any
+from typing import Optional, Any
+from datetime import datetime
+from pydantic import BaseModel, Field
 
 
-class UDFValue:
-    udf_code_id: str | None = None
-    udf_type_id: str | None = None
-    fk_id: str | None = None
-    proj_id: str | None = None
-    udf_number: str | None = None
-    udf_text: str | None = None
-    udf_date: str | None = None
+class UDFValue(BaseModel):
+    udf_type_id: Optional[int] = Field(default=None, alias="udf_type_id")
+    fk_id: Optional[int] = Field(default=None, alias="fk_id") # Foreign key to another table's record
+    proj_id: Optional[int] = Field(default=None, alias="proj_id") # Project ID, if UDF is project-specific
+    udf_date: Optional[datetime] = Field(default=None, alias="udf_date")
+    udf_number: Optional[float] = Field(default=None, alias="udf_number")
+    udf_text: Optional[str] = Field(default=None, alias="udf_text")
+    udf_code_id: Optional[int] = Field(default=None, alias="udf_code_id") # FK to UDFCode if data_type is Code
 
-    def __init__(self, params: dict[str, Any]) -> None:
-        self.udf_type_id = (
-            str(params.get("udf_type_id")).strip()
-            if params.get("udf_type_id") is not None
-            else None
-        )
-        self.fk_id = (
-            str(params.get("fk_id")).strip()
-            if params.get("fk_id") is not None
-            else None
-        )
-        self.proj_id = (
-            str(params.get("proj_id")).strip()
-            if params.get("proj_id") is not None
-            else None
-        )
-        self.udf_date = (
-            str(params.get("udf_date")).strip()
-            if params.get("udf_date") is not None
-            else None
-        )
-        self.udf_number = (
-            str(params.get("udf_number")).strip()
-            if params.get("udf_number") is not None
-            else None
-        )
-        self.udf_text = (
-            str(params.get("udf_text")).strip()
-            if params.get("udf_text") is not None
-            else None
-        )
-        self.udf_code_id = (
-            str(params.get("udf_code_id")).strip()
-            if params.get("udf_code_id") is not None
-            else None
-        )
+    data: Any = Field(default=None, exclude=True)
 
-    def get_id(self) -> str | None:
-        return self.udf_type_id
+    def _format_date_for_tsv(self, dt_val: Any) -> str:
+        if dt_val is None: return ""
+        # Assuming XER dates are like "2000-12-31 00:00"
+        if isinstance(dt_val, datetime): return dt_val.strftime("%Y-%m-%d %H:%M") 
+        return str(dt_val)
 
-    def get_tsv(self) -> list[str]:
-        tsv: list[str] = [
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        
+        def s(value: Any) -> str:
+            return "" if value is None else str(value)
+
+        return [
             "%R",
-            str(self.udf_type_id) if self.udf_type_id is not None else "",
-            str(self.fk_id) if self.fk_id is not None else "",
-            str(self.proj_id) if self.proj_id is not None else "",
-            str(self.udf_date) if self.udf_date is not None else "",
-            str(self.udf_number) if self.udf_number is not None else "",
-            str(self.udf_text) if self.udf_text is not None else "",
-            str(self.udf_code_id) if self.udf_code_id is not None else "",
+            s(model_data.get("udf_type_id")),
+            s(model_data.get("fk_id")),
+            s(model_data.get("proj_id")),
+            self._format_date_for_tsv(self.udf_date), # Use instance attribute for formatting
+            s(model_data.get("udf_number")),
+            s(model_data.get("udf_text")),
+            s(model_data.get("udf_code_id")),
         ]
-        return tsv
-
-    @staticmethod
-    def find_by_id(code_id: str, activity_code_dict: dict[str, Any]) -> dict[str, Any]:
-        return {
-            k: v
-            for k, v in activity_code_dict.items()
-            if getattr(v, "actv_code_id", None) == code_id
-        }
 
     def __repr__(self) -> str:
-        return f"{self.udf_text or ''}->{self.udf_code_id or ''}"
+        parts = []
+        if self.udf_text is not None:
+            parts.append(f"text='{self.udf_text}'")
+        if self.udf_number is not None:
+            parts.append(f"number={self.udf_number}")
+        if self.udf_date is not None:
+            parts.append(f"date='{self.udf_date.strftime('%Y-%m-%d') if self.udf_date else 'N/A'}'")
+        if self.udf_code_id is not None:
+            parts.append(f"code_id={self.udf_code_id}")
+        
+        value_str = ", ".join(parts)
+        return f"<UDFValue type_id={self.udf_type_id or 'N/A'} fk_id={self.fk_id or 'N/A'} ({value_str})>"

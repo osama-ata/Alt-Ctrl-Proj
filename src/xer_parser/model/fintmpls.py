@@ -1,47 +1,57 @@
-from typing import Any
-
-from xer_parser.model.classes.fintmpl import FinTmpl
+from typing import List, Iterator, Any, Dict, Optional
+from ..model.classes.fintmpl import FinTmpl
 
 __all__ = ["FinTmpls"]
 
 
 class FinTmpls:
-    def __init__(self) -> None:
+    _fintmpls: List[FinTmpl] # Corrected attribute name casing for consistency
+
+    def __init__(self, data_context: Optional[Any] = None) -> None:
         self.index: int = 0
-        self._FinTmpls: list[FinTmpl] = []
+        self._fintmpls: List[FinTmpl] = [] # Corrected attribute name casing
+        self.data_context: Optional[Any] = data_context
 
-    def add(self, params: Any) -> None:
-        self._FinTmpls.append(FinTmpl(params))
+    def add(self, params: Dict[str, Any]) -> None:
+        """
+        Adds a FinTmpl to the collection.
+        The params dictionary is validated into a FinTmpl Pydantic model.
+        """
+        fintmpl_instance = FinTmpl.model_validate(params)
+        if self.data_context: # Though FinTmpl may not use it now, good for consistency
+            fintmpl_instance.data = self.data_context
+        self._fintmpls.append(fintmpl_instance) # Corrected attribute name casing
 
-    def get_tsv(self) -> list[list[str]]:
-        if len(self._FinTmpls) > 0:
-            tsv: list[list[str]] = []
-            tsv.append(["%T", "FINTMPL"])
-            tsv.append(["%F", "fintmpl_id", "fintmpl_name", "default_flag"])
-            for fin in self._FinTmpls:
-                tsv.append(fin.get_tsv())
-            return tsv
-        return []
+    def get_tsv(self) -> list: # Return type changed to list for consistency
+        if not self._fintmpls: # Corrected attribute name casing
+            return []
+            
+        tsv_data: list[list[str]] = [["%T", "FINTMPL"]]
+        header = ["%F", "fintmpl_id", "fintmpl_name", "default_flag"]
+        tsv_data.append(header)
+        for fin_tmpl in self._fintmpls: # Corrected attribute name casing
+            tsv_data.append(fin_tmpl.get_tsv())
+        return tsv_data
 
-    def find_by_id(self, id: Any) -> FinTmpl | list[FinTmpl]:
-        obj: list[FinTmpl] = list(filter(lambda x: x.fintmpl_id == id, self._FinTmpls))
-        if len(obj) > 0:
-            return obj[0]
-        return obj
+    def find_by_id(self, fintmpl_id: int) -> Optional[FinTmpl]:
+        """Finds a financial template by its fintmpl_id."""
+        return next((ft for ft in self._fintmpls if ft.fintmpl_id == fintmpl_id), None) # Corrected attribute name casing
 
     @property
     def count(self) -> int:
-        return len(self._FinTmpls)
+        return len(self._fintmpls) # Corrected attribute name casing
 
     def __len__(self) -> int:
-        return len(self._FinTmpls)
+        return len(self._fintmpls) # Corrected attribute name casing
 
-    def __iter__(self) -> "FinTmpls":
+    def __iter__(self) -> Iterator[FinTmpl]:
+        self.index = 0  # Reset index for each new iteration
         return self
 
     def __next__(self) -> FinTmpl:
-        if self.index >= len(self._FinTmpls):
+        if self.index < len(self._fintmpls): # Corrected attribute name casing
+            result = self._fintmpls[self.index] # Corrected attribute name casing
+            self.index += 1
+            return result
+        else:
             raise StopIteration
-        idx = self.index
-        self.index += 1
-        return self._FinTmpls[idx]

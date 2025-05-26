@@ -1,6 +1,5 @@
-from typing import Any
-
-from xer_parser.model.classes.taskpred import TaskPred
+from typing import List, Iterator, Any, Dict, Optional
+from ..model.classes.taskpred import TaskPred
 
 __all__ = ["Predecessors"]
 
@@ -8,220 +7,113 @@ __all__ = ["Predecessors"]
 class Predecessors:
     """
     Container class for managing relationships between activities in Primavera P6.
-
     This class provides functionality to store, retrieve, and manipulate
-    relationship objects (TaskPred), which represent logical connections between
-    activities in a project schedule.
-
-    Attributes
-    ----------
-    task_pred : List[TaskPred]
-        Internal list of TaskPred objects representing activity relationships
-    index : int
-        Current index for iterator functionality
-
-    Notes
-    -----
-    In Primavera P6, relationships can be of four types:
-    - Finish-to-Start (FS): The successor activity cannot start until the predecessor finishes
-    - Start-to-Start (SS): The successor activity cannot start until the predecessor starts
-    - Finish-to-Finish (FF): The successor activity cannot finish until the predecessor finishes
-    - Start-to-Finish (SF): The successor activity cannot finish until the predecessor starts
-
-    Relationships can also have lag (positive value) or lead (negative value) time.
+    relationship objects (TaskPred).
     """
+    _task_preds: List[TaskPred] # Renamed for convention
 
-    def __init__(self) -> None:
+    def __init__(self, data_context: Optional[Any] = None) -> None:
         """
         Initialize an empty Predecessors container.
         """
-        self.index = 0
-        self.task_pred = []
+        self.index: int = 0
+        self._task_preds: List[TaskPred] = [] # Renamed for convention
+        self.data_context: Optional[Any] = data_context
 
-    def find_by_id(self, code_id: int) -> TaskPred | None:
+    def find_by_id(self, task_pred_id: int) -> Optional[TaskPred]: # Corrected param name
         """
-        Find a relationship by its ID.
-
-        Parameters
-        ----------
-        code_id : int
-            The relationship ID to search for
-
-        Returns
-        -------
-        TaskPred or None
-            The relationship with the specified ID, or None if not found
+        Find a relationship by its task_pred_id.
         """
-        obj = list(filter(lambda x: x.task_pred_id == code_id, self.task_pred))
-        if len(obj) > 0:
-            return obj[0]
-        return None
+        return next((pred for pred in self._task_preds if pred.task_pred_id == task_pred_id), None)
 
-    def get_tsv(self) -> list[list[Any]]:
+    def get_tsv(self) -> list: # Return type changed to list for consistency
         """
         Get all relationships in TSV format.
-
-        Returns
-        -------
-        list[list[Any]]
-            Relationship data formatted for TSV output
         """
-        tsv = []
-        if len(self.task_pred) > 0:
-            tsv.append(["%T", "TASKPRED"])
-            tsv.append(
-                [
-                    "%F",
-                    "task_pred_id",
-                    "task_id",
-                    "pred_task_id",
-                    "proj_id",
-                    "pred_proj_id",
-                    "pred_type",
-                    "lag_hr_cnt",
-                    "comments",
-                    "float_path",
-                    "aref",
-                    "arls",
-                ]
-            )
-            for pred in self.task_pred:
-                tsv.append(pred.get_tsv())
-        return tsv
+        if not self._task_preds:
+            return []
+            
+        tsv_data: list[list[Any]] = [["%T", "TASKPRED"]]
+        header = [
+            "%F", "task_pred_id", "task_id", "pred_task_id", "proj_id", "pred_proj_id",
+            "pred_type", "lag_hr_cnt", "comments", "float_path", "aref", "arls",
+        ]
+        tsv_data.append(header)
+        for pred in self._task_preds:
+            tsv_data.append(pred.get_tsv())
+        return tsv_data
 
-    def add(self, params: dict[str, Any]) -> None:
+    def add(self, params: Dict[str, Any]) -> None:
         """
         Add a new relationship to the container.
-
-        Parameters
-        ----------
-        params : dict[str, Any]
-            Dictionary of parameters from the XER file to create a new TaskPred
+        The params dictionary is validated into a TaskPred Pydantic model.
         """
-        pred = TaskPred(params)
-        self.task_pred.append(pred)
+        task_pred_instance = TaskPred.model_validate(params)
+        if self.data_context:
+             task_pred_instance.data = self.data_context
+        self._task_preds.append(task_pred_instance)
 
     @property
-    def relations(self) -> list[TaskPred]:
+    def relations(self) -> List[TaskPred]: # Type hint updated
         """
         Get all relationships.
-
-        Returns
-        -------
-        list[TaskPred]
-            List of all relationships in the container
         """
-        return self.task_pred
+        return self._task_preds
 
     @property
-    def leads(self) -> list[TaskPred]:
+    def leads(self) -> List[TaskPred]: # Type hint updated
         """
         Get all relationships with lead time (negative lag).
-
-        Returns
-        -------
-        list[TaskPred]
-            List of relationships with negative lag values
         """
-        return list(
-            filter(lambda x: x.lag_hr_cnt < 0 if x.lag_hr_cnt else None, self.task_pred)
-        )
+        return [
+            pred for pred in self._task_preds if pred.lag_hr_cnt is not None and pred.lag_hr_cnt < 0
+        ]
 
     @property
-    def finish_to_start(self) -> list[TaskPred]:
+    def finish_to_start(self) -> List[TaskPred]: # Type hint updated
         """
         Get all Finish-to-Start relationships.
-
-        Returns
-        -------
-        list[TaskPred]
-            List of Finish-to-Start relationships
         """
-        return list(filter(lambda x: x.pred_type == "PR_FS", self.task_pred))
+        return [pred for pred in self._task_preds if pred.pred_type == "PR_FS"]
 
-    def get_successors(self, act_id: int) -> list[TaskPred]:
+    def get_successors(self, act_id: int) -> List[TaskPred]: # Type hint updated
         """
         Get all successor relationships for a given activity.
-
-        Parameters
-        ----------
-        act_id : int
-            The activity ID for which to find successors
-
-        Returns
-        -------
-        list[TaskPred]
-            List of relationships where the specified activity is a predecessor
         """
-        succ = list(filter(lambda x: x.pred_task_id == act_id, self.task_pred))
-        return succ
+        return [pred for pred in self._task_preds if pred.pred_task_id == act_id]
 
-    def get_predecessors(self, act_id: int) -> list[TaskPred]:
+    def get_predecessors(self, act_id: int) -> List[TaskPred]: # Type hint updated
         """
         Get all predecessor relationships for a given activity.
-
-        Parameters
-        ----------
-        act_id : int
-            The activity ID for which to find predecessors
-
-        Returns
-        -------
-        list[TaskPred]
-            List of relationships where the specified activity is a successor
         """
-        succ = list(filter(lambda x: x.task_id == act_id, self.task_pred))
-        return succ
+        return [pred for pred in self._task_preds if pred.task_id == act_id]
 
     def count(self) -> int:
         """
         Get the number of relationships.
-
-        Returns
-        -------
-        int
-            The number of relationships in the container
         """
-        return len(self.task_pred)
+        return len(self._task_preds)
 
     def __len__(self) -> int:
         """
         Get the number of relationships.
-
-        Returns
-        -------
-        int
-            The number of relationships in the container
         """
-        return len(self.task_pred)
+        return len(self._task_preds)
 
-    def __iter__(self) -> "Predecessors":
+    def __iter__(self) -> Iterator[TaskPred]: # Corrected return type
         """
         Make Predecessors iterable.
-
-        Returns
-        -------
-        Predecessors
-            Self reference for iterator
         """
+        self.index = 0 # Reset index for each new iteration
         return self
 
     def __next__(self) -> TaskPred:
         """
         Get the next relationship in the iteration.
-
-        Returns
-        -------
-        TaskPred
-            The next relationship in the collection
-
-        Raises
-        ------
-        StopIteration
-            When there are no more relationships to iterate
         """
-        if self.index >= len(self.task_pred):
+        if self.index < len(self._task_preds):
+            result = self._task_preds[self.index]
+            self.index += 1
+            return result
+        else:
             raise StopIteration
-        idx = self.index
-        self.index += 1
-        return self.task_pred[idx]

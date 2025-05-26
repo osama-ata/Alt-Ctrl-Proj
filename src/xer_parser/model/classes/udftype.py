@@ -1,85 +1,38 @@
-from typing import Any
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
 
-class UDFType:
-    udf_type_id: str | None = None
-    table_name: str | None = None
-    udf_type_name: str | None = None
-    udf_type_label: str | None = None
-    logical_data_type: str | None = None
-    super_flag: str | None = None
-    indicator_expression: str | None = None
-    summary_indicator_expression: str | None = None
-    export_flag: str | None = None
+class UDFType(BaseModel):
+    udf_type_id: Optional[int] = Field(default=None, alias="udf_type_id") # Assuming int ID
+    table_name: Optional[str] = Field(default=None, alias="table_name")
+    udf_type_name: Optional[str] = Field(default=None, alias="udf_type_name")
+    udf_type_label: Optional[str] = Field(default=None, alias="udf_type_label")
+    logical_data_type: Optional[str] = Field(default=None, alias="logical_data_type")
+    super_flag: Optional[str] = Field(default=None, alias="super_flag") # Y/N
+    indicator_expression: Optional[str] = Field(default=None, alias="indicator_expression")
+    summary_indicator_expression: Optional[str] = Field(default=None, alias="summary_indicator_expression")
+    export_flag: Optional[str] = Field(default=None, alias="export_flag") # Y/N
 
-    def __init__(self, params: dict[str, Any]) -> None:
-        self.udf_type_id = (
-            str(params.get("udf_type_id")).strip()
-            if params.get("udf_type_id") is not None
-            else None
-        )
-        self.table_name = (
-            str(params.get("table_name")).strip()
-            if params.get("table_name") is not None
-            else None
-        )
-        self.udf_type_name = (
-            str(params.get("udf_type_name")).strip()
-            if params.get("udf_type_name") is not None
-            else None
-        )
-        self.udf_type_label = (
-            str(params.get("udf_type_label")).strip()
-            if params.get("udf_type_label") is not None
-            else None
-        )
-        self.logical_data_type = (
-            str(params.get("logical_data_type")).strip()
-            if params.get("logical_data_type") is not None
-            else None
-        )
-        self.super_flag = (
-            str(params.get("super_flag")).strip()
-            if params.get("super_flag") is not None
-            else None
-        )
-        self.indicator_expression = (
-            str(params.get("indicator_expression")).strip()
-            if params.get("indicator_expression") is not None
-            else None
-        )
-        self.summary_indicator_expression = (
-            str(params.get("summary_indicator_expression")).strip()
-            if params.get("summary_indicator_expression") is not None
-            else None
-        )
-        self.export_flag = (
-            str(params.get("export_flag")).strip()
-            if params.get("export_flag") is not None
-            else None
-        )
+    data: Any = Field(default=None, exclude=True)
 
-    def get_id(self) -> str | None:
-        return self.udf_type_id
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        
+        def s(value: Any) -> str:
+            return "" if value is None else str(value)
 
-    def get_tsv(self) -> list[str]:
-        tsv: list[str] = [
+        return [
             "%R",
-            str(self.udf_type_id) if self.udf_type_id is not None else "",
-            str(self.table_name) if self.table_name is not None else "",
-            str(self.udf_type_name) if self.udf_type_name is not None else "",
-            str(self.udf_type_label) if self.udf_type_label is not None else "",
-            str(self.logical_data_type) if self.logical_data_type is not None else "",
-            str(self.super_flag) if self.super_flag is not None else "",
-            str(self.indicator_expression)
-            if self.indicator_expression is not None
-            else "",
-            str(self.summary_indicator_expression)
-            if self.summary_indicator_expression is not None
-            else "",
-            str(self.export_flag) if self.export_flag is not None else "",
+            s(model_data.get("udf_type_id")),
+            s(model_data.get("table_name")),
+            s(model_data.get("udf_type_name")),
+            s(model_data.get("udf_type_label")),
+            s(model_data.get("logical_data_type")),
+            s(model_data.get("super_flag")),
+            s(model_data.get("indicator_expression")),
+            s(model_data.get("summary_indicator_expression")),
+            s(model_data.get("export_flag")),
         ]
-        return tsv
 
     def __repr__(self) -> str:
-        return self.udf_type_name or ""
+        return self.udf_type_name if self.udf_type_name is not None else "UDFType"

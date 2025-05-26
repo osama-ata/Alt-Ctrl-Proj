@@ -1,43 +1,26 @@
-from typing import ClassVar
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
 
-class TaskActv:
-    obj_list: ClassVar[list] = []
+class TaskActv(BaseModel):
+    task_id: Optional[int] = Field(default=None, alias="task_id")
+    actv_code_type_id: Optional[int] = Field(default=None, alias="actv_code_type_id") # Assuming this is an int ID
+    actv_code_id: Optional[int] = Field(default=None, alias="actv_code_id")
+    proj_id: Optional[int] = Field(default=None, alias="proj_id")
 
-    def __init__(self, params, data):
-        self.task_id = (
-            int(params.get("task_id").strip()) if params.get("task_id") else None
-        )
-        self.actv_code_type_id = params.get("actv_code_type_id").strip()
-        self.actv_code_id = (
-            int(params.get("actv_code_id").strip())
-            if params.get("actv_code_id")
-            else None
-        )
-        self.proj_id = (
-            int(params.get("proj_id").strip()) if params.get("proj_id") else None
-        )
-        self.data = data
-        TaskActv.obj_list.append(self)
+    data: Any = Field(default=None, exclude=True) # To store a reference to the main Data object if needed later
 
-    def get_tsv(self):
-        tsv = [
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        return [
             "%R",
-            self.task_id,
-            self.actv_code_type_id,
-            self.actv_code_id,
-            self.proj_id,
+            str(model_data.get("task_id", "")) if model_data.get("task_id") is not None else "",
+            str(model_data.get("actv_code_type_id", "")) if model_data.get("actv_code_type_id") is not None else "",
+            str(model_data.get("actv_code_id", "")) if model_data.get("actv_code_id") is not None else "",
+            str(model_data.get("proj_id", "")) if model_data.get("proj_id") is not None else "",
         ]
-        return tsv
 
-    def get_id(self):
-        return self.task_id
-
-    @staticmethod
-    def find_by_id(code_id, activity_code_dict):
-        return {
-            k: v for k, v in activity_code_dict.items() if v.actv_code_id == code_id
-        }
-
-    def __repr__(self):
-        return str(self.task_id) + "->" + str(self.actv_code_id)
+    def __repr__(self) -> str:
+        task_id_str = str(self.task_id) if self.task_id is not None else "N/A"
+        actv_code_id_str = str(self.actv_code_id) if self.actv_code_id is not None else "N/A"
+        return f"<TaskActv task_id={task_id_str} -> actv_code_id={actv_code_id_str}>"

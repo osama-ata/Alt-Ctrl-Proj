@@ -1,69 +1,38 @@
-from __future__ import annotations
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
-from typing import Any, ClassVar
 
+class RCatVal(BaseModel):
+    rsrc_catg_id: Optional[int] = Field(default=None, alias="rsrc_catg_id")
+    rsrc_catg_type_id: Optional[int] = Field(default=None, alias="rsrc_catg_type_id")
+    rsrc_catg_short_name: Optional[str] = Field(default=None, alias="rsrc_catg_short_name")
+    rsrc_catg_name: Optional[str] = Field(default=None, alias="rsrc_catg_name")
+    parent_rsrc_catg_id: Optional[int] = Field(default=None, alias="parent_rsrc_catg_id")
+    # seq_num is often present in such tables, but not in original __init__. Added based on common pattern.
+    # If not in XER, it can be removed. For now, assuming it might be relevant.
+    seq_num: Optional[int] = Field(default=None, alias="seq_num") 
 
-class RCatVal:
-    obj_list: ClassVar[list[RCatVal]] = []
-    rsrc_catg_id: str | None
-    rsrc_catg_type_id: str | None
-    rsrc_catg_short_name: str | None
-    rsrc_catg_name: str | None
-    parent_rsrc_catg_id: str | None
+    data: Any = Field(default=None, exclude=True) # Standard data field
 
-    def __init__(self, params: dict[str, Any]) -> None:
-        self.rsrc_catg_id = (
-            str(params.get("rsrc_catg_id")).strip()
-            if params.get("rsrc_catg_id") is not None
-            else None
-        )
-        self.rsrc_catg_type_id = (
-            str(params.get("rsrc_catg_type_id")).strip()
-            if params.get("rsrc_catg_type_id") is not None
-            else None
-        )
-        self.rsrc_catg_short_name = (
-            str(params.get("rsrc_catg_short_name")).strip()
-            if params.get("rsrc_catg_short_name") is not None
-            else None
-        )
-        self.rsrc_catg_name = (
-            str(params.get("rsrc_catg_name")).strip()
-            if params.get("rsrc_catg_name") is not None
-            else None
-        )
-        self.parent_rsrc_catg_id = (
-            str(params.get("parent_rsrc_catg_id")).strip()
-            if params.get("parent_rsrc_catg_id") is not None
-            else None
-        )
-        RCatVal.obj_list.append(self)
-
-    def get_id(self) -> str | None:
+    def get_id(self) -> Optional[int]: # Kept for now
         return self.rsrc_catg_id
 
-    def get_tsv(self) -> list[str]:
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        # Original get_tsv order: rsrc_catg_id, rsrc_catg_type_id, rsrc_catg_short_name, rsrc_catg_name, parent_rsrc_catg_id
+        # Adding seq_num at a logical place if it were present, e.g., after type_id or at end.
+        # For now, keeping original fields and order from file. If seq_num is confirmed, order needs adjustment.
+        # The provided file did not have seq_num in its __init__ or get_tsv.
         return [
             "%R",
-            str(self.rsrc_catg_id) if self.rsrc_catg_id is not None else "",
-            str(self.rsrc_catg_type_id) if self.rsrc_catg_type_id is not None else "",
-            str(self.rsrc_catg_short_name)
-            if self.rsrc_catg_short_name is not None
-            else "",
-            str(self.rsrc_catg_name) if self.rsrc_catg_name is not None else "",
-            str(self.parent_rsrc_catg_id)
-            if self.parent_rsrc_catg_id is not None
-            else "",
+            str(model_data.get("rsrc_catg_id", "")) if model_data.get("rsrc_catg_id") is not None else "",
+            str(model_data.get("rsrc_catg_type_id", "")) if model_data.get("rsrc_catg_type_id") is not None else "",
+            model_data.get("rsrc_catg_short_name", "") if model_data.get("rsrc_catg_short_name") is not None else "",
+            model_data.get("rsrc_catg_name", "") if model_data.get("rsrc_catg_name") is not None else "",
+            str(model_data.get("parent_rsrc_catg_id", "")) if model_data.get("parent_rsrc_catg_id") is not None else "",
+            # str(model_data.get("seq_num", "")) if model_data.get("seq_num") is not None else "", # If seq_num is added
         ]
 
-    @classmethod
-    def find_by_id(cls, id: str) -> RCatVal | list[RCatVal]:
-        obj: list[RCatVal] = list(
-            filter(lambda x: getattr(x, "rsrc_catg_id", None) == id, cls.obj_list)
-        )
-        if len(obj) > 0:
-            return obj[0]
-        return obj
-
     def __repr__(self) -> str:
-        return self.rsrc_catg_name or ""
+        name = self.rsrc_catg_name if self.rsrc_catg_name is not None else "Unknown RCatVal"
+        return f"<{name} (ID: {self.rsrc_catg_id if self.rsrc_catg_id is not None else 'N/A'})>"

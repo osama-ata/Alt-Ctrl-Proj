@@ -1,244 +1,103 @@
-# pylint: disable=too-many-instance-attributes, too-many-arguments, too-few-public-methods
+from typing import Optional, Any
+from datetime import datetime
+from pydantic import BaseModel, Field
 
-import locale
 
+class TaskRsrc(BaseModel):
+    taskrsrc_id: Optional[int] = Field(default=None, alias="taskrsrc_id")
+    task_id: Optional[int] = Field(default=None, alias="task_id")
+    proj_id: Optional[int] = Field(default=None, alias="proj_id") # Assuming int ID
+    cost_qty_link_flag: Optional[str] = Field(default=None, alias="cost_qty_link_flag") # Y/N
+    role_id: Optional[int] = Field(default=None, alias="role_id") # Assuming int ID
+    acct_id: Optional[int] = Field(default=None, alias="acct_id") # Assuming int ID
+    rsrc_id: Optional[int] = Field(default=None, alias="rsrc_id")
+    pobs_id: Optional[int] = Field(default=None, alias="pobs_id") # Assuming int ID
+    skill_level: Optional[int] = Field(default=None, alias="skill_level") # Assuming int
+    remain_qty: Optional[float] = Field(default=None, alias="remain_qty")
+    target_qty: Optional[float] = Field(default=None, alias="target_qty")
+    remain_qty_per_hr: Optional[float] = Field(default=None, alias="remain_qty_per_hr")
+    target_lag_drtn_hr_cnt: Optional[float] = Field(default=None, alias="target_lag_drtn_hr_cnt")
+    target_qty_per_hr: Optional[float] = Field(default=None, alias="target_qty_per_hr") # Was string, assuming float
+    act_ot_qty: Optional[float] = Field(default=None, alias="act_ot_qty") # Was string, assuming float
+    act_reg_qty: Optional[float] = Field(default=None, alias="act_reg_qty") # Was string, assuming float
+    relag_drtn_hr_cnt: Optional[float] = Field(default=None, alias="relag_drtn_hr_cnt") # Was string, assuming float
+    ot_factor: Optional[float] = Field(default=None, alias="ot_factor") # Was string, assuming float
+    cost_per_qty: Optional[float] = Field(default=None, alias="cost_per_qty") # Was string, assuming float
+    target_cost: Optional[float] = Field(default=None, alias="target_cost") # Was string, assuming float
+    act_reg_cost: Optional[float] = Field(default=None, alias="act_reg_cost")
+    act_ot_cost: Optional[float] = Field(default=None, alias="act_ot_cost") # Was string, assuming float
+    remain_cost: Optional[float] = Field(default=None, alias="remain_cost") # Was string, assuming float
+    act_start_date: Optional[datetime] = Field(default=None, alias="act_start_date")
+    act_end_date: Optional[datetime] = Field(default=None, alias="act_end_date")
+    restart_date: Optional[datetime] = Field(default=None, alias="restart_date")
+    reend_date: Optional[datetime] = Field(default=None, alias="reend_date")
+    target_start_date: Optional[datetime] = Field(default=None, alias="target_start_date")
+    target_end_date: Optional[datetime] = Field(default=None, alias="target_end_date")
+    rem_late_start_date: Optional[datetime] = Field(default=None, alias="rem_late_start_date")
+    rem_late_end_date: Optional[datetime] = Field(default=None, alias="rem_late_end_date")
+    rollup_dates_flag: Optional[str] = Field(default=None, alias="rollup_dates_flag") # Y/N
+    target_crv: Optional[str] = Field(default=None, alias="target_crv") # Curve name or ID?
+    remain_crv: Optional[str] = Field(default=None, alias="remain_crv") # Curve name or ID?
+    actual_crv: Optional[str] = Field(default=None, alias="actual_crv") # Curve name or ID?
+    ts_pend_act_end_flag: Optional[str] = Field(default=None, alias="ts_pend_act_end_flag") # Y/N
+    guid: Optional[str] = Field(default=None, alias="guid")
+    rate_type: Optional[int] = Field(default=None, alias="rate_type") # Assuming int, (e.g. 1 for Price / Unit, 2 for Price / Unit 2 etc)
+    act_this_per_cost: Optional[float] = Field(default=None, alias="act_this_per_cost") # Was string, assuming float
+    act_this_per_qty: Optional[float] = Field(default=None, alias="act_this_per_qty") # Corrected from act_this_per_cost
+    curv_id: Optional[int] = Field(default=None, alias="curv_id") # Assuming int ID
+    rsrc_type: Optional[str] = Field(default=None, alias="rsrc_type")
+    cost_per_qty_source_type: Optional[str] = Field(default=None, alias="cost_per_qty_source_type")
+    create_user: Optional[str] = Field(default=None, alias="create_user")
+    create_date: Optional[datetime] = Field(default=None, alias="create_date")
+    cbs_id: Optional[int] = Field(default=None, alias="cbs_id") # Assuming int ID
+    has_rsrchours: Optional[str] = Field(default=None, alias="has_rsrchours") # Y/N
+    taskrsrc_sum_id: Optional[int] = Field(default=None, alias="taskrsrc_sum_id") # Assuming int ID
 
-class TaskRsrc:
-    def __init__(self, params, data=None):
-        self.taskrsrc_id = (
-            int(params.get("taskrsrc_id").strip())
-            if params.get("taskrsrc_id")
-            else None
-        )
-        self.task_id = (
-            int(params.get("task_id").strip()) if params.get("task_id") else None
-        )
-        self.proj_id = params.get("proj_id").strip() if params.get("proj_id") else None
-        self.cost_qty_link_flag = (
-            params.get("cost_qty_link_flag").strip()
-            if params.get("cost_qty_link_flag")
-            else None
-        )
-        self.role_id = params.get("role_id").strip() if params.get("role_id") else None
-        self.acct_id = params.get("acct_id").strip() if params.get("acct_id") else None
-        self.rsrc_id = (
-            int(params.get("rsrc_id").strip()) if params.get("rsrc_id") else None
-        )
-        self.pobs_id = params.get("pobs_id").strip() if params.get("pobs_id") else None
-        self.skill_level = (
-            params.get("skill_level").strip() if params.get("skill_level") else None
-        )
-        self.remain_qty = (
-            locale.atof(params.get("remain_qty").strip())
-            if params.get("remain_qty")
-            else None
-        )
-        self.target_qty = (
-            locale.atof(params.get("target_qty").strip())
-            if params.get("target_qty")
-            else None
-        )
-        self.remain_qty_per_hr = (
-            locale.atof(params.get("remain_qty_per_hr").strip())
-            if params.get("remain_qty_per_hr")
-            else None
-        )
-        self.target_lag_drtn_hr_cnt = (
-            locale.atof(params.get("target_lag_drtn_hr_cnt").strip())
-            if params.get("target_lag_drtn_hr_cnt")
-            else None
-        )
-        self.target_qty_per_hr = (
-            params.get("target_qty_per_hr").strip()
-            if params.get("target_qty_per_hr")
-            else None
-        )
-        self.act_ot_qty = (
-            params.get("act_ot_qty").strip() if params.get("act_ot_qty") else None
-        )
-        self.act_reg_qty = (
-            params.get("act_reg_qty").strip() if params.get("act_reg_qty") else None
-        )
-        self.relag_drtn_hr_cnt = (
-            params.get("relag_drtn_hr_cnt").strip()
-            if params.get("relag_drtn_hr_cnt")
-            else None
-        )
-        self.ot_factor = (
-            params.get("ot_factor").strip() if params.get("ot_factor") else None
-        )
-        self.cost_per_qty = (
-            params.get("cost_per_qty").strip() if params.get("cost_per_qty") else None
-        )
-        self.target_cost = (
-            params.get("target_cost").strip() if params.get("target_cost") else None
-        )
-        self.act_reg_cost = (
-            locale.atof(params.get("act_reg_cost").strip())
-            if params.get("act_reg_cost")
-            else None
-        )
-        self.act_ot_cost = (
-            params.get("act_ot_cost").strip() if params.get("act_ot_cost") else None
-        )
-        self.remain_cost = (
-            params.get("remain_cost").strip() if params.get("remain_cost") else None
-        )
-        self.act_start_date = (
-            params.get("act_start_date").strip()
-            if params.get("act_start_date")
-            else None
-        )
-        self.act_end_date = (
-            params.get("act_end_date").strip() if params.get("act_end_date") else None
-        )
-        self.restart_date = (
-            params.get("restart_date").strip() if params.get("restart_date") else None
-        )
-        self.reend_date = (
-            params.get("reend_date").strip() if params.get("reend_date") else None
-        )
-        self.target_start_date = (
-            params.get("target_start_date").strip()
-            if params.get("target_start_date")
-            else None
-        )
-        self.target_end_date = (
-            params.get("target_end_date").strip()
-            if params.get("target_end_date")
-            else None
-        )
-        self.rem_late_start_date = (
-            params.get("rem_late_start_date").strip()
-            if params.get("rem_late_start_date")
-            else None
-        )
-        self.rem_late_end_date = (
-            params.get("rem_late_end_date").strip()
-            if params.get("rem_late_end_date")
-            else None
-        )
-        self.rollup_dates_flag = (
-            params.get("rollup_dates_flag").strip()
-            if params.get("rollup_dates_flag")
-            else None
-        )
-        self.target_crv = (
-            params.get("target_crv").strip() if params.get("target_crv") else None
-        )
-        self.remain_crv = (
-            params.get("remain_crv").strip() if params.get("remain_crv") else None
-        )
-        self.actual_crv = (
-            params.get("actual_crv").strip() if params.get("actual_crv") else None
-        )
-        self.ts_pend_act_end_flag = (
-            params.get("ts_pend_act_end_flag").strip()
-            if params.get("ts_pend_act_end_flag")
-            else None
-        )
-        self.guid = params.get("guid").strip() if params.get("guid") else None
-        self.rate_type = (
-            params.get("rate_type").strip() if params.get("rate_type") else None
-        )
-        self.act_this_per_cost = (
-            params.get("act_this_per_cost").strip()
-            if params.get("act_this_per_cost")
-            else None
-        )
-        self.act_this_per_qty = (
-            params.get("act_this_per_cost").strip()
-            if params.get("act_this_per_cost")
-            else None
-        )
-        self.curv_id = params.get("curv_id").strip() if params.get("curv_id") else None
-        self.rsrc_type = (
-            params.get("rsrc_type").strip() if params.get("rsrc_type") else None
-        )
-        self.cost_per_qty_source_type = (
-            params.get("cost_per_qty_source_type").strip()
-            if params.get("cost_per_qty_source_type")
-            else None
-        )
-        self.create_user = (
-            params.get("create_user").strip() if params.get("create_user") else None
-        )
-        self.create_date = (
-            params.get("create_date").strip() if params.get("create_date") else None
-        )
-        self.cbs_id = params.get("cbs_id").strip() if params.get("cbs_id") else None
-        self.has_rsrchours = (
-            params.get("has_rsrchours").strip() if params.get("has_rsrchours") else None
-        )
-        self.taskrsrc_sum_id = (
-            params.get("taskrsrc_sum_id").strip()
-            if params.get("taskrsrc_sum_id")
-            else None
-        )
-        self.data = data
+    data: Any = Field(default=None, exclude=True)
 
-    def get_id(self):
-        return self.taskrsrc_id
+    def _format_date_for_tsv(self, dt_val: Any) -> str:
+        if dt_val is None: return ""
+        if isinstance(dt_val, datetime): return dt_val.strftime("%Y-%m-%d %H:%M")
+        return str(dt_val)
+
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        def s(value: Any) -> str:
+            return "" if value is None else str(value)
+
+        return [
+            "%R",
+            s(model_data.get("taskrsrc_id")), s(model_data.get("task_id")), s(model_data.get("proj_id")),
+            s(model_data.get("cost_qty_link_flag")), s(model_data.get("role_id")), s(model_data.get("acct_id")),
+            s(model_data.get("rsrc_id")), s(model_data.get("pobs_id")), s(model_data.get("skill_level")),
+            s(model_data.get("remain_qty")), s(model_data.get("target_qty")), s(model_data.get("remain_qty_per_hr")),
+            s(model_data.get("target_lag_drtn_hr_cnt")), s(model_data.get("target_qty_per_hr")),
+            s(model_data.get("act_ot_qty")), s(model_data.get("act_reg_qty")), s(model_data.get("relag_drtn_hr_cnt")),
+            s(model_data.get("ot_factor")), s(model_data.get("cost_per_qty")), s(model_data.get("target_cost")),
+            s(model_data.get("act_reg_cost")), s(model_data.get("act_ot_cost")), s(model_data.get("remain_cost")),
+            self._format_date_for_tsv(self.act_start_date), self._format_date_for_tsv(self.act_end_date),
+            self._format_date_for_tsv(self.restart_date), self._format_date_for_tsv(self.reend_date),
+            self._format_date_for_tsv(self.target_start_date), self._format_date_for_tsv(self.target_end_date),
+            self._format_date_for_tsv(self.rem_late_start_date), self._format_date_for_tsv(self.rem_late_end_date),
+            s(model_data.get("rollup_dates_flag")), s(model_data.get("target_crv")), s(model_data.get("remain_crv")),
+            s(model_data.get("actual_crv")), s(model_data.get("ts_pend_act_end_flag")), s(model_data.get("guid")),
+            s(model_data.get("rate_type")), s(model_data.get("act_this_per_cost")), s(model_data.get("act_this_per_qty")),
+            s(model_data.get("curv_id")), s(model_data.get("rsrc_type")), s(model_data.get("cost_per_qty_source_type")),
+            s(model_data.get("create_user")), self._format_date_for_tsv(self.create_date),
+            s(model_data.get("cbs_id")), s(model_data.get("has_rsrchours")), s(model_data.get("taskrsrc_sum_id")),
+        ]
 
     @property
-    def resource(self):
-        return self.data.resources.get_resource_by_id(self.rsrc_id)
+    def resource(self) -> Any: # Should be Optional["Resource"] once Resource is Pydantic
+        if self.data and hasattr(self.data, 'resources') and self.data.resources is not None and self.rsrc_id is not None:
+            # Assuming self.data.resources is a list of Pydantic Resource models
+            for res in self.data.resources:
+                if hasattr(res, 'rsrc_id') and res.rsrc_id == self.rsrc_id:
+                    return res
+        return None
 
-    def get_tsv(self):
-        tsv = [
-            "%R",
-            self.taskrsrc_id,
-            self.task_id,
-            self.proj_id,
-            self.cost_qty_link_flag,
-            self.role_id,
-            self.acct_id,
-            self.rsrc_id,
-            self.pobs_id,
-            self.skill_level,
-            self.remain_qty,
-            self.target_qty,
-            self.remain_qty_per_hr,
-            self.target_lag_drtn_hr_cnt,
-            self.target_qty_per_hr,
-            self.act_ot_qty,
-            self.act_reg_qty,
-            self.relag_drtn_hr_cnt,
-            self.ot_factor,
-            self.cost_per_qty,
-            self.target_cost,
-            self.act_reg_cost,
-            self.act_ot_cost,
-            self.remain_cost,
-            self.act_start_date,
-            self.act_end_date,
-            self.restart_date,
-            self.reend_date,
-            self.target_start_date,
-            self.target_end_date,
-            self.rem_late_start_date,
-            self.rem_late_end_date,
-            self.rollup_dates_flag,
-            self.target_crv,
-            self.remain_crv,
-            self.actual_crv,
-            self.ts_pend_act_end_flag,
-            self.guid,
-            self.rate_type,
-            self.act_this_per_cost,
-            self.act_this_per_qty,
-            self.curv_id,
-            self.rsrc_type,
-            self.cost_per_qty_source_type,
-            self.create_user,
-            self.create_date,
-            self.cbs_id,
-            self.has_rsrchours,
-            self.taskrsrc_sum_id,
-        ]
-        return tsv
-
-    def __repr__(self):
-        return (
-            str(self.task_id) + "->" + str(self.rsrc_id) + " = " + str(self.target_qty)
-        )
+    def __repr__(self) -> str:
+        task_id_str = str(self.task_id) if self.task_id is not None else "N/A"
+        rsrc_id_str = str(self.rsrc_id) if self.rsrc_id is not None else "N/A"
+        target_qty_str = str(self.target_qty) if self.target_qty is not None else "N/A"
+        return f"<TaskRsrc task_id={task_id_str} -> rsrc_id={rsrc_id_str} (Target Qty: {target_qty_str})>"

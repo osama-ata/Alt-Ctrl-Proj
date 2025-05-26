@@ -33,6 +33,11 @@ Projects
    :undoc-members:
    :show-inheritance:
 
+.. automodule:: xer_parser.model.classes.project
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Resources
 ---------
 
@@ -68,6 +73,14 @@ WBS
    :show-inheritance:
 
 .. automodule:: xer_parser.model.classes.wbs
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Data Model (Central Data Object)
+--------------------------------
+
+.. automodule:: xer_parser.model.classes.data
    :members:
    :undoc-members:
    :show-inheritance:

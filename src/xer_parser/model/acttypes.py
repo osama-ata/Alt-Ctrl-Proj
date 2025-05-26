@@ -1,46 +1,53 @@
-from typing import Any
-
-from xer_parser.model.classes.acttype import ActType
+from typing import List, Iterator, Any, Dict, Optional
+from ..model.classes.acttype import ActType
 
 __all__ = ["ActTypes"]
 
 
 class ActTypes:
+    _activitytypes: List[ActType]
+
     def __init__(self) -> None:
         self.index: int = 0
-        self._activitytypes: list[ActType] = []
+        self._activitytypes: List[ActType] = []
+        # self.data_context: Optional[Any] = None # Main Data object if needed for relations in ActType
 
-    def add(self, params: Any) -> None:
-        self._activitytypes.append(ActType(params))
+    def add(self, params: Dict[str, Any]) -> None:
+        """
+        Adds an ActType to the collection.
+        The params dictionary is validated into an ActType Pydantic model.
+        """
+        acttype_instance = ActType.model_validate(params)
+        # if self.data_context: # If ActType instances need a reference to the main Data object
+        #     acttype_instance.data = self.data_context
+        self._activitytypes.append(acttype_instance)
 
-    def find_by_id(self, id: Any) -> ActType | list[ActType]:
-        obj: list[ActType] = list(
-            filter(lambda x: x.actv_code_type_id == id, self._activitytypes)
-        )
-        if len(obj) > 0:
-            return obj[0]
-        return obj
+    def find_by_id(self, type_id: int) -> Optional[ActType]:
+        """Finds an activity code type by its actv_code_type_id."""
+        for act_type in self._activitytypes:
+            if act_type.actv_code_type_id == type_id:
+                return act_type
+        return None
 
-    def get_tsv(self) -> list[list[str]]:
-        if len(self._activitytypes) > 0:
-            tsv: list[list[str]] = []
-            tsv.append(["%T", "ACTVTYPE"])
-            tsv.append(
-                [
-                    "%F",
-                    "actv_code_type_id",
-                    "actv_short_len",
-                    "seq_num",
-                    "actv_code_type",
-                    "proj_id",
-                    "wbs_id",
-                    "actv_code_type_scope",
-                ]
-            )
-            for acttyp in self._activitytypes:
-                tsv.append(acttyp.get_tsv())
-            return tsv
-        return []
+    def get_tsv(self) -> list: # Return type changed to list for consistency
+        if not self._activitytypes:
+            return []
+            
+        tsv_data: list[list[str]] = [["%T", "ACTVTYPE"]]
+        header = [
+            "%F",
+            "actv_code_type_id",
+            "actv_short_len",
+            "seq_num",
+            "actv_code_type",
+            "proj_id",
+            "wbs_id",
+            "actv_code_type_scope",
+        ]
+        tsv_data.append(header)
+        for acttyp in self._activitytypes:
+            tsv_data.append(acttyp.get_tsv())
+        return tsv_data
 
     def count(self) -> int:
         return len(self._activitytypes)
@@ -48,12 +55,14 @@ class ActTypes:
     def __len__(self) -> int:
         return len(self._activitytypes)
 
-    def __iter__(self) -> "ActTypes":
+    def __iter__(self) -> Iterator[ActType]:
+        self.index = 0  # Reset index for each new iteration
         return self
 
     def __next__(self) -> ActType:
-        if self.index >= len(self._activitytypes):
+        if self.index < len(self._activitytypes):
+            result = self._activitytypes[self.index]
+            self.index += 1
+            return result
+        else:
             raise StopIteration
-        idx = self.index
-        self.index += 1
-        return self._activitytypes[idx]

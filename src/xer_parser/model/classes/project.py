@@ -1,482 +1,196 @@
-from typing import Any
+from typing import Optional, Any, List
+from datetime import datetime
+from pydantic import BaseModel, Field
 
-from xer_parser.model.classes.wbs import WBS
+# Forward reference for WBS, assuming it will be a Pydantic model
+# from xer_parser.model.classes.wbs import WBS # Not strictly needed for field defs if using string literal "WBS"
 
 
-class Project:
-    """
-    Represents a Primavera P6 project.
+class Project(BaseModel):
+    proj_id: Optional[int] = Field(default=None, alias="proj_id")
+    fy_start_month_num: Optional[int] = Field(default=None, alias="fy_start_month_num") # Assuming int
+    rsrc_self_add_flag: Optional[str] = Field(default=None, alias="rsrc_self_add_flag") # Y/N flag
+    allow_complete_flag: Optional[str] = Field(default=None, alias="allow_complete_flag") # Y/N flag
+    rsrc_multi_assign_flag: Optional[str] = Field(default=None, alias="rsrc_multi_assign_flag") # Y/N flag
+    checkout_flag: Optional[str] = Field(default=None, alias="checkout_flag") # Y/N flag
+    project_flag: Optional[str] = Field(default=None, alias="project_flag") # Y/N flag
+    step_complete_flag: Optional[str] = Field(default=None, alias="step_complete_flag") # Y/N flag
+    cost_qty_recalc_flag: Optional[str] = Field(default=None, alias="cost_qty_recalc_flag") # Y/N flag
+    batch_sum_flag: Optional[str] = Field(default=None, alias="batch_sum_flag") # Y/N flag
+    name_sep_char: Optional[str] = Field(default=None, alias="name_sep_char")
+    def_complete_pct_type: Optional[str] = Field(default=None, alias="def_complete_pct_type")
+    proj_short_name: Optional[str] = Field(default=None, alias="proj_short_name")
+    acct_id: Optional[int] = Field(default=None, alias="acct_id") # Assuming int
+    orig_proj_id: Optional[int] = Field(default=None, alias="orig_proj_id") # Assuming int, though XER might use string for external refs
+    source_proj_id: Optional[int] = Field(default=None, alias="source_proj_id") # Assuming int
+    base_type_id: Optional[int] = Field(default=None, alias="base_type_id") # Assuming int
+    clndr_id: Optional[int] = Field(default=None, alias="clndr_id") # Assuming int
+    sum_base_proj_id: Optional[int] = Field(default=None, alias="sum_base_proj_id") # Assuming int
+    task_code_base: Optional[int] = Field(default=None, alias="task_code_base") # Assuming int
+    task_code_step: Optional[int] = Field(default=None, alias="task_code_step") # Assuming int
+    priority_num: Optional[int] = Field(default=None, alias="priority_num") # Assuming int
+    wbs_max_sum_level: Optional[int] = Field(default=None, alias="wbs_max_sum_level") # Assuming int
+    strgy_priority_num: Optional[int] = Field(default=None, alias="strgy_priority_num") # Assuming int
+    last_checksum: Optional[str] = Field(default=None, alias="last_checksum") # Typically a string/hex
+    critical_drtn_hr_cnt: Optional[float] = Field(default=None, alias="critical_drtn_hr_cnt") # Assuming float
+    def_cost_per_qty: Optional[float] = Field(default=None, alias="def_cost_per_qty") # Assuming float
+    last_recalc_date: Optional[datetime] = Field(default=None, alias="last_recalc_date")
+    plan_start_date: Optional[datetime] = Field(default=None, alias="plan_start_date")
+    plan_end_date: Optional[datetime] = Field(default=None, alias="plan_end_date")
+    scd_end_date: Optional[datetime] = Field(default=None, alias="scd_end_date")
+    add_date: Optional[datetime] = Field(default=None, alias="add_date")
+    last_tasksum_date: Optional[datetime] = Field(default=None, alias="last_tasksum_date")
+    fcst_start_date: Optional[datetime] = Field(default=None, alias="fcst_start_date")
+    def_duration_type: Optional[str] = Field(default=None, alias="def_duration_type")
+    task_code_prefix: Optional[str] = Field(default=None, alias="task_code_prefix")
+    guid: Optional[str] = Field(default=None, alias="guid")
+    def_qty_type: Optional[str] = Field(default=None, alias="def_qty_type")
+    add_by_name: Optional[str] = Field(default=None, alias="add_by_name")
+    web_local_root_path: Optional[str] = Field(default=None, alias="web_local_root_path")
+    proj_url: Optional[str] = Field(default=None, alias="proj_url")
+    def_rate_type: Optional[str] = Field(default=None, alias="def_rate_type")
+    add_act_remain_flag: Optional[str] = Field(default=None, alias="add_act_remain_flag") # Y/N flag
+    act_this_per_link_flag: Optional[str] = Field(default=None, alias="act_this_per_link_flag") # Y/N flag
+    def_task_type: Optional[str] = Field(default=None, alias="def_task_type")
+    act_pct_link_flag: Optional[str] = Field(default=None, alias="act_pct_link_flag") # Y/N flag
+    critical_path_type: Optional[str] = Field(default=None, alias="critical_path_type")
+    task_code_prefix_flag: Optional[str] = Field(default=None, alias="task_code_prefix_flag") # Y/N flag
+    def_rollup_dates_flag: Optional[str] = Field(default=None, alias="def_rollup_dates_flag") # Y/N flag
+    use_project_baseline_flag: Optional[str] = Field(default=None, alias="use_project_baseline_flag") # Y/N flag
+    rem_target_link_flag: Optional[str] = Field(default=None, alias="rem_target_link_flag") # Y/N flag
+    reset_planned_flag: Optional[str] = Field(default=None, alias="reset_planned_flag") # Y/N flag
+    allow_neg_act_flag: Optional[str] = Field(default=None, alias="allow_neg_act_flag") # Y/N flag
+    sum_assign_level: Optional[str] = Field(default=None, alias="sum_assign_level")
+    last_fin_dates_id: Optional[int] = Field(default=None, alias="last_fin_dates_id") # Assuming int
+    last_baseline_update_date: Optional[datetime] = Field(default=None, alias="last_baseline_update_date") # Note: original used last_fin_dates_id for this
+    cr_external_key: Optional[str] = Field(default=None, alias="cr_external_key")
+    apply_actuals_date: Optional[datetime] = Field(default=None, alias="apply_actuals_date")
+    fintmpl_id: Optional[int] = Field(default=None, alias="fintmpl_id")
+    location_id: Optional[int] = Field(default=None, alias="location_id") # Assuming int
+    loaded_scope_level: Optional[str] = Field(default=None, alias="loaded_scope_level")
+    export_flag: Optional[str] = Field(default=None, alias="export_flag") # Y/N flag
+    new_fin_dates_id: Optional[int] = Field(default=None, alias="new_fin_dates_id") # Assuming int
+    baselines_to_export: Optional[str] = Field(default=None, alias="baselines_to_export")
+    baseline_names_to_export: Optional[str] = Field(default=None, alias="baseline_names_to_export")
+    next_data_date: Optional[datetime] = Field(default=None, alias="next_data_date")
+    close_period_flag: Optional[str] = Field(default=None, alias="close_period_flag") # Y/N flag
+    sum_refresh_date: Optional[datetime] = Field(default=None, alias="sum_refresh_date")
+    trsrcsum_loaded: Optional[str] = Field(default=None, alias="trsrcsum_loaded") # Y/N flag
+    sumtask_loaded: Optional[str] = Field(default=None, alias="sumtask_loaded") # Y/N flag
 
-    This class encapsulates all the attributes and functionalities of a Primavera P6 project,
-    including access to its activities and WBS elements.
-
-    Parameters
-    ----------
-    params : Dict[str, Any]
-        Dictionary of parameters from the XER file
-    data : Any
-        Reference to the main data container
-
-    Attributes
-    ----------
-    proj_id : int
-        Unique identifier for the project
-    proj_short_name : str
-        Short name of the project
-    last_recalc_date : str
-        Date of the last schedule calculation
-    plan_start_date : str
-        Planned start date of the project
-    plan_end_date : str
-        Planned end date of the project
-    activities : List[Task]
-        List of all activities in this project
-    wbss : List[WBS]
-        List of all WBS elements in this project
-    """
-
-    def __init__(self, params: dict[str, Any], data: Any) -> None:
-        """
-        Initialize a Project object from XER file parameters.
-
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters from the XER file
-        data : Any
-            Reference to the main data container
-        """
-        self.proj_id = (
-            int(params.get("proj_id").strip()) if params.get("proj_id") else None
-        )
-        self.fy_start_month_num = (
-            params.get("fy_start_month_num").strip()
-            if params.get("fy_start_month_num")
-            else None
-        )
-        self.rsrc_self_add_flag = (
-            params.get("rsrc_self_add_flag").strip()
-            if params.get("rsrc_self_add_flag")
-            else None
-        )
-        self.allow_complete_flag = (
-            params.get("allow_complete_flag").strip()
-            if params.get("allow_complete_flag")
-            else None
-        )
-        self.rsrc_multi_assign_flag = (
-            params.get("rsrc_multi_assign_flag").strip()
-            if params.get("rsrc_multi_assign_flag")
-            else None
-        )
-        self.checkout_flag = (
-            params.get("checkout_flag").strip() if params.get("checkout_flag") else None
-        )
-        self.project_flag = (
-            params.get("project_flag").strip() if params.get("project_flag") else None
-        )
-        self.step_complete_flag = (
-            params.get("step_complete_flag").strip()
-            if params.get("step_complete_flag")
-            else None
-        )
-        self.cost_qty_recalc_flag = (
-            params.get("cost_qty_recalc_flag").strip()
-            if params.get("cost_qty_recalc_flag")
-            else None
-        )
-        self.batch_sum_flag = (
-            params.get("batch_sum_flag").strip()
-            if params.get("batch_sum_flag")
-            else None
-        )
-        self.name_sep_char = (
-            params.get("name_sep_char").strip() if params.get("name_sep_char") else None
-        )
-        self.def_complete_pct_type = (
-            params.get("def_complete_pct_type").strip()
-            if params.get("def_complete_pct_type")
-            else None
-        )
-        self.proj_short_name = (
-            params.get("proj_short_name").strip()
-            if params.get("proj_short_name")
-            else None
-        )
-        self.acct_id = params.get("acct_id").strip() if params.get("acct_id") else None
-        self.orig_proj_id = (
-            params.get("orig_proj_id").strip() if params.get("orig_proj_id") else None
-        )
-        self.source_proj_id = (
-            params.get("source_proj_id").strip()
-            if params.get("source_proj_id")
-            else None
-        )
-        self.base_type_id = (
-            params.get("base_type_id").strip() if params.get("base_type_id") else None
-        )
-        self.clndr_id = (
-            params.get("clndr_id").strip() if params.get("clndr_id") else None
-        )
-        self.sum_base_proj_id = (
-            params.get("sum_base_proj_id").strip()
-            if params.get("sum_base_proj_id")
-            else None
-        )
-        self.task_code_base = (
-            params.get("task_code_base").strip()
-            if params.get("task_code_base")
-            else None
-        )
-        self.task_code_step = (
-            params.get("task_code_step").strip()
-            if params.get("task_code_step")
-            else None
-        )
-        self.priority_num = (
-            params.get("priority_num").strip() if params.get("priority_num") else None
-        )
-        self.wbs_max_sum_level = (
-            params.get("wbs_max_sum_level").strip()
-            if params.get("wbs_max_sum_level")
-            else None
-        )
-        self.strgy_priority_num = (
-            params.get("strgy_priority_num").strip()
-            if params.get("strgy_priority_num")
-            else None
-        )
-        self.last_checksum = (
-            params.get("last_checksum").strip() if params.get("last_checksum") else None
-        )
-        self.critical_drtn_hr_cnt = (
-            params.get("critical_drtn_hr_cnt").strip()
-            if params.get("critical_drtn_hr_cnt")
-            else None
-        )
-        self.def_cost_per_qty = (
-            params.get("def_cost_per_qty").strip()
-            if params.get("def_cost_per_qty")
-            else None
-        )
-        self.last_recalc_date = (
-            params.get("last_recalc_date").strip()
-            if params.get("last_recalc_date")
-            else None
-        )
-        self.plan_start_date = (
-            params.get("plan_start_date").strip()
-            if params.get("plan_start_date")
-            else None
-        )
-        self.plan_end_date = (
-            params.get("plan_end_date").strip() if params.get("plan_end_date") else None
-        )
-        self.scd_end_date = (
-            params.get("scd_end_date").strip() if params.get("scd_end_date") else None
-        )
-        self.add_date = (
-            params.get("add_date").strip() if params.get("add_date") else None
-        )
-        self.last_tasksum_date = (
-            params.get("last_tasksum_date").strip()
-            if params.get("last_tasksum_date")
-            else None
-        )
-        self.fcst_start_date = (
-            params.get("fcst_start_date").strip()
-            if params.get("fcst_start_date")
-            else None
-        )
-        self.def_duration_type = (
-            params.get("def_duration_type").strip()
-            if params.get("def_duration_type")
-            else None
-        )
-        self.task_code_prefix = (
-            params.get("task_code_prefix").strip()
-            if params.get("task_code_prefix")
-            else None
-        )
-        self.guid = params.get("guid").strip() if params.get("guid") else None
-        self.def_qty_type = (
-            params.get("def_qty_type").strip() if params.get("def_qty_type") else None
-        )
-        self.add_by_name = (
-            params.get("add_by_name").strip() if params.get("add_by_name") else None
-        )
-        self.web_local_root_path = (
-            params.get("web_local_root_path").strip()
-            if params.get("web_local_root_path")
-            else None
-        )
-        self.proj_url = (
-            params.get("proj_url").strip() if params.get("proj_url") else None
-        )
-        self.def_rate_type = (
-            params.get("def_rate_type").strip() if params.get("def_rate_type") else None
-        )
-        self.add_act_remain_flag = (
-            params.get("add_act_remain_flag").strip()
-            if params.get("add_act_remain_flag")
-            else None
-        )
-        self.act_this_per_link_flag = (
-            params.get("act_this_per_link_flag").strip()
-            if params.get("act_this_per_link_flag")
-            else None
-        )
-        self.def_task_type = (
-            params.get("def_task_type").strip() if params.get("def_task_type") else None
-        )
-        self.act_pct_link_flag = (
-            params.get("act_pct_link_flag").strip()
-            if params.get("act_pct_link_flag")
-            else None
-        )
-        self.critical_path_type = (
-            params.get("critical_path_type").strip()
-            if params.get("critical_path_type")
-            else None
-        )
-        self.task_code_prefix_flag = (
-            params.get("task_code_prefix_flag").strip()
-            if params.get("task_code_prefix_flag")
-            else None
-        )
-        self.def_rollup_dates_flag = (
-            params.get("def_rollup_dates_flag").strip()
-            if params.get("def_rollup_dates_flag")
-            else None
-        )
-        self.use_project_baseline_flag = (
-            params.get("use_project_baseline_flag").strip()
-            if params.get("use_project_baseline_flag")
-            else None
-        )
-        self.rem_target_link_flag = (
-            params.get("rem_target_link_flag").strip()
-            if params.get("rem_target_link_flag")
-            else None
-        )
-        self.reset_planned_flag = (
-            params.get("reset_planned_flag").strip()
-            if params.get("reset_planned_flag")
-            else None
-        )
-        self.allow_neg_act_flag = (
-            params.get("allow_neg_act_flag").strip()
-            if params.get("allow_neg_act_flag")
-            else None
-        )
-        self.sum_assign_level = (
-            params.get("sum_assign_level").strip()
-            if params.get("sum_assign_level")
-            else None
-        )
-        self.last_fin_dates_id = (
-            params.get("last_fin_dates_id").strip()
-            if params.get("last_fin_dates_id")
-            else None
-        )
-        self.last_baseline_update_date = (
-            params.get("last_fin_dates_id").strip()
-            if params.get("last_fin_dates_id")
-            else None
-        )
-        self.cr_external_key = (
-            params.get("cr_external_key").strip()
-            if params.get("cr_external_key")
-            else None
-        )
-        self.apply_actuals_date = (
-            params.get("apply_actuals_date").strip()
-            if params.get("apply_actuals_date")
-            else None
-        )
-        self.location_id = (
-            params.get("location_id") if params.get("location_id") else None
-        )
-        self.loaded_scope_level = (
-            params.get("loaded_scope_level").strip()
-            if params.get("loaded_scope_level")
-            else None
-        )
-        self.export_flag = (
-            params.get("export_flag").strip() if params.get("export_flag") else None
-        )
-        self.new_fin_dates_id = (
-            params.get("new_fin_dates_id").strip()
-            if params.get("new_fin_dates_id")
-            else None
-        )
-        self.baselines_to_export = (
-            params.get("baselines_to_export").strip()
-            if params.get("baselines_to_export")
-            else None
-        )
-        self.baseline_names_to_export = (
-            params.get("baseline_names_to_export").strip()
-            if params.get("baseline_names_to_export")
-            else None
-        )
-        self.next_data_date = (
-            params.get("next_data_date").strip()
-            if params.get("next_data_date")
-            else None
-        )
-        self.close_period_flag = (
-            params.get("close_period_flag").strip()
-            if params.get("close_period_flag")
-            else None
-        )
-        self.sum_refresh_date = (
-            params.get("sum_refresh_date").strip()
-            if params.get("sum_refresh_date")
-            else None
-        )
-        self.trsrcsum_loaded = (
-            params.get("trsrcsum_loaded").strip()
-            if params.get("trsrcsum_loaded")
-            else None
-        )
-        self.fintmpl_id = (
-            int(params.get("fintmpl_id").strip()) if params.get("fintmpl_id") else None
-        )
-        self.sumtask_loaded = (
-            params.get("sumtask_loaded").strip()
-            if params.get("sumtask_loaded")
-            else None
-        )
-        self.data = data
+    data: Any = Field(default=None, exclude=True)
 
     @property
-    def id(self) -> int:
-        """
-        Get the project ID.
-
-        Returns
-        -------
-        int
-            The unique identifier for this project
-        """
+    def id(self) -> Optional[int]:
         return self.proj_id
 
     def get_tsv(self) -> list[Any]:
-        """
-        Get the project data in TSV format.
+        model_data = self.model_dump(by_alias=True)
+        
+        def format_date(dt_val: Any) -> str:
+            if isinstance(dt_val, datetime):
+                return dt_val.strftime("%Y-%m-%d %H:%M") # Adjust format if XER uses a different one
+            elif isinstance(dt_val, str): # If already stringified by model_dump
+                return dt_val
+            return ""
 
-        Returns
-        -------
-        List[Any]
-            Project data formatted for TSV output
-        """
-        tsv = [
+        return [
             "%R",
-            self.proj_id,
-            self.fy_start_month_num,
-            self.rsrc_self_add_flag,
-            self.allow_complete_flag,
-            self.rsrc_multi_assign_flag,
-            self.checkout_flag,
-            self.project_flag,
-            self.step_complete_flag,
-            self.cost_qty_recalc_flag,
-            self.batch_sum_flag,
-            self.name_sep_char,
-            self.def_complete_pct_type,
-            self.proj_short_name,
-            self.acct_id,
-            self.orig_proj_id,
-            self.source_proj_id,
-            self.base_type_id,
-            self.clndr_id,
-            self.sum_base_proj_id,
-            self.task_code_base,
-            self.task_code_step,
-            self.priority_num,
-            self.wbs_max_sum_level,
-            self.strgy_priority_num,
-            self.last_checksum,
-            self.critical_drtn_hr_cnt,
-            self.def_cost_per_qty,
-            self.last_recalc_date,
-            self.plan_start_date,
-            self.plan_end_date,
-            self.scd_end_date,
-            self.add_date,
-            self.last_tasksum_date,
-            self.fcst_start_date,
-            self.def_duration_type,
-            self.task_code_prefix,
-            self.guid,
-            self.def_qty_type,
-            self.add_by_name,
-            self.web_local_root_path,
-            self.proj_url,
-            self.def_rate_type,
-            self.add_act_remain_flag,
-            self.act_this_per_link_flag,
-            self.def_task_type,
-            self.act_pct_link_flag,
-            self.critical_path_type,
-            self.task_code_prefix_flag,
-            self.def_rollup_dates_flag,
-            self.use_project_baseline_flag,
-            self.rem_target_link_flag,
-            self.reset_planned_flag,
-            self.allow_neg_act_flag,
-            self.sum_assign_level,
-            self.last_fin_dates_id,
-            self.last_baseline_update_date,
-            self.cr_external_key,
-            self.apply_actuals_date,
-            self.fintmpl_id,
-            self.location_id,
-            self.loaded_scope_level,
-            self.export_flag,
-            self.new_fin_dates_id,
-            self.baselines_to_export,
-            self.baseline_names_to_export,
-            self.next_data_date,
-            self.close_period_flag,
-            self.sum_refresh_date,
-            self.trsrcsum_loaded,
-            self.sumtask_loaded,
+            str(model_data.get("proj_id", "")) if model_data.get("proj_id") is not None else "",
+            str(model_data.get("fy_start_month_num", "")) if model_data.get("fy_start_month_num") is not None else "",
+            model_data.get("rsrc_self_add_flag", "") if model_data.get("rsrc_self_add_flag") is not None else "",
+            model_data.get("allow_complete_flag", "") if model_data.get("allow_complete_flag") is not None else "",
+            model_data.get("rsrc_multi_assign_flag", "") if model_data.get("rsrc_multi_assign_flag") is not None else "",
+            model_data.get("checkout_flag", "") if model_data.get("checkout_flag") is not None else "",
+            model_data.get("project_flag", "") if model_data.get("project_flag") is not None else "",
+            model_data.get("step_complete_flag", "") if model_data.get("step_complete_flag") is not None else "",
+            model_data.get("cost_qty_recalc_flag", "") if model_data.get("cost_qty_recalc_flag") is not None else "",
+            model_data.get("batch_sum_flag", "") if model_data.get("batch_sum_flag") is not None else "",
+            model_data.get("name_sep_char", "") if model_data.get("name_sep_char") is not None else "",
+            model_data.get("def_complete_pct_type", "") if model_data.get("def_complete_pct_type") is not None else "",
+            model_data.get("proj_short_name", "") if model_data.get("proj_short_name") is not None else "",
+            str(model_data.get("acct_id", "")) if model_data.get("acct_id") is not None else "",
+            str(model_data.get("orig_proj_id", "")) if model_data.get("orig_proj_id") is not None else "",
+            str(model_data.get("source_proj_id", "")) if model_data.get("source_proj_id") is not None else "",
+            str(model_data.get("base_type_id", "")) if model_data.get("base_type_id") is not None else "",
+            str(model_data.get("clndr_id", "")) if model_data.get("clndr_id") is not None else "",
+            str(model_data.get("sum_base_proj_id", "")) if model_data.get("sum_base_proj_id") is not None else "",
+            str(model_data.get("task_code_base", "")) if model_data.get("task_code_base") is not None else "",
+            str(model_data.get("task_code_step", "")) if model_data.get("task_code_step") is not None else "",
+            str(model_data.get("priority_num", "")) if model_data.get("priority_num") is not None else "",
+            str(model_data.get("wbs_max_sum_level", "")) if model_data.get("wbs_max_sum_level") is not None else "",
+            str(model_data.get("strgy_priority_num", "")) if model_data.get("strgy_priority_num") is not None else "",
+            model_data.get("last_checksum", "") if model_data.get("last_checksum") is not None else "",
+            str(model_data.get("critical_drtn_hr_cnt", "")) if model_data.get("critical_drtn_hr_cnt") is not None else "",
+            str(model_data.get("def_cost_per_qty", "")) if model_data.get("def_cost_per_qty") is not None else "",
+            format_date(model_data.get("last_recalc_date")),
+            format_date(model_data.get("plan_start_date")),
+            format_date(model_data.get("plan_end_date")),
+            format_date(model_data.get("scd_end_date")),
+            format_date(model_data.get("add_date")),
+            format_date(model_data.get("last_tasksum_date")),
+            format_date(model_data.get("fcst_start_date")),
+            model_data.get("def_duration_type", "") if model_data.get("def_duration_type") is not None else "",
+            model_data.get("task_code_prefix", "") if model_data.get("task_code_prefix") is not None else "",
+            model_data.get("guid", "") if model_data.get("guid") is not None else "",
+            model_data.get("def_qty_type", "") if model_data.get("def_qty_type") is not None else "",
+            model_data.get("add_by_name", "") if model_data.get("add_by_name") is not None else "",
+            model_data.get("web_local_root_path", "") if model_data.get("web_local_root_path") is not None else "",
+            model_data.get("proj_url", "") if model_data.get("proj_url") is not None else "",
+            model_data.get("def_rate_type", "") if model_data.get("def_rate_type") is not None else "",
+            model_data.get("add_act_remain_flag", "") if model_data.get("add_act_remain_flag") is not None else "",
+            model_data.get("act_this_per_link_flag", "") if model_data.get("act_this_per_link_flag") is not None else "",
+            model_data.get("def_task_type", "") if model_data.get("def_task_type") is not None else "",
+            model_data.get("act_pct_link_flag", "") if model_data.get("act_pct_link_flag") is not None else "",
+            model_data.get("critical_path_type", "") if model_data.get("critical_path_type") is not None else "",
+            model_data.get("task_code_prefix_flag", "") if model_data.get("task_code_prefix_flag") is not None else "",
+            model_data.get("def_rollup_dates_flag", "") if model_data.get("def_rollup_dates_flag") is not None else "",
+            model_data.get("use_project_baseline_flag", "") if model_data.get("use_project_baseline_flag") is not None else "",
+            model_data.get("rem_target_link_flag", "") if model_data.get("rem_target_link_flag") is not None else "",
+            model_data.get("reset_planned_flag", "") if model_data.get("reset_planned_flag") is not None else "",
+            model_data.get("allow_neg_act_flag", "") if model_data.get("allow_neg_act_flag") is not None else "",
+            model_data.get("sum_assign_level", "") if model_data.get("sum_assign_level") is not None else "",
+            str(model_data.get("last_fin_dates_id", "")) if model_data.get("last_fin_dates_id") is not None else "",
+            format_date(model_data.get("last_baseline_update_date")),
+            model_data.get("cr_external_key", "") if model_data.get("cr_external_key") is not None else "",
+            format_date(model_data.get("apply_actuals_date")),
+            str(model_data.get("fintmpl_id", "")) if model_data.get("fintmpl_id") is not None else "",
+            str(model_data.get("location_id", "")) if model_data.get("location_id") is not None else "",
+            model_data.get("loaded_scope_level", "") if model_data.get("loaded_scope_level") is not None else "",
+            model_data.get("export_flag", "") if model_data.get("export_flag") is not None else "",
+            str(model_data.get("new_fin_dates_id", "")) if model_data.get("new_fin_dates_id") is not None else "",
+            model_data.get("baselines_to_export", "") if model_data.get("baselines_to_export") is not None else "",
+            model_data.get("baseline_names_to_export", "") if model_data.get("baseline_names_to_export") is not None else "",
+            format_date(model_data.get("next_data_date")),
+            model_data.get("close_period_flag", "") if model_data.get("close_period_flag") is not None else "",
+            format_date(model_data.get("sum_refresh_date")),
+            model_data.get("trsrcsum_loaded", "") if model_data.get("trsrcsum_loaded") is not None else "",
+            model_data.get("sumtask_loaded", "") if model_data.get("sumtask_loaded") is not None else "",
         ]
-        return tsv
 
     @property
-    def activities(self) -> list[Any]:
+    def activities(self) -> List["Task"]: # Assuming Task will be a Pydantic model
         """
         Get all activities in this project.
-
-        Returns
-        -------
-        List[Any]
-            List of Task objects belonging to this project
+        Relies on self.data being populated with a Data model instance that has a 'tasks' collection.
         """
-        return self.data.tasks.get_by_project(self.proj_id)
+        if self.data and hasattr(self.data, 'tasks') and hasattr(self.data.tasks, 'get_by_project'):
+            return self.data.tasks.get_by_project(self.proj_id)
+        return []
 
     @property
-    def wbss(self) -> list[WBS]:
+    def wbss(self) -> List["WBS"]: # Assuming WBS will be a Pydantic model
         """
         Get all WBS elements in this project.
-
-        Returns
-        -------
-        List[WBS]
-            List of WBS objects belonging to this project
+        Relies on self.data being populated with a Data model instance that has a 'wbss' collection.
         """
-        return self.data.wbss.get_by_project(self.proj_id)
+        if self.data and hasattr(self.data, 'wbss') and hasattr(self.data.wbss, 'get_by_project'):
+            return self.data.wbss.get_by_project(self.proj_id)
+        return []
 
     def __repr__(self) -> str:
-        """
-        String representation of the project.
+        name = self.proj_short_name if self.proj_short_name is not None else "Unknown Project"
+        return f"<{name} (ID: {self.proj_id if self.proj_id is not None else 'N/A'})>"
 
-        Returns
-        -------
-        str
-            The project's short name
-        """
-        return self.proj_short_name
+    class Config:
+        arbitrary_types_allowed = True # For self.data: Any

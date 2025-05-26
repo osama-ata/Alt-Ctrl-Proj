@@ -1,43 +1,44 @@
-from typing import Any
-
-from xer_parser.model.classes.rcattype import RCatType
+from typing import List, Iterator, Any, Dict, Optional
+from ..model.classes.rcattype import RCatType
 
 __all__ = ["RCatTypes"]
 
 
 class RCatTypes:
-    def __init__(self) -> None:
+    _rcattypes: List[RCatType]
+
+    def __init__(self, data_context: Optional[Any] = None) -> None:
         self.index: int = 0
-        self._rcattypes: list[RCatType] = []
+        self._rcattypes: List[RCatType] = []
+        self.data_context: Optional[Any] = data_context
 
-    def add(self, params: dict[str, Any]) -> None:
-        self._rcattypes.append(RCatType(params))
+    def add(self, params: Dict[str, Any]) -> None:
+        """
+        Adds an RCatType to the collection.
+        The params dictionary is validated into an RCatType Pydantic model.
+        """
+        rcattype_instance = RCatType.model_validate(params)
+        if self.data_context: # Though RCatType may not use it now, good for consistency
+            rcattype_instance.data = self.data_context
+        self._rcattypes.append(rcattype_instance)
 
-    def get_tsv(self) -> list[list[str | int | None]]:
-        if len(self._rcattypes) > 0:
-            tsv: list[list[str | int | None]] = []
-            tsv.append(["%T", "RCATTYPE"])
-            tsv.append(
-                [
-                    "%F",
-                    "rsrc_catg_type_id",
-                    "seq_num",
-                    "rsrc_catg_short_len",
-                    "rsrc_catg_type",
-                ]
-            )
-            for rcat in self._rcattypes:
-                tsv.append(rcat.get_tsv())
-            return tsv
-        return []
-
-    def find_by_id(self, id: int) -> RCatType | list[RCatType]:
-        obj = [
-            x for x in self._rcattypes if getattr(x, "rsrc_catg_type_id", None) == id
+    def get_tsv(self) -> list: # Return type changed to list for consistency
+        if not self._rcattypes:
+            return []
+            
+        tsv_data: list[list[str | int | None]] = [["%T", "RCATTYPE"]]
+        header = [
+            "%F",
+            "rsrc_catg_type_id", "seq_num", "rsrc_catg_short_len", "rsrc_catg_type",
         ]
-        if len(obj) > 0:
-            return obj[0]
-        return obj
+        tsv_data.append(header)
+        for rcat_type in self._rcattypes:
+            tsv_data.append(rcat_type.get_tsv())
+        return tsv_data
+
+    def find_by_id(self, rsrc_catg_type_id: int) -> Optional[RCatType]: # Corrected parameter name and return type
+        """Finds a resource category type by its rsrc_catg_type_id."""
+        return next((rcat_type for rcat_type in self._rcattypes if rcat_type.rsrc_catg_type_id == rsrc_catg_type_id), None)
 
     @property
     def count(self) -> int:
@@ -46,12 +47,14 @@ class RCatTypes:
     def __len__(self) -> int:
         return len(self._rcattypes)
 
-    def __iter__(self) -> "RCatTypes":
+    def __iter__(self) -> Iterator[RCatType]: # Corrected return type
+        self.index = 0  # Reset index for each new iteration
         return self
 
     def __next__(self) -> RCatType:
-        if self.index >= len(self._rcattypes):
+        if self.index < len(self._rcattypes):
+            result = self._rcattypes[self.index]
+            self.index += 1
+            return result
+        else:
             raise StopIteration
-        idx = self.index
-        self.index += 1
-        return self._rcattypes[idx]

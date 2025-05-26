@@ -1,207 +1,95 @@
 import logging
-from typing import Any, ClassVar, Optional
+from typing import Optional, Any, List, TYPE_CHECKING
+from datetime import datetime
+from pydantic import BaseModel, Field
 
-from xer_parser.model.classes.task import Task
+if TYPE_CHECKING:
+    from .task import Task # Assuming Task is already/will be a Pydantic model
+    # from .data import Data # For self.data type hint if available
 
 # Initialize logger
 logger = logging.getLogger(__name__)
 
 
-class WBS:
-    """
-    Represents a Work Breakdown Structure (WBS) element in Primavera P6.
+class WBS(BaseModel):
+    wbs_id: Optional[int] = Field(default=None, alias="wbs_id")
+    proj_id: Optional[int] = Field(default=None, alias="proj_id")
+    obs_id: Optional[int] = Field(default=None, alias="obs_id") # Assuming int ID
+    seq_num: Optional[int] = Field(default=None, alias="seq_num") # Assuming int
+    est_wt: Optional[float] = Field(default=None, alias="est_wt") # Assuming float
+    proj_node_flag: Optional[str] = Field(default=None, alias="proj_node_flag") # Y/N
+    sum_data_flag: Optional[str] = Field(default=None, alias="sum_data_flag") # Y/N
+    status_code: Optional[str] = Field(default=None, alias="status_code")
+    wbs_short_name: Optional[str] = Field(default=None, alias="wbs_short_name")
+    wbs_name: Optional[str] = Field(default=None, alias="wbs_name")
+    phase_id: Optional[int] = Field(default=None, alias="phase_id") # Assuming int ID
+    parent_wbs_id: Optional[int] = Field(default=None, alias="parent_wbs_id")
+    ev_user_pct: Optional[float] = Field(default=None, alias="ev_user_pct") # Assuming float
+    ev_etc_user_value: Optional[float] = Field(default=None, alias="ev_etc_user_value") # Assuming float
+    orig_cost: Optional[float] = Field(default=None, alias="orig_cost") # Assuming float
+    indep_remain_total_cost: Optional[float] = Field(default=None, alias="indep_remain_total_cost") # Assuming float
+    ann_dscnt_rate_pct: Optional[float] = Field(default=None, alias="ann_dscnt_rate_pct") # Assuming float
+    dscnt_period_type: Optional[str] = Field(default=None, alias="dscnt_period_type")
+    indep_remain_work_qty: Optional[float] = Field(default=None, alias="indep_remain_work_qty") # Assuming float
+    anticip_start_date: Optional[datetime] = Field(default=None, alias="anticip_start_date")
+    anticip_end_date: Optional[datetime] = Field(default=None, alias="anticip_end_date")
+    ev_compute_type: Optional[str] = Field(default=None, alias="ev_compute_type")
+    ev_etc_compute_type: Optional[str] = Field(default=None, alias="ev_etc_compute_type")
+    guid: Optional[str] = Field(default=None, alias="guid")
+    tmpl_guid: Optional[str] = Field(default=None, alias="tmpl_guid")
+    plan_open_state: Optional[str] = Field(default=None, alias="plan_open_state")
 
-    This class encapsulates the WBS elements that organize activities hierarchically
-    within a project structure. WBS provides a framework for organizing and defining
-    the total scope of the project.
+    data: Any = Field(default=None, exclude=True)
 
-    Parameters
-    ----------
-    params : Dict[str, Any]
-        Dictionary of parameters from the XER file
-    data : Any, optional
-        Reference to the main data container
-
-    Attributes
-    ----------
-    wbs_id : int
-        Unique identifier for the WBS element
-    proj_id : int
-        Project ID to which this WBS belongs
-    wbs_name : str
-        Name of the WBS element
-    wbs_short_name : str
-        Short name of the WBS element
-    parent_wbs_id : int
-        ID of the parent WBS element in the hierarchy
-    status_code : str
-        Status code of the WBS element
-    """
-
-    obj_list: ClassVar[list["WBS"]] = []
-
-    def __init__(self, params: dict[str, Any], data: Any = None) -> None:
-        """
-        Initialize a WBS object from XER file parameters.
-
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters from the XER file
-        data : Any, optional
-            Reference to the main data container
-        """
-        self.wbs_id = (
-            int(params.get("wbs_id").strip()) if params.get("wbs_id") else None
-        )
-        self.proj_id = (
-            int(params.get("proj_id").strip()) if params.get("proj_id") else None
-        )
-        self.obs_id = params.get("obs_id").strip()
-        self.seq_num = params.get("seq_num").strip()
-        self.est_wt = params.get("est_wt")
-        self.proj_node_flag = params.get("proj_node_flag").strip()
-        self.sum_data_flag = params.get("sum_data_flag").strip()
-        self.status_code = params.get("status_code").strip()
-        self.wbs_short_name = params.get("wbs_short_name").strip()
-        self.wbs_name = params.get("wbs_name").strip()
-        self.phase_id = params.get("phase_id").strip()
-        self.parent_wbs_id = (
-            int(params.get("parent_wbs_id")) if params.get("parent_wbs_id") else None
-        )
-        self.ev_user_pct = params.get("ev_user_pct").strip()
-        self.ev_etc_user_value = params.get("ev_etc_user_value").strip()
-        self.orig_cost = params.get("orig_cost").strip()
-        self.indep_remain_total_cost = params.get("indep_remain_total_cost").strip()
-        self.ann_dscnt_rate_pct = params.get("ann_dscnt_rate_pct").strip()
-        self.dscnt_period_type = params.get("dscnt_period_type").strip()
-        self.indep_remain_work_qty = params.get("indep_remain_work_qty").strip()
-        self.anticip_start_date = params.get("anticip_start_date").strip()
-        self.anticip_end_date = params.get("anticip_end_date").strip()
-        self.ev_compute_type = params.get("ev_compute_type").strip()
-        self.ev_etc_compute_type = params.get("ev_etc_compute_type").strip()
-        self.guid = params.get("guid").strip()
-        self.tmpl_guid = params.get("tmpl_guid").strip()
-        self.plan_open_state = (
-            params.get("plan_open_state").strip()
-            if params.get("plan_open_state")
-            else None
-        )
-        self.data = data
-        WBS.obj_list.append(self)
-
-    def get_id(self) -> int:
-        """
-        Get the WBS ID.
-
-        Returns
-        -------
-        int
-            The unique identifier for this WBS element
-        """
-        return self.wbs_id
+    def _format_date_for_tsv(self, dt_val: Any) -> str:
+        if dt_val is None: return ""
+        if isinstance(dt_val, datetime): return dt_val.strftime("%Y-%m-%d %H:%M")
+        return str(dt_val)
 
     def get_tsv(self) -> list[Any]:
+        model_data = self.model_dump(by_alias=True)
+        def s(value: Any) -> str:
+            return "" if value is None else str(value)
+
         return [
             "%R",
-            self.wbs_id,
-            self.proj_id,
-            self.obs_id,
-            self.seq_num,
-            self.est_wt,
-            self.proj_node_flag,
-            self.sum_data_flag,
-            self.status_code,
-            self.wbs_short_name,
-            self.wbs_name,
-            self.phase_id,
-            self.parent_wbs_id,
-            self.ev_user_pct,
-            self.ev_etc_user_value,
-            self.orig_cost,
-            self.indep_remain_total_cost,
-            self.ann_dscnt_rate_pct,
-            self.dscnt_period_type,
-            self.indep_remain_work_qty,
-            self.anticip_start_date,
-            self.anticip_end_date,
-            self.ev_compute_type,
-            self.ev_etc_compute_type,
-            self.guid,
-            self.tmpl_guid,
-            self.plan_open_state,
+            s(model_data.get("wbs_id")),
+            s(model_data.get("proj_id")),
+            s(model_data.get("obs_id")),
+            s(model_data.get("seq_num")),
+            s(model_data.get("est_wt")),
+            s(model_data.get("proj_node_flag")),
+            s(model_data.get("sum_data_flag")),
+            s(model_data.get("status_code")),
+            s(model_data.get("wbs_short_name")),
+            s(model_data.get("wbs_name")),
+            s(model_data.get("phase_id")),
+            s(model_data.get("parent_wbs_id")),
+            s(model_data.get("ev_user_pct")),
+            s(model_data.get("ev_etc_user_value")),
+            s(model_data.get("orig_cost")),
+            s(model_data.get("indep_remain_total_cost")),
+            s(model_data.get("ann_dscnt_rate_pct")),
+            s(model_data.get("dscnt_period_type")),
+            s(model_data.get("indep_remain_work_qty")),
+            self._format_date_for_tsv(self.anticip_start_date),
+            self._format_date_for_tsv(self.anticip_end_date),
+            s(model_data.get("ev_compute_type")),
+            s(model_data.get("ev_etc_compute_type")),
+            s(model_data.get("guid")),
+            s(model_data.get("tmpl_guid")),
+            s(model_data.get("plan_open_state")),
         ]
 
-    @classmethod
-    def get_json(cls) -> dict[str, Any]:
-        root_nodes = list(
-            filter(lambda x: WBS.find_by_id(x.parent_wbs_id) is None, cls.obj_list)
-        )
-        logger.info(root_nodes)
-        json = {}
-        for node in root_nodes:
-            json["node"] = node
-            json["level"] = 0
-            json["childs"] = []
-            json["childs"].append(cls.get_childs(node, 0))
-        logger.info(json)
-        return json
-
-    @classmethod
-    def get_childs(cls, node: "WBS", level: int) -> dict[str, Any]:
-        nodes_lst = list(filter(lambda x: x.parent_wbs_id == node.wbs_id, cls.obj_list))
-        nod = {}
-        for node in nodes_lst:
-            nod["node"] = node
-            nod["level"] = level + 1
-            children = cls.get_childs(node, level + 1)
-            nod["childs"] = []
-            nod["childs"].append(children)
-        return nod
-
-    @classmethod
-    def find_by_id(cls, id_: int | None) -> Optional["WBS"]:
-        obj = list(filter(lambda x: x.wbs_id == id_, cls.obj_list))
-        if obj:
-            return obj[0]
-        return None
-
-    @classmethod
-    def find_by_project_id(cls, project_id: int) -> list["WBS"]:
-        """
-        Find all WBS elements belonging to a project.
-
-        Parameters
-        ----------
-        project_id : int
-            The project ID to search for
-
-        Returns
-        -------
-        List[WBS]
-            List of WBS elements belonging to the specified project
-        """
-        return [v for v in cls.obj_list if v.proj_id == project_id]
-
     @property
-    def activities(self) -> list[Task]:
-        """
-        Get all activities associated with this WBS element.
-
-        Returns
-        -------
-        List[Task]
-            List of tasks belonging to this WBS element
-        """
-        return self.data.tasks.activities_by_wbs_id(self.wbs_id)
+    def activities(self) -> List["Task"]: # Type hint to List["Task"]
+        if self.data and hasattr(self.data, 'tasks') and self.data.tasks is not None and self.wbs_id is not None:
+            # Assuming self.data.tasks is a list of Pydantic Task models
+            return [task for task in self.data.tasks if hasattr(task, 'wbs_id') and task.wbs_id == self.wbs_id]
+        return []
 
     def __repr__(self) -> str:
-        """
-        String representation of the WBS element.
+        return self.wbs_name if self.wbs_name is not None else "WBS Element"
 
-        Returns
-        -------
-        str
-            The WBS element's name
-        """
-        return self.wbs_name
+    class Config:
+        arbitrary_types_allowed = True
