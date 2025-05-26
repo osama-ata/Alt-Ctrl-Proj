@@ -1,6 +1,5 @@
-from typing import Any
-
-from xer_parser.model.classes.rsrc import Resource
+from typing import List, Iterator, Any, Dict, Optional
+from ..model.classes.rsrc import Resource # Corrected relative import
 
 __all__ = ["Resources"]
 
@@ -8,214 +7,120 @@ __all__ = ["Resources"]
 class Resources:
     """
     Container class for managing Primavera P6 resources.
-
     This class provides functionality to store, retrieve, and manipulate
     Resource objects, supporting both individual resource operations and
     hierarchical resource structures.
-
-    Attributes
-    ----------
-    _rsrcs : List[Resource]
-        Internal list of Resource objects
-    index : int
-        Current index for iterator functionality
     """
+    _rsrcs: List[Resource]
 
-    def __init__(self) -> None:
+    def __init__(self, data_context: Optional[Any] = None) -> None:
         """
         Initialize an empty Resources container.
         """
-        self.index = 0
-        self._rsrcs = []
+        self.index: int = 0
+        self._rsrcs: List[Resource] = []
+        self.data_context: Optional[Any] = data_context
 
-    def add(self, params: dict[str, Any]) -> None:
+    def add(self, params: Dict[str, Any]) -> None:
         """
         Add a new resource to the container.
-
-        Parameters
-        ----------
-        params : Dict[str, Any]
-            Dictionary of parameters from the XER file to create a new Resource
+        The params dictionary is validated into a Resource Pydantic model.
         """
-        rsrc = Resource(params)
-        self._rsrcs.append(rsrc)
+        resource_instance = Resource.model_validate(params)
+        if self.data_context:
+            resource_instance.data = self.data_context
+        self._rsrcs.append(resource_instance)
 
-    def get_resource_by_id(self, id: int) -> Resource | None:
+    def get_resource_by_id(self, rsrc_id: int) -> Optional[Resource]: # Parameter name changed for clarity
         """
-        Find a resource by its ID.
-
-        Parameters
-        ----------
-        id : int
-            The resource ID to search for
-
-        Returns
-        -------
-        Resource or None
-            The resource with the specified ID, or None if not found
+        Find a resource by its rsrc_id.
         """
-        rsrc = list(filter(lambda x: x.rsrc_id == id, self._rsrcs))
-        if len(rsrc) > 0:
-            rsrc = rsrc[0]
-        else:
-            rsrc = None
-        return rsrc
+        return next((rsrc for rsrc in self._rsrcs if rsrc.rsrc_id == rsrc_id), None)
 
-    def get_parent(self, id: int) -> Resource | None:
+    def get_parent(self, rsrc_id: int) -> Optional[Resource]: # Parameter name changed
         """
         Find the parent resource of a given resource.
-
-        Parameters
-        ----------
-        id : int
-            The resource ID for which to find the parent
-
-        Returns
-        -------
-        Resource or None
-            The parent resource, or None if the resource has no parent or is not found
         """
-        rsrc = list(filter(lambda x: x.rsrc_id == id, self._rsrcs))
-        if len(rsrc) > 0:
-            rsrc = rsrc[0]
-        else:
-            rsrc = None
-        return rsrc
+        resource = self.get_resource_by_id(rsrc_id)
+        if resource and resource.parent_rsrc_id is not None:
+            return self.get_resource_by_id(resource.parent_rsrc_id)
+        return None
 
-    def __iter__(self) -> "Resources":
+    def __iter__(self) -> Iterator[Resource]: # Corrected return type
         """
         Make Resources iterable.
-
-        Returns
-        -------
-        Resources
-            Self reference for iterator
         """
+        self.index = 0 # Reset index for each new iteration
         return self
 
     def __next__(self) -> Resource:
         """
         Get the next resource in the iteration.
-
-        Returns
-        -------
-        Resource
-            The next resource in the collection
-
-        Raises
-        ------
-        StopIteration
-            When there are no more resources to iterate
         """
-        if self.index >= len(self._rsrcs):
+        if self.index < len(self._rsrcs):
+            result = self._rsrcs[self.index]
+            self.index += 1
+            return result
+        else:
             raise StopIteration
-        idx = self.index
-        self.index += 1
-        return self._rsrcs[idx]
 
-    def _get_list(self) -> list[tuple[int, int | None]]:
+    def _get_list(self) -> list[tuple[Optional[int], Optional[int]]]: # Adjusted type hint
         """
         Get a list of resource ID and parent resource ID pairs.
-
-        Returns
-        -------
-        list[tuple[int, Optional[int]]]
-            List of tuples containing (resource_id, parent_resource_id)
         """
-        resor = []
-        for res in self._rsrcs:
-            resor.append((res.rsrc_id, res.parent_rsrc_id))
-        return resor
+        return [(res.rsrc_id, res.parent_rsrc_id) for res in self._rsrcs]
 
-    def get_tsv(self) -> list[list[Any]]:
+
+    def get_tsv(self) -> list: # Return type changed to list for consistency
         """
         Get all resources in TSV format.
-
-        Returns
-        -------
-        list[list[Any]]
-            Resources data formatted for TSV output
         """
-        tsv = []
-        if len(self._rsrcs) > 0:
-            tsv.append(["%T", "RSRC"])
-            tsv.append(
-                [
-                    "%F",
-                    "rsrc_id",
-                    "parent_rsrc_id",
-                    "clndr_id",
-                    "role_id",
-                    "shift_id",
-                    "user_id",
-                    "pobs_id",
-                    "guid",
-                    "rsrc_seq_num",
-                    "email_addr",
-                    "employee_code",
-                    "office_phone",
-                    "other_phone",
-                    "rsrc_name",
-                    "rsrc_short_name",
-                    "rsrc_title_name",
-                    "def_qty_per_hr",
-                    "cost_qty_type",
-                    "ot_factor",
-                    "active_flag",
-                    "auto_compute_act_flag",
-                    "def_cost_qty_link_flag",
-                    "ot_flag",
-                    "curr_id",
-                    "unit_id",
-                    "rsrc_type",
-                    "location_id",
-                    "rsrc_notes",
-                    "load_tasks_flag",
-                    "level_flag",
-                    "last_checksum",
-                ]
-            )
-            for rsr in self._rsrcs:
-                tsv.append(rsr.get_tsv())
-        return tsv
+        if not self._rsrcs:
+            return []
+            
+        tsv_data: list[list[Any]] = [["%T", "RSRC"]]
+        header = [
+            "%F", "rsrc_id", "parent_rsrc_id", "clndr_id", "role_id", "shift_id", "user_id", 
+            "pobs_id", "guid", "rsrc_seq_num", "email_addr", "employee_code", "office_phone", 
+            "other_phone", "rsrc_name", "rsrc_short_name", "rsrc_title_name", "def_qty_per_hr", 
+            "cost_qty_type", "ot_factor", "active_flag", "auto_compute_act_flag", 
+            "def_cost_qty_link_flag", "ot_flag", "curr_id", "unit_id", "rsrc_type", 
+            "location_id", "rsrc_notes", "load_tasks_flag", "level_flag", "last_checksum",
+        ]
+        tsv_data.append(header)
+        for rsrc_item in self._rsrcs:
+            tsv_data.append(rsrc_item.get_tsv())
+        return tsv_data
 
-    def build_tree(self) -> list[dict[int, Any]]:
+    def build_tree(self) -> list[dict[Optional[int], Any]]: # Adjusted type hint for dict key
         """
         Build a hierarchical tree structure of resources.
-
-        This method organizes resources into their hierarchical structure based on
-        parent-child relationships. Resources without parents form the roots of separate
-        trees in the resulting forest.
-
-        Returns
-        -------
-        list[dict[int, Any]]
-            A forest of resource trees, where each tree represents a hierarchical
-            structure of resources
         """
-        # pass 1: create nodes dictionary
-        a = self._get_list()
-        nodes = {}
-        for i in a:
-            id, parent_id = i
-            nodes[id] = {id: self.get_resource_by_id(id)}
-        # a = a[1:]
-        # pass 2: create trees and parent-child relations
-        forest = []
-        for i in a:
-            id, parent_id = i
-            node = nodes[id]
-            # either make the node a new tree or link it to its parent
-            if parent_id is None or nodes.get(parent_id) is None:
-                # start a new tree in the forest
-                forest.append(node)
-            else:
-                # add new_node as child to parent
-                parent = nodes.get(parent_id)
+        nodes: Dict[int, Dict[Optional[int], Any]] = {} # Adjusted type hint
+        for rsrc in self._rsrcs:
+            if rsrc.rsrc_id is not None: # Ensure rsrc_id is not None before using as key
+                 nodes[rsrc.rsrc_id] = {"node_obj": rsrc, "children": []}
 
-                if "children" not in parent:
-                    # ensure parent has a 'children' field
-                    parent["children"] = []
-                children = parent["children"]
-                children.append(node)
+        forest = []
+        for rsrc in self._rsrcs:
+            if rsrc.rsrc_id is None: continue # Skip if rsrc_id is None
+            
+            node_dict_entry = nodes[rsrc.rsrc_id]
+            
+            # Re-structure node to be {rsrc_id: node_obj, children: []} if needed by consumer
+            # For now, using a simpler structure for the list items in forest
+            # Current node_dict_entry is already {"node_obj": rsrc, "children": []}
+
+            if rsrc.parent_rsrc_id is None or rsrc.parent_rsrc_id not in nodes:
+                forest.append(node_dict_entry) 
+            else:
+                parent_node_dict_entry = nodes[rsrc.parent_rsrc_id]
+                parent_node_dict_entry["children"].append(node_dict_entry)
         return forest
+
+    @property
+    def count(self) -> int:
+        return len(self._rsrcs)
+
+    def __len__(self) -> int:
+        return len(self._rsrcs)

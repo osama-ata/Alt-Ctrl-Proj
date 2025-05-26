@@ -1,80 +1,48 @@
-from typing import ClassVar
+from typing import Optional, Any
+from datetime import datetime
+from pydantic import BaseModel, Field
 
 
-class ResourceRate:
-    obj_list: ClassVar[list] = []
+class ResourceRate(BaseModel):
+    rsrc_rate_id: Optional[int] = Field(default=None, alias="rsrc_rate_id")
+    rsrc_id: Optional[int] = Field(default=None, alias="rsrc_id")
+    max_qty_per_hr: Optional[float] = Field(default=None, alias="max_qty_per_hr")
+    cost_per_qty: Optional[float] = Field(default=None, alias="cost_per_qty")
+    start_date: Optional[datetime] = Field(default=None, alias="start_date")
+    shift_period_id: Optional[int] = Field(default=None, alias="shift_period_id")
+    cost_per_qty2: Optional[float] = Field(default=None, alias="cost_per_qty2")
+    cost_per_qty3: Optional[float] = Field(default=None, alias="cost_per_qty3")
+    cost_per_qty4: Optional[float] = Field(default=None, alias="cost_per_qty4")
+    cost_per_qty5: Optional[float] = Field(default=None, alias="cost_per_qty5")
 
-    def __init__(self, params):
-        self.rsrc_rate_id = (
-            params.get("rsrc_rate_id").strip() if params.get("rsrc_rate_id") else None
-        )
-        self.rsrc_id = params.get("rsrc_id").strip() if params.get("rsrc_id") else None
-        self.max_qty_per_hr = (
-            params.get("max_qty_per_hr").strip()
-            if params.get("max_qty_per_hr")
-            else None
-        )
-        self.cost_per_qty = (
-            params.get("cost_per_qty").strip() if params.get("cost_per_qty") else None
-        )
-        self.start_date = (
-            params.get("start_date").strip() if params.get("start_date") else None
-        )
-        self.shift_period_id = (
-            params.get("shift_period_id").strip()
-            if params.get("shift_period_id")
-            else None
-        )
-        self.cost_per_qty2 = (
-            params.get("cost_per_qty2").strip() if params.get("cost_per_qty2") else None
-        )
-        self.cost_per_qty3 = (
-            params.get("cost_per_qty3").strip() if params.get("cost_per_qty3") else None
-        )
-        self.cost_per_qty4 = (
-            params.get("cost_per_qty4").strip() if params.get("cost_per_qty4") else None
-        )
-        self.cost_per_qty5 = (
-            params.get("cost_per_qty5").strip() if params.get("cost_per_qty5") else None
-        )
-        ResourceRate.obj_list.append(self)
+    data: Any = Field(default=None, exclude=True)
 
-    def get_id(self):
-        return self.rsrc_rate_id
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
 
-    def get_tsv(self):
-        tsv = [
+        start_date_str = ""
+        if model_data.get("start_date"):
+            dt_obj = self.start_date
+            if isinstance(dt_obj, datetime):
+                start_date_str = dt_obj.strftime("%Y-%m-%d %H:%M")
+            elif isinstance(dt_obj, str): # If model_dump already stringified it
+                start_date_str = dt_obj
+        
+        return [
             "%R",
-            self.rsrc_rate_id,
-            self.rsrc_id,
-            self.max_qty_per_hr,
-            self.cost_per_qty,
-            self.start_date,
-            self.shift_period_id,
-            self.cost_per_qty2,
-            self.cost_per_qty3,
-            self.cost_per_qty4,
-            self.cost_per_qty5,
+            str(model_data.get("rsrc_rate_id", "")) if model_data.get("rsrc_rate_id") is not None else "",
+            str(model_data.get("rsrc_id", "")) if model_data.get("rsrc_id") is not None else "",
+            str(model_data.get("max_qty_per_hr", "")) if model_data.get("max_qty_per_hr") is not None else "",
+            str(model_data.get("cost_per_qty", "")) if model_data.get("cost_per_qty") is not None else "",
+            start_date_str,
+            str(model_data.get("shift_period_id", "")) if model_data.get("shift_period_id") is not None else "",
+            str(model_data.get("cost_per_qty2", "")) if model_data.get("cost_per_qty2") is not None else "",
+            str(model_data.get("cost_per_qty3", "")) if model_data.get("cost_per_qty3") is not None else "",
+            str(model_data.get("cost_per_qty4", "")) if model_data.get("cost_per_qty4") is not None else "",
+            str(model_data.get("cost_per_qty5", "")) if model_data.get("cost_per_qty5") is not None else "",
         ]
-        return tsv
 
-    @classmethod
-    def find_by_id(cls, id):
-        obj = list(filter(lambda x: x.rsrc_rate_id == id, cls.obj_list))
-        if len(obj) > 0:
-            obj = obj[0]
-        else:
-            None
-        return obj
-
-    @classmethod
-    def find_by_resource_id(cls, id):
-        obj = list(filter(lambda x: x.rsrc_rate_id == id, cls.obj_list))
-        if len(obj) > 0:
-            obj = obj[0]
-        else:
-            obj = None
-        return obj
-
-    def __repr__(self):
-        return self.rsrc_id
+    def __repr__(self) -> str:
+        rate_id = str(self.rsrc_rate_id) if self.rsrc_rate_id is not None else "N/A"
+        res_id = str(self.rsrc_id) if self.rsrc_id is not None else "N/A"
+        return f"<ResourceRate ID: {rate_id} (Resource ID: {res_id})>"

@@ -1,71 +1,31 @@
 import locale
-from typing import ClassVar
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
 
-class RoleRate:
-    obj_list: ClassVar[list] = []
+class RoleRate(BaseModel):
+    role_rate_id: Optional[int] = Field(default=None, alias="role_rate_id")
+    role_id: Optional[int] = Field(default=None, alias="role_id")
+    cost_per_qty: Optional[float] = Field(default=None, alias="cost_per_qty")
+    cost_per_qty2: Optional[float] = Field(default=None, alias="cost_per_qty2")
+    cost_per_qty3: Optional[float] = Field(default=None, alias="cost_per_qty3")
+    cost_per_qty4: Optional[float] = Field(default=None, alias="cost_per_qty4")
+    cost_per_qty5: Optional[float] = Field(default=None, alias="cost_per_qty5")
 
-    def __init__(self, params):
-        self.role_rate_id = (
-            int(params.get("role_rate_id").strip())
-            if params.get("role_rate_id")
-            else None
-        )
-        self.role_id = (
-            int(params.get("role_id").strip()) if params.get("role_id") else None
-        )
-        self.cost_per_qty = (
-            locale.atof(params.get("cost_per_qty").strip())
-            if params.get("cost_per_qty")
-            else None
-        )
-        self.cost_per_qty2 = (
-            locale.atof(params.get("cost_per_qty2").strip())
-            if params.get("cost_per_qty2")
-            else None
-        )
-        self.cost_per_qty3 = (
-            locale.atof(params.get("cost_per_qty3").strip())
-            if params.get("cost_per_qty3")
-            else None
-        )
-        self.cost_per_qty4 = (
-            locale.atof(params.get("cost_per_qty4").strip())
-            if params.get("cost_per_qty4")
-            else None
-        )
-        self.cost_per_qty5 = (
-            locale.atof(params.get("cost_per_qty5").strip())
-            if params.get("cost_per_qty5")
-            else None
-        )
+    data: Any = Field(default=None, exclude=True) # Standard data field
 
-        RoleRate.obj_list.append(self)
-
-    @classmethod
-    def find_by_id(cls, id):
-        return next((x for x in cls.obj_list if x.role_rate_id == id), None)
-
-    def get_tsv(self):
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
         return [
             "%R",
-            self.role_rate_id,
-            self.role_id,
-            self.cost_per_qty,
-            self.cost_per_qty2,
-            self.cost_per_qty3,
-            self.cost_per_qty4,
-            self.cost_per_qty5,
+            str(model_data.get("role_rate_id", "")) if model_data.get("role_rate_id") is not None else "",
+            str(model_data.get("role_id", "")) if model_data.get("role_id") is not None else "",
+            str(model_data.get("cost_per_qty", "")) if model_data.get("cost_per_qty") is not None else "",
+            str(model_data.get("cost_per_qty2", "")) if model_data.get("cost_per_qty2") is not None else "",
+            str(model_data.get("cost_per_qty3", "")) if model_data.get("cost_per_qty3") is not None else "",
+            str(model_data.get("cost_per_qty4", "")) if model_data.get("cost_per_qty4") is not None else "",
+            str(model_data.get("cost_per_qty5", "")) if model_data.get("cost_per_qty5") is not None else "",
         ]
 
-    @classmethod
-    def find_by_role_id(cls, id):
-        obj = list(filter(lambda x: x.role_id == id, cls.obj_list))
-        if len(obj) > 0:
-            obj = obj[0]
-        else:
-            obj = None
-        return obj
-
-    def __repr__(self):
-        return str(self.role_rate_id)
+    def __repr__(self) -> str:
+        return f"<RoleRate ID: {self.role_rate_id if self.role_rate_id is not None else 'N/A'}>"

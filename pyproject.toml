@@ -21,6 +21,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 requires-python = ">=3.10"
+dependencies = ["pydantic>=2.0"]
 
 [project.optional-dependencies]
 test = ["pytest==8.3.5"]

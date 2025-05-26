@@ -1,30 +1,29 @@
-class NonWork:
-    def __init__(self, params):
-        self.nonwork_type_id = (
-            params.get("nonwork_type_id").strip()
-            if params.get("nonwork_type_id")
-            else None
-        )
-        self.seq_num = params.get("seq_num").strip() if params.get("seq_num") else None
-        self.nonwork_code = (
-            params.get("nonwork_code").strip() if params.get("nonwork_code") else None
-        )
-        self.nonwork_type = (
-            params.get("nonwork_type").strip() if params.get("nonwork_type") else None
-        )
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
-    def get_id(self):
+
+class NonWork(BaseModel):
+    nonwork_type_id: Optional[int] = Field(default=None, alias="nonwork_type_id") # Assuming int
+    seq_num: Optional[int] = Field(default=None, alias="seq_num") # Assuming int
+    nonwork_code: Optional[str] = Field(default=None, alias="nonwork_code")
+    nonwork_type: Optional[str] = Field(default=None, alias="nonwork_type")
+
+    data: Any = Field(default=None, exclude=True) # Standard data field
+
+    def get_id(self): # Kept for now
         return self.nonwork_type_id
 
-    def get_tsv(self):
-        tsv = [
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        return [
             "%R",
-            self.nonwork_type_id,
-            self.seq_num,
-            self.nonwork_code,
-            self.nonwork_type,
+            str(model_data.get("nonwork_type_id", "")) if model_data.get("nonwork_type_id") is not None else "",
+            str(model_data.get("seq_num", "")) if model_data.get("seq_num") is not None else "",
+            model_data.get("nonwork_code", "") if model_data.get("nonwork_code") is not None else "",
+            model_data.get("nonwork_type", "") if model_data.get("nonwork_type") is not None else "",
         ]
-        return tsv
 
     def __repr__(self):
-        return self.nonwork_type_id + "->" + self.nonwork_type
+        type_id = str(self.nonwork_type_id) if self.nonwork_type_id is not None else "N/A"
+        ntype = self.nonwork_type if self.nonwork_type is not None else "Unknown"
+        return f"NonWorkType (ID: {type_id} -> {ntype})"

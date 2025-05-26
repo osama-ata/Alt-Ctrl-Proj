@@ -1,159 +1,59 @@
 import locale
-from typing import ClassVar
+from typing import Optional, Any, List
+from pydantic import BaseModel, Field
 
 
-class ResourceCurve:
-    obj_list: ClassVar[list] = []
+class ResourceCurve(BaseModel):
+    curv_id: Optional[int] = Field(default=None, alias="curv_id")
+    curv_name: Optional[str] = Field(default=None, alias="curv_name") # Corrected original conditional
+    default_flag: Optional[str] = Field(default=None, alias="default_flag") # Y/N
 
-    def __init__(self, params):
-        self.curv_id = int(params.get("curv_id")) if params.get("curv_id") else None
-        self.curv_name = (
-            params.get("curv_name").strip() if params.get("curv_id") else None
-        )
-        self.default_flag = (
-            params.get("default_flag") if params.get("default_flag") else None
-        )
-        self.pct_usage_0 = (
-            locale.atof(params.get("pct_usage_0"))
-            if params.get("pct_usage_0")
-            else None
-        )
-        self.pct_usage_1 = (
-            locale.atof(params.get("pct_usage_1"))
-            if params.get("pct_usage_1")
-            else None
-        )
-        self.pct_usage_2 = (
-            locale.atof(params.get("pct_usage_2"))
-            if params.get("pct_usage_2")
-            else None
-        )
-        self.pct_usage_3 = (
-            locale.atof(params.get("pct_usage_3"))
-            if params.get("pct_usage_3")
-            else None
-        )
-        self.pct_usage_4 = (
-            locale.atof(params.get("pct_usage_4"))
-            if params.get("pct_usage_4")
-            else None
-        )
-        self.pct_usage_5 = (
-            locale.atof(params.get("pct_usage_5"))
-            if params.get("pct_usage_5")
-            else None
-        )
-        self.pct_usage_6 = (
-            locale.atof(params.get("pct_usage_6"))
-            if params.get("pct_usage_6")
-            else None
-        )
-        self.pct_usage_7 = (
-            locale.atof(params.get("pct_usage_7"))
-            if params.get("pct_usage_7")
-            else None
-        )
-        self.pct_usage_8 = (
-            locale.atof(params.get("pct_usage_8"))
-            if params.get("pct_usage_8")
-            else None
-        )
-        self.pct_usage_9 = (
-            locale.atof(params.get("pct_usage_9"))
-            if params.get("pct_usage_9")
-            else None
-        )
-        self.pct_usage_10 = (
-            locale.atof(params.get("pct_usage_10"))
-            if params.get("pct_usage_10")
-            else None
-        )
-        self.pct_usage_11 = (
-            locale.atof(params.get("pct_usage_11"))
-            if params.get("pct_usage_11")
-            else None
-        )
-        self.pct_usage_12 = (
-            locale.atof(params.get("pct_usage_12"))
-            if params.get("pct_usage_12")
-            else None
-        )
-        self.pct_usage_13 = (
-            locale.atof(params.get("pct_usage_13"))
-            if params.get("pct_usage_13")
-            else None
-        )
-        self.pct_usage_14 = (
-            locale.atof(params.get("pct_usage_14"))
-            if params.get("pct_usage_14")
-            else None
-        )
-        self.pct_usage_15 = (
-            locale.atof(params.get("pct_usage_15"))
-            if params.get("pct_usage_15")
-            else None
-        )
-        self.pct_usage_16 = (
-            locale.atof(params.get("pct_usage_16"))
-            if params.get("pct_usage_16")
-            else None
-        )
-        self.pct_usage_17 = (
-            locale.atof(params.get("pct_usage_17"))
-            if params.get("pct_usage_17")
-            else None
-        )
-        self.pct_usage_18 = (
-            locale.atof(params.get("pct_usage_18"))
-            if params.get("pct_usage_18")
-            else None
-        )
-        self.pct_usage_19 = (
-            locale.atof(params.get("pct_usage_19"))
-            if params.get("pct_usage_19")
-            else None
-        )
-        self.pct_usage_20 = (
-            locale.atof(params.get("pct_usage_20"))
-            if params.get("pct_usage_20")
-            else None
-        )
+    # Percentage usage fields (0-20)
+    pct_usage_0: Optional[float] = Field(default=None, alias="pct_usage_0")
+    pct_usage_1: Optional[float] = Field(default=None, alias="pct_usage_1")
+    pct_usage_2: Optional[float] = Field(default=None, alias="pct_usage_2")
+    pct_usage_3: Optional[float] = Field(default=None, alias="pct_usage_3")
+    pct_usage_4: Optional[float] = Field(default=None, alias="pct_usage_4")
+    pct_usage_5: Optional[float] = Field(default=None, alias="pct_usage_5")
+    pct_usage_6: Optional[float] = Field(default=None, alias="pct_usage_6")
+    pct_usage_7: Optional[float] = Field(default=None, alias="pct_usage_7")
+    pct_usage_8: Optional[float] = Field(default=None, alias="pct_usage_8")
+    pct_usage_9: Optional[float] = Field(default=None, alias="pct_usage_9")
+    pct_usage_10: Optional[float] = Field(default=None, alias="pct_usage_10")
+    pct_usage_11: Optional[float] = Field(default=None, alias="pct_usage_11")
+    pct_usage_12: Optional[float] = Field(default=None, alias="pct_usage_12")
+    pct_usage_13: Optional[float] = Field(default=None, alias="pct_usage_13")
+    pct_usage_14: Optional[float] = Field(default=None, alias="pct_usage_14")
+    pct_usage_15: Optional[float] = Field(default=None, alias="pct_usage_15")
+    pct_usage_16: Optional[float] = Field(default=None, alias="pct_usage_16")
+    pct_usage_17: Optional[float] = Field(default=None, alias="pct_usage_17")
+    pct_usage_18: Optional[float] = Field(default=None, alias="pct_usage_18")
+    pct_usage_19: Optional[float] = Field(default=None, alias="pct_usage_19")
+    pct_usage_20: Optional[float] = Field(default=None, alias="pct_usage_20")
 
-        ResourceCurve.obj_list.append(self)
+    data: Any = Field(default=None, exclude=True) # Standard data field
 
-    def get_tsv(self):
-        tsv = [
-            "%R",
-            self.curv_id,
-            self.curv_name,
-            self.default_flag,
-            self.pct_usage_0,
-            self.pct_usage_1,
-            self.pct_usage_2,
-            self.pct_usage_3,
-            self.pct_usage_4,
-            self.pct_usage_5,
-            self.pct_usage_6,
-            self.pct_usage_7,
-            self.pct_usage_8,
-            self.pct_usage_9,
-            self.pct_usage_10,
-            self.pct_usage_11,
-            self.pct_usage_12,
-            self.pct_usage_13,
-            self.pct_usage_14,
-            self.pct_usage_15,
-            self.pct_usage_16,
-            self.pct_usage_17,
-            self.pct_usage_18,
-            self.pct_usage_19,
-            self.pct_usage_20,
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        # Construct the list of pct_usage values in order
+        pct_usages = [
+            str(model_data.get(f"pct_usage_{i}", "")) if model_data.get(f"pct_usage_{i}") is not None else ""
+            for i in range(21) # 0 to 20
         ]
-        return tsv
+        
+        return [
+            "%R",
+            str(model_data.get("curv_id", "")) if model_data.get("curv_id") is not None else "",
+            model_data.get("curv_name", "") if model_data.get("curv_name") is not None else "",
+            model_data.get("default_flag", "") if model_data.get("default_flag") is not None else "",
+            *pct_usages, # Unpack the list of pct_usage strings
+        ]
 
-    @classmethod
-    def find_by_id(cls, id):
-        return next((x for x in cls.obj_list if x.curv_id == id), None)
+    def __repr__(self) -> str:
+        name = self.curv_name if self.curv_name is not None else "Unknown ResourceCurve"
+        return f"<{name} (ID: {self.curv_id if self.curv_id is not None else 'N/A'})>"
 
-    def __repr__(self):
-        return self.curv_name
+    class Config:
+        # If locale.atof was essential and input values might not be standard floats,
+        # custom validators might be needed. For now, assuming Pydantic's float coercion is sufficient.
+        pass

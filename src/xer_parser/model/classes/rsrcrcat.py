@@ -1,31 +1,24 @@
-from typing import ClassVar
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
 
-class ResourceCat:
-    obj_list: ClassVar[list] = []
+class ResourceCat(BaseModel):
+    rsrc_id: Optional[int] = Field(default=None, alias="rsrc_id")
+    rsrc_catg_type_id: Optional[int] = Field(default=None, alias="rsrc_catg_type_id")
+    rsrc_catg_id: Optional[int] = Field(default=None, alias="rsrc_catg_id") # Assuming param key is "rsrc_catg_id"
 
-    def __init__(self, params):
-        self.rsrc_id = (
-            int(params.get("rsrc_id").strip()) if params.get("rsrc_id") else None
-        )
-        self.rsrc_catg_type_id = (
-            int(params.get("rsrc_catg_type_id").strip())
-            if params.get("rsrc_catg_type_id")
-            else None
-        )
-        self.rsrc_catg_id = (
-            int(params.get("rsrc_catg_type_id").strip())
-            if params.get("rsrc_catg_type_id")
-            else None
-        )
-        ResourceCat.obj_list.append(self)
+    data: Any = Field(default=None, exclude=True)
 
-    def get_tsv(self):
-        tsv = ["%R", self.rsrc_id, self.rsrc_catg_type_id, self.rsrc_catg_id]
-        return tsv
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        return [
+            "%R",
+            str(model_data.get("rsrc_id", "")) if model_data.get("rsrc_id") is not None else "",
+            str(model_data.get("rsrc_catg_type_id", "")) if model_data.get("rsrc_catg_type_id") is not None else "",
+            str(model_data.get("rsrc_catg_id", "")) if model_data.get("rsrc_catg_id") is not None else "",
+        ]
 
-    def get_id(self):
-        return self.rsrc_id
-
-    def __repr__(self):
-        return self.rsrc_id + " has been assign category " + self.rsrc_catg_id
+    def __repr__(self) -> str:
+        r_id = str(self.rsrc_id) if self.rsrc_id is not None else "N/A"
+        rc_id = str(self.rsrc_catg_id) if self.rsrc_catg_id is not None else "N/A"
+        return f"<ResourceCat rsrc_id={r_id} rsrc_catg_id={rc_id}>"

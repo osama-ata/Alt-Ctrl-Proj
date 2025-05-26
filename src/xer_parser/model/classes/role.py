@@ -1,79 +1,37 @@
-from typing import Any, ClassVar
+from typing import Optional, Any
+from pydantic import BaseModel, Field
 
 
-class Role:
-    obj_list: ClassVar[list["Role"]] = []
+class Role(BaseModel):
+    role_id: Optional[int] = Field(default=None, alias="role_id")
+    parent_role_id: Optional[int] = Field(default=None, alias="parent_role_id")
+    seq_num: Optional[int] = Field(default=None, alias="seq_num")
+    role_name: Optional[str] = Field(default=None, alias="role_name")
+    role_short_name: Optional[str] = Field(default=None, alias="role_short_name")
+    pobs_id: Optional[int] = Field(default=None, alias="pobs_id") # Assuming int
+    def_cost_qty_link_flag: Optional[str] = Field(default=None, alias="def_cost_qty_link_flag") # Y/N
+    cost_qty_type: Optional[str] = Field(default=None, alias="cost_qty_type")
+    role_descr: Optional[str] = Field(default=None, alias="role_descr")
+    last_checksum: Optional[str] = Field(default=None, alias="last_checksum") # Assuming this was intended to map to 'last_checksum'
 
-    def __init__(self, params: dict[str, Any]) -> None:
-        try:
-            self.role_id: int | None = (
-                int(params["role_id"])
-                if params.get("role_id") not in (None, "")
-                else None
-            )
-        except Exception:
-            self.role_id = None
-        try:
-            self.parent_role_id: int | None = (
-                int(params["parent_role_id"])
-                if params.get("parent_role_id") not in (None, "")
-                else None
-            )
-        except Exception:
-            self.parent_role_id = None
-        try:
-            self.seq_num: int | None = (
-                int(params["seq_num"])
-                if params.get("seq_num") not in (None, "")
-                else None
-            )
-        except Exception:
-            self.seq_num = None
-        self.role_name: str | None = (
-            str(params["role_name"]) if params.get("role_name") is not None else None
-        )
-        self.role_short_name: str | None = (
-            str(params["role_short_name"])
-            if params.get("role_short_name") is not None
-            else None
-        )
-        self.pobs_id: Any = (
-            params.get("pobs_id") if params.get("pobs_id") is not None else None
-        )
-        self.def_cost_qty_link_flag: Any = (
-            params.get("def_cost_qty_link_flag")
-            if params.get("def_cost_qty_link_flag") is not None
-            else None
-        )
-        self.cost_qty_type: Any = (
-            params.get("cost_qty_type")
-            if params.get("cost_qty_type") is not None
-            else None
-        )
-        self.role_descr: str | None = (
-            str(params["role_descr"]) if params.get("role_descr") is not None else None
-        )
-        self.last_checksum: str | None = (
-            str(params["role_descr"]) if params.get("role_descr") is not None else None
-        )
+    data: Any = Field(default=None, exclude=True) # Standard data field
 
-        Role.obj_list.append(self)
-
-    def get_tsv(self) -> list[str | int | None]:
-        tsv: list[str | int | None] = [
+    def get_tsv(self) -> list:
+        model_data = self.model_dump(by_alias=True)
+        return [
             "%R",
-            self.role_id,
-            self.parent_role_id,
-            self.seq_num,
-            self.role_name,
-            self.role_short_name,
-            self.pobs_id,
-            self.def_cost_qty_link_flag,
-            self.cost_qty_type,
-            self.role_descr,
-            self.last_checksum,
+            str(model_data.get("role_id", "")) if model_data.get("role_id") is not None else "",
+            str(model_data.get("parent_role_id", "")) if model_data.get("parent_role_id") is not None else "",
+            str(model_data.get("seq_num", "")) if model_data.get("seq_num") is not None else "",
+            model_data.get("role_name", "") if model_data.get("role_name") is not None else "",
+            model_data.get("role_short_name", "") if model_data.get("role_short_name") is not None else "",
+            str(model_data.get("pobs_id", "")) if model_data.get("pobs_id") is not None else "",
+            model_data.get("def_cost_qty_link_flag", "") if model_data.get("def_cost_qty_link_flag") is not None else "",
+            model_data.get("cost_qty_type", "") if model_data.get("cost_qty_type") is not None else "",
+            model_data.get("role_descr", "") if model_data.get("role_descr") is not None else "",
+            model_data.get("last_checksum", "") if model_data.get("last_checksum") is not None else "",
         ]
-        return tsv
 
     def __repr__(self) -> str:
-        return str(self.role_name) if self.role_name is not None else ""
+        name = self.role_name if self.role_name is not None else "Unknown Role"
+        return f"<{name} (ID: {self.role_id if self.role_id is not None else 'N/A'})>"
